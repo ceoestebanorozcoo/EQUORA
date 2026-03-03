@@ -1,26 +1,71 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Inter:wght@300;400;500;600;700&display=swap');
+
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+/* ═══════════════════════════════════════════════════════════
+   EQUORA — Brand Design System
+   ─────────────────────────────────────────────────────────
+   Modify any color below to change the entire site palette.
+   All Tailwind utilities (bg-golden, text-caramel, etc.)
+   will update automatically.
+   ═══════════════════════════════════════════════════════════ */
+
+@theme {
+  /* ── Primary Palette ── */
+  --color-golden: #E8D1A7;
+  --color-golden-light: #F5E6CC;
+  --color-golden-dark: #D4B87C;
+
+  /* ── Accent Tones ── */
+  --color-caramel: #84592B;
+  --color-wine: #743014;
+  --color-olive: #9D9167;
+
+  /* ── Dark Tones ── */
+  --color-cocoa: #442D1C;
+  --color-cocoa-light: #5A3F2A;
+
+  /* ── Neutral Backgrounds ── */
+  --color-cream: #FDF8F0;
+  --color-cream-dark: #F5EDE0;
+  --color-charcoal: #1A1A1A;
+
+  /* ── Typography ── */
+  --font-display: 'Playfair Display', Georgia, 'Times New Roman', serif;
+  --font-body: 'Inter', system-ui, -apple-system, sans-serif;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
+/* ── Base Styles ── */
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-body);
+  color: var(--color-cocoa);
+  background-color: var(--color-cream);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ── Scrollbar (WebKit) ── */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-cream);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-caramel);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-cocoa);
+}
+
+/* ── Selection ── */
+::selection {
+  background-color: var(--color-golden);
+  color: var(--color-cocoa);
+}
+
+/* ── Smooth Scroll ── */
+html {
+  scroll-behavior: smooth;
 }
