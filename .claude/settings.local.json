@@ -1,0 +1,15 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(find /c/Users/esteb/Desktop/equora -maxdepth 2 -type f \\\\\\(-name .env* -o -name CLAUDE* -o -name *.md \\\\\\))",
+      "Bash(find /c/Users/esteb/Desktop/equora -not -path */node_modules* -not -path */.next* -type d)",
+      "Skill(update-config)",
+      "Bash(npm run:*)"
+    ]
+  },
+  "enableAllProjectMcpServers": true,
+  "enabledMcpjsonServers": [
+    "nanobanana",
+    "stitch"
+  ]
+}
