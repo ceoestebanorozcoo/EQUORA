@@ -4,10 +4,12 @@ import Product from '@/models/Product';
 import { getAuthUser } from '@/lib/auth';
 import { generateProductCode } from '@/utils/generateProductCode';
 
-export async function GET() {
+export async function GET(req: NextRequest) {
   try {
     await connectDB();
-    const products = await Product.find().populate('category').sort({ createdAt: -1 });
+    const featured = req.nextUrl.searchParams.get('featured');
+    const filter = featured === 'true' ? { isFeatured: true } : {};
+    const products = await Product.find(filter).populate('category').sort({ createdAt: -1 });
     return NextResponse.json({ success: true, data: products });
   } catch {
     return NextResponse.json({ error: 'Error obteniendo productos' }, { status: 500 });

@@ -4,6 +4,7 @@ export interface ICategoryDocument extends Document {
   name: string;
   slug: string;
   image?: string;
+  isFeatured: boolean;
   createdAt: Date;
 }
 
@@ -21,6 +22,7 @@ const CategorySchema = new Schema<ICategoryDocument>(
     name: { type: String, required: true, unique: true },
     slug: { type: String, required: true, unique: true },
     image: { type: String },
+    isFeatured: { type: Boolean, default: false },
   },
   { timestamps: true }
 );

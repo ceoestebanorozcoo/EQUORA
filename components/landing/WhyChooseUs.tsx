@@ -1,71 +1,75 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
+import { ScrollReveal } from '@/components/ScrollReveal';
+
+const reasons = [
+  {
+    number: '01',
+    title: 'Conexión real con el mundo equino',
+    description: 'Cada producto está pensado desde la experiencia de quienes viven el día a día entre caballos, pesebreras y cabalgatas.',
+  },
+  {
+    number: '02',
+    title: 'Los detalles marcan la diferencia',
+    description: 'Creamos productos que combinan funcionalidad, calidad y personalidad — porque en el gremio caballista los detalles hablan.',
+  },
+  {
+    number: '03',
+    title: 'Piezas personalizadas',
+    description: 'Cada caballo y cada caballista pueden tener algo que refleje su propia identidad, con opciones hechas a medida.',
+  },
+  {
+    number: '04',
+    title: 'Presencia y carácter',
+    description: 'Para quienes valoran los detalles que hacen especial cada momento alrededor de los caballos.',
+  },
+];
 
 export default function WhyChooseUs() {
-  const ref = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.querySelectorAll('.reveal, .reveal-left, .reveal-right').forEach((el, i) => {
-              setTimeout(() => el.classList.add('visible'), i * 100);
-            });
-          }
-        });
-      },
-      { threshold: 0.1 }
-    );
-    if (ref.current) observer.observe(ref.current);
-    return () => observer.disconnect();
-  }, []);
-
   return (
-    <section className="bg-equora-dark py-24 px-6" ref={ref}>
+    <section className="py-24 md:py-32 bg-equora-ivory px-6 relative overflow-hidden">
+      {/* Top gradient line */}
+      <div className="absolute top-0 left-0 w-full h-px bg-linear-to-r from-transparent via-equora-amber/30 to-transparent" />
+
       <div className="max-w-5xl mx-auto">
-        <div className="text-center mb-12 reveal">
-          <p className="font-editorial italic text-equora-amber text-lg mb-3">Razones para elegirnos</p>
-          <h2 className="font-display text-5xl md:text-6xl text-[#F9F7F4] tracking-wider">
-            ¿POR QUÉ EQUORA?
-          </h2>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
-          <div className="reveal-left space-y-6" style={{ transitionDelay: '100ms' }}>
-            {[
-              'Equora nace desde una conexión real con el mundo equino. Cada producto está pensado desde la experiencia de quienes viven el día a día entre caballos, pesebreras y cabalgatas.',
-              'Cuidamos los detalles porque sabemos que en el gremio caballista son los detalles los que marcan la diferencia. Por eso creamos productos que combinan funcionalidad, calidad y personalidad.',
-              'Muchas de nuestras piezas son personalizadas, permitiendo que cada caballo y cada caballista tengan algo que refleje su propia identidad.',
-              'Equora está hecha para quienes valoran la presencia, el carácter y los detalles que hacen especial cada momento alrededor de los caballos.',
-            ].map((text, i) => (
-              <div key={i} className="flex gap-4">
-                <div className="shrink-0 mt-1.5 w-2 h-2 rounded-full bg-equora-amber" aria-hidden="true" />
-                <p className="font-body text-[#F9F7F4]/80 leading-relaxed">{text}</p>
-              </div>
-            ))}
+        <ScrollReveal direction="up">
+          <div className="text-center mb-20">
+            <p className="font-editorial text-equora-amber italic text-lg mb-4 tracking-wide">
+              Hecha con pasión
+            </p>
+            <h2 className="font-display text-4xl md:text-5xl text-equora-dark tracking-wider">
+              ¿RAZONES PARA ELEGIRNOS?
+            </h2>
+            <div className="w-16 h-0.5 bg-equora-amber mx-auto mt-6" />
           </div>
+        </ScrollReveal>
 
-          <div className="reveal-right flex justify-center" style={{ transitionDelay: '200ms' }}>
-            <div className="relative w-72 h-72">
-              {/* Decorative circles */}
-              <div className="absolute inset-0 rounded-full border border-equora-amber/20 animate-pulse" />
-              <div className="absolute inset-8 rounded-full border border-equora-amber/30" />
-              <div className="absolute inset-16 rounded-full bg-equora-amber/10 flex items-center justify-center">
-                <div className="text-center">
-                  <p className="font-display text-4xl text-equora-amber">100%</p>
-                  <p className="font-body text-xs text-[#F9F7F4]/60 tracking-widest uppercase mt-1">
-                    Hecho con
-                    <br />
-                    pasión
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-10">
+          {reasons.map((reason, i) => (
+            <ScrollReveal key={reason.number} direction="up" delay={i * 120}>
+              <div className="group relative pl-16">
+                {/* Number */}
+                <span className="absolute left-0 top-0 font-display text-4xl text-equora-amber/40 group-hover:text-equora-amber transition-colors duration-500">
+                  {reason.number}
+                </span>
+                <div>
+                  <h3 className="font-display text-xl tracking-wider text-equora-dark mb-3 group-hover:text-equora-amber transition-colors duration-500">
+                    {reason.title.toUpperCase()}
+                  </h3>
+                  <p className="font-body text-equora-dark/60 text-sm leading-relaxed">
+                    {reason.description}
                   </p>
                 </div>
+                {/* Bottom line */}
+                <div className="mt-6 h-px bg-equora-dark/10 group-hover:bg-equora-amber/30 transition-colors duration-500" />
               </div>
-            </div>
-          </div>
+            </ScrollReveal>
+          ))}
         </div>
       </div>
+
+      {/* Bottom gradient line */}
+      <div className="absolute bottom-0 left-0 w-full h-px bg-linear-to-r from-transparent via-equora-amber/30 to-transparent" />
     </section>
   );
 }

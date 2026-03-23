@@ -77,7 +77,7 @@ export default function MultiImageUpload({
                 <IoClose size={12} aria-hidden="true" />
               </button>
               {i === 0 && (
-                <span className="absolute bottom-1 left-1 bg-equora-dark/70 text-white text-xs font-body px-1.5 py-0.5 rounded">
+                <span className="absolute bottom-1 left-1 bg-equora-navy/70 text-white text-xs font-body px-1.5 py-0.5 rounded">
                   Principal
                 </span>
               )}

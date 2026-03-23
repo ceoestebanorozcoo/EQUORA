@@ -1,104 +1,106 @@
 'use client';
 
 import { useState, useEffect, useRef, useCallback } from 'react';
-import { IoChevronBack, IoChevronForward } from 'react-icons/io5';
+import { ScrollReveal } from '@/components/ScrollReveal';
+import { ChevronLeft, ChevronRight, Star } from 'lucide-react';
+import api from '@/lib/axios';
 
-const testimonials = [
-  {
-    text: 'Los productos de Equora tienen algo diferente, se les ve el cuidado en los detalles y también la calidad. En la pesebrera todo se ve mucho más organizado y elegante.',
-    author: 'Andrés M.',
-    stars: 5,
-  },
-  {
-    text: 'Compré unas riendas personalizadas y quedé muy contenta. Mucha gente en las cabalgatas me pregunta de dónde son.',
-    author: 'Laura R.',
-    stars: 5,
-  },
-  {
-    text: 'Me gustó mucho porque son cosas que realmente se necesitan. El perchero para el sombrero me ayudó a que no se me siguieran dañando los sombreros.',
-    author: 'Felipe G.',
-    stars: 5,
-  },
-  {
-    text: 'A los caballos les dejaron de dar cólicos y de hacer desorden con el heno gracias a los comederos.',
-    author: 'Camila S.',
-    stars: 5,
-  },
-  {
-    text: 'Equora tiene ese tipo de productos que uno no ve mucho en el mercado y que son detalles que hacen que todo se vea mejor y más organizado.',
-    author: 'Juan P.',
-    stars: 5,
-  },
-];
-
-function Stars({ count }: { count: number }) {
-  return (
-    <div className="flex gap-1" aria-label={`${count} estrellas`}>
-      {Array.from({ length: count }).map((_, i) => (
-        <svg key={i} className="w-4 h-4 text-equora-amber" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
-          <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-        </svg>
-      ))}
-    </div>
-  );
+interface ITestimonial {
+  _id: string;
+  name: string;
+  role: string;
+  text: string;
+  rating: number;
 }
 
 export default function Testimonials() {
+  const [testimonials, setTestimonials] = useState<ITestimonial[]>([]);
   const [current, setCurrent] = useState(0);
   const [paused, setPaused] = useState(false);
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
-  const next = useCallback(() => setCurrent((c) => (c + 1) % testimonials.length), []);
-  const prev = useCallback(() => setCurrent((c) => (c - 1 + testimonials.length) % testimonials.length), []);
+  useEffect(() => {
+    api.get('/testimonials').then((res) => setTestimonials(res.data.data || [])).catch(() => {});
+  }, []);
+
+  const next = useCallback(() => {
+    setTestimonials((list) => {
+      setCurrent((c) => (c + 1) % list.length);
+      return list;
+    });
+  }, []);
+
+  const prev = useCallback(() => {
+    setTestimonials((list) => {
+      setCurrent((c) => (c - 1 + list.length) % list.length);
+      return list;
+    });
+  }, []);
 
   useEffect(() => {
-    if (!paused) {
+    if (!paused && testimonials.length > 1) {
       timerRef.current = setInterval(next, 5000);
     }
     return () => { if (timerRef.current) clearInterval(timerRef.current); };
-  }, [paused, next]);
+  }, [paused, next, testimonials.length]);
+
+  if (!testimonials.length) return null;
+
+  const t = testimonials[current] ?? testimonials[0];
 
   return (
     <section
-      className="bg-equora-ivory py-24 px-6"
+      className="py-24 md:py-32 bg-equora-navy px-6"
       aria-label="Testimonios de clientes"
     >
-      <div className="max-w-4xl mx-auto">
-        <div className="text-center mb-14">
-          <p className="font-editorial italic text-equora-amber text-lg mb-3">Lo que dicen</p>
-          <h2 className="font-display text-5xl md:text-6xl text-equora-dark tracking-wider">
-            TESTIMONIOS
-          </h2>
-        </div>
+      <div className="max-w-3xl mx-auto">
+        <ScrollReveal direction="up">
+          <div className="text-center mb-16">
+            <p className="font-editorial text-equora-amber italic text-lg mb-3">
+              Lo que dicen nuestros clientes
+            </p>
+            <h2 className="font-display text-4xl md:text-5xl text-white tracking-wider">
+              TESTIMONIOS
+            </h2>
+          </div>
+        </ScrollReveal>
 
         <div
-          className="relative"
+          className="text-center"
           onMouseEnter={() => setPaused(true)}
           onMouseLeave={() => setPaused(false)}
         >
-          {/* Card */}
-          <div className="bg-white rounded-2xl p-10 shadow-sm text-center transition-all duration-300">
-            <Stars count={testimonials[current].stars} />
-            <blockquote className="font-editorial italic text-xl md:text-2xl text-[#0D0D0D] my-6 leading-relaxed">
-              &ldquo;{testimonials[current].text}&rdquo;
-            </blockquote>
-            <cite className="font-body font-medium text-equora-amber not-italic tracking-wide">
-              — {testimonials[current].author}
-            </cite>
+          {/* Stars */}
+          <div className="flex justify-center gap-1 mb-6" aria-label={`${t.rating} estrellas`}>
+            {Array.from({ length: t.rating }).map((_, i) => (
+              <Star key={i} className="w-5 h-5 fill-equora-amber text-equora-amber" aria-hidden="true" />
+            ))}
           </div>
 
+          {/* Quote */}
+          <blockquote className="font-editorial text-xl md:text-2xl italic text-[#F9F7F4]/80 leading-relaxed mb-8">
+            &ldquo;{t.text}&rdquo;
+          </blockquote>
+
+          {/* Author */}
+          <p className="font-display text-lg tracking-wider text-white">
+            {t.name}
+          </p>
+          <p className="font-body text-sm text-[#F9F7F4]/50 mt-1">
+            {t.role}
+          </p>
+
           {/* Controls */}
-          <div className="flex items-center justify-center gap-4 mt-8">
+          <div className="flex justify-center items-center gap-4 mt-10">
             <button
               onClick={prev}
-              className="w-10 h-10 rounded-full border border-equora-amber text-equora-amber flex items-center justify-center hover:bg-equora-amber hover:text-white transition-colors cursor-pointer"
+              className="w-12 h-12 rounded-full border border-[#F9F7F4]/20 text-[#F9F7F4]/60 flex items-center justify-center hover:border-equora-amber hover:text-equora-amber transition-colors duration-300 cursor-pointer"
               aria-label="Testimonio anterior"
             >
-              <IoChevronBack size={18} aria-hidden="true" />
+              <ChevronLeft className="w-5 h-5" aria-hidden="true" />
             </button>
 
-            {/* Dots */}
-            <div className="flex gap-2" role="tablist" aria-label="Navegación testimonios">
+            <div className="flex items-center gap-2" role="tablist" aria-label="Navegación testimonios">
               {testimonials.map((_, i) => (
                 <button
                   key={i}
@@ -106,8 +108,8 @@ export default function Testimonials() {
                   role="tab"
                   aria-selected={i === current}
                   aria-label={`Testimonio ${i + 1}`}
-                  className={`w-2 h-2 rounded-full transition-all cursor-pointer ${
-                    i === current ? 'bg-equora-amber w-6' : 'bg-equora-amber/30'
+                  className={`h-2 rounded-full transition-all duration-300 cursor-pointer ${
+                    i === current ? 'bg-equora-amber w-6' : 'bg-[#F9F7F4]/30 w-2'
                   }`}
                 />
               ))}
@@ -115,10 +117,10 @@ export default function Testimonials() {
 
             <button
               onClick={next}
-              className="w-10 h-10 rounded-full border border-equora-amber text-equora-amber flex items-center justify-center hover:bg-equora-amber hover:text-white transition-colors cursor-pointer"
+              className="w-12 h-12 rounded-full border border-[#F9F7F4]/20 text-[#F9F7F4]/60 flex items-center justify-center hover:border-equora-amber hover:text-equora-amber transition-colors duration-300 cursor-pointer"
               aria-label="Testimonio siguiente"
             >
-              <IoChevronForward size={18} aria-hidden="true" />
+              <ChevronRight className="w-5 h-5" aria-hidden="true" />
             </button>
           </div>
         </div>

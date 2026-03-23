@@ -4,97 +4,85 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { IProduct, ICategory } from '@/types';
 import { formatPrice } from '@/utils/formatPrice';
-import Badge from '@/components/ui/Badge';
-import { IoLogoWhatsapp } from 'react-icons/io5';
 
-const WHATSAPP = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || '573043844516';
-
-function buildWhatsAppLink(product: IProduct): string {
-  const msg = encodeURIComponent(
-    `Hola, quiero comprar ${product.name} (${product.productCode})`
-  );
-  return `https://wa.me/${WHATSAPP}?text=${msg}`;
-}
-
-export default function ProductCard({ product, delay = 0 }: { product: IProduct; delay?: number }) {
+export default function ProductCard({ product }: { product: IProduct }) {
   const category = product.category as ICategory;
   const isAvailable = product.stockStatus === 'available';
 
   return (
-    <article
-      className="reveal product-card bg-white rounded-2xl overflow-hidden shadow-sm"
-      style={{ transitionDelay: `${delay}ms` }}
+    <Link
+      href={`/producto/${product._id}`}
+      className="group block relative rounded-2xl border border-white/10 overflow-hidden transition-all duration-500 transform-gpu hover:-translate-y-2 hover:shadow-2xl hover:shadow-equora-amber/10 hover:border-equora-amber/30"
     >
-      <div className="relative overflow-hidden h-64">
+      {/* Image */}
+      <div className="relative aspect-3/4 overflow-hidden bg-equora-navy">
         {product.images?.[0] ? (
           <Image
             src={product.images[0]}
             alt={product.name}
             fill
-            className="object-cover transition-transform duration-500 group-hover:scale-105"
-            sizes="(max-width: 768px) 100vw, 33vw"
+            className="object-cover transition-transform duration-700 group-hover:scale-105"
+            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
           />
         ) : (
-          <div className="w-full h-full bg-equora-ivory flex items-center justify-center">
+          <div className="w-full h-full bg-equora-dark flex items-center justify-center">
             <span className="font-display text-3xl text-equora-amber/30">EQUORA</span>
           </div>
         )}
+
+        {/* Gradient overlay on hover */}
+        <div className="absolute inset-0 bg-linear-to-t from-equora-dark/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+
+        {/* Category tag */}
+        {category?.name && (
+          <span className="absolute top-4 left-4 px-3 py-1 rounded-full bg-equora-amber text-white font-body text-[11px] font-semibold tracking-widest uppercase">
+            {category.name}
+          </span>
+        )}
+
+        {/* Sold out overlay */}
         {!isAvailable && (
-          <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
-            <Badge variant="gray">Agotado</Badge>
+          <div className="absolute inset-0 bg-equora-dark/50 backdrop-blur-[2px] flex items-center justify-center">
+            <span className="px-5 py-2 rounded-full bg-equora-amber/90 text-white font-body text-xs font-bold tracking-widest uppercase">
+              Agotado
+            </span>
           </div>
         )}
       </div>
 
-      <div className="p-5">
+      {/* Info */}
+      <div className="bg-white p-4 md:p-5">
         <div className="flex items-center justify-between mb-2">
-          {category && <Badge variant="amber">{category.name}</Badge>}
-          <span className="font-body text-xs text-[#6B7280] ml-auto">{product.productCode}</span>
+          <span className="font-body text-[10px] text-equora-amber tracking-widest uppercase">
+            {product.productCode}
+          </span>
+          {isAvailable ? (
+            <span className="w-2 h-2 rounded-full bg-green-500 ring-2 ring-green-500/20" title="Disponible" />
+          ) : (
+            <span className="w-2 h-2 rounded-full bg-gray-300 ring-2 ring-gray-200" title="Agotado" />
+          )}
         </div>
 
-        <h3 className="font-display text-xl tracking-wide text-equora-dark mb-1 leading-tight">
+        <h3 className="font-display text-xl text-equora-dark leading-tight mb-1 group-hover:text-equora-amber transition-colors duration-300">
           {product.name}
         </h3>
 
         {product.description && (
-          <p className="font-body text-sm text-[#6B7280] mb-3 line-clamp-2 leading-relaxed">
+          <p className="font-body text-xs text-equora-dark/50 leading-relaxed mb-3 line-clamp-2">
             {product.description}
           </p>
         )}
 
-        <div className="flex items-center justify-between">
-          <span className="font-editorial text-xl font-semibold text-equora-dark">
+        <div className="flex items-center justify-between mb-4">
+          <span className="font-editorial text-equora-amber text-xl italic">
             {formatPrice(product.price)}
           </span>
-          <Badge variant={isAvailable ? 'green' : 'gray'}>
-            {isAvailable ? 'Disponible' : 'Agotado'}
-          </Badge>
         </div>
 
-        <div className="flex gap-2 mt-4">
-          <Link
-            href={`/producto/${product._id}`}
-            className="flex-1 text-center py-2.5 border border-equora-amber text-equora-amber rounded-full text-sm font-body font-medium hover:bg-equora-amber hover:text-white transition-colors cursor-pointer"
-          >
-            Ver producto
-          </Link>
-          <a
-            href={isAvailable ? buildWhatsAppLink(product) : undefined}
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label={`Comprar ${product.name} por WhatsApp`}
-            aria-disabled={!isAvailable}
-            className={`flex items-center gap-1.5 px-4 py-2.5 rounded-full text-sm font-body font-medium transition-colors ${
-              isAvailable
-                ? 'bg-green-500 text-white hover:bg-green-600 cursor-pointer'
-                : 'bg-gray-100 text-gray-400 cursor-not-allowed pointer-events-none'
-            }`}
-          >
-            <IoLogoWhatsapp size={16} aria-hidden="true" />
-            Comprar
-          </a>
+        <div className="w-full py-2.5 rounded-full bg-equora-amber hover:bg-[#8a5224] text-white font-body text-xs font-medium tracking-widest uppercase text-center transition-colors duration-300">
+          Ver producto
         </div>
       </div>
-    </article>
+    </Link>
   );
 }

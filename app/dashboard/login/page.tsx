@@ -86,12 +86,19 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen bg-equora-dark flex items-center justify-center px-4">
+    <div className="min-h-screen bg-equora-navy flex items-center justify-center px-4">
       <div className="w-full max-w-sm">
         {/* Logo */}
-        <div className="text-center mb-10">
-          <h1 className="font-display text-4xl tracking-[8px] text-equora-amber">EQUORA</h1>
-          <p className="font-editorial italic text-[#F9F7F4]/40 text-sm mt-2">Panel de administración</p>
+        <div className="flex flex-col items-center mb-10">
+          <a href="/" className="group flex items-center gap-3 mb-3 w-fit transition-transform duration-300 hover:scale-105">
+            <div className="w-14 h-14 rounded-full bg-equora-amber/10 border border-equora-amber/25 overflow-hidden flex items-center justify-center shrink-0 group-hover:border-equora-amber/50 transition-colors duration-300">
+              <img src="/logo.svg" alt="EQUORA" className="w-full h-full object-contain p-2" />
+            </div>
+            <h1 className="font-display text-4xl tracking-[6px] text-[#F9F7F4] group-hover:text-equora-amber transition-colors duration-300">
+              EQUORA
+            </h1>
+          </a>
+          <p className="font-editorial italic text-[#F9F7F4]/40 text-sm">Panel de administración</p>
         </div>
 
         {/* Card */}
@@ -118,7 +125,7 @@ export default function LoginPage() {
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="w-full px-4 py-3 bg-equora-dark border border-white/10 rounded-xl font-body text-sm text-[#F9F7F4] placeholder-[#6B7280] focus:outline-none focus:ring-2 focus:ring-equora-amber/40 focus:border-equora-amber"
+                  className="w-full px-4 py-3 bg-equora-navy border border-white/10 rounded-xl font-body text-sm text-[#F9F7F4] placeholder-[#6B7280] focus:outline-none focus:ring-2 focus:ring-equora-amber/40 focus:border-equora-amber"
                   autoComplete="email"
                   required
                 />
@@ -130,7 +137,7 @@ export default function LoginPage() {
                   type="password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="w-full px-4 py-3 bg-equora-dark border border-white/10 rounded-xl font-body text-sm text-[#F9F7F4] placeholder-[#6B7280] focus:outline-none focus:ring-2 focus:ring-equora-amber/40 focus:border-equora-amber"
+                  className="w-full px-4 py-3 bg-equora-navy border border-white/10 rounded-xl font-body text-sm text-[#F9F7F4] placeholder-[#6B7280] focus:outline-none focus:ring-2 focus:ring-equora-amber/40 focus:border-equora-amber"
                   autoComplete="current-password"
                   required
                 />
@@ -158,7 +165,7 @@ export default function LoginPage() {
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="w-full px-4 py-3 bg-equora-dark border border-white/10 rounded-xl font-body text-sm text-[#F9F7F4] focus:outline-none focus:ring-2 focus:ring-equora-amber/40 focus:border-equora-amber"
+                  className="w-full px-4 py-3 bg-equora-navy border border-white/10 rounded-xl font-body text-sm text-[#F9F7F4] focus:outline-none focus:ring-2 focus:ring-equora-amber/40 focus:border-equora-amber"
                   required
                 />
               </div>
@@ -184,11 +191,11 @@ export default function LoginPage() {
               <h2 className="font-display text-xl tracking-wider text-[#F9F7F4] mb-2">NUEVA CONTRASEÑA</h2>
               <div>
                 <label htmlFor="new-pw" className="block text-sm font-medium text-[#F9F7F4]/60 mb-1.5 font-body">Nueva contraseña</label>
-                <input id="new-pw" type="password" value={newPassword} onChange={(e) => setNewPassword(e.target.value)} minLength={8} className="w-full px-4 py-3 bg-equora-dark border border-white/10 rounded-xl font-body text-sm text-[#F9F7F4] focus:outline-none focus:ring-2 focus:ring-equora-amber/40 focus:border-equora-amber" required />
+                <input id="new-pw" type="password" value={newPassword} onChange={(e) => setNewPassword(e.target.value)} minLength={8} className="w-full px-4 py-3 bg-equora-navy border border-white/10 rounded-xl font-body text-sm text-[#F9F7F4] focus:outline-none focus:ring-2 focus:ring-equora-amber/40 focus:border-equora-amber" required />
               </div>
               <div>
                 <label htmlFor="confirm-pw" className="block text-sm font-medium text-[#F9F7F4]/60 mb-1.5 font-body">Confirmar contraseña</label>
-                <input id="confirm-pw" type="password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} minLength={8} className="w-full px-4 py-3 bg-equora-dark border border-white/10 rounded-xl font-body text-sm text-[#F9F7F4] focus:outline-none focus:ring-2 focus:ring-equora-amber/40 focus:border-equora-amber" required />
+                <input id="confirm-pw" type="password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} minLength={8} className="w-full px-4 py-3 bg-equora-navy border border-white/10 rounded-xl font-body text-sm text-[#F9F7F4] focus:outline-none focus:ring-2 focus:ring-equora-amber/40 focus:border-equora-amber" required />
               </div>
               <Button type="submit" loading={loading} className="w-full">Guardar nueva contraseña</Button>
             </form>

@@ -1,94 +1,85 @@
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import api from '@/lib/axios';
 import { ICategory } from '@/types';
+import { ScrollReveal } from '@/components/ScrollReveal';
 
 export default function Categories() {
   const router = useRouter();
   const [categories, setCategories] = useState<ICategory[]>([]);
-  const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    api.get('/categories').then((res) => setCategories(res.data.data || []));
+    api.get('/categories?featured=true').then((res) => setCategories(res.data.data || []));
   }, []);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.querySelectorAll('.reveal').forEach((el, i) => {
-              setTimeout(() => el.classList.add('visible'), i * 100);
-            });
-          }
-        });
-      },
-      { threshold: 0.1 }
-    );
-    if (ref.current) observer.observe(ref.current);
-    return () => observer.disconnect();
-  }, [categories]);
 
   if (!categories.length) return null;
 
-  const visible = categories.slice(0, 6);
-  const hasMore = categories.length > 6;
-
   return (
-    <section id="categorias" className="bg-[#111827] py-24 px-6" ref={ref}>
+    <section id="categorias" className="py-24 md:py-32 bg-equora-ivory px-6">
       <div className="max-w-7xl mx-auto">
-        <div className="text-center mb-14 reveal">
-          <p className="font-editorial italic text-equora-amber text-lg mb-3">Explora</p>
-          <h2 className="font-display text-5xl md:text-6xl text-[#F9F7F4] tracking-wider">
-            CATEGORÍAS
-          </h2>
-        </div>
+        <ScrollReveal direction="up">
+          <div className="text-center mb-16">
+            <p className="font-editorial text-equora-amber italic text-lg mb-3">
+              Explora por categoría
+            </p>
+            <h2 className="font-display text-4xl md:text-5xl text-equora-dark tracking-wider">
+              CATEGORÍAS
+            </h2>
+          </div>
+        </ScrollReveal>
 
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-4">
-          {visible.map((cat, i) => (
-            <button
-              key={cat._id}
-              onClick={() => router.push(`/productos?categoria=${cat._id}`)}
-              className="reveal group relative overflow-hidden rounded-2xl aspect-square cursor-pointer text-left"
-              style={{ transitionDelay: `${i * 100}ms` }}
-              aria-label={`Ver productos de ${cat.name}`}
-            >
-              {cat.image ? (
-                <Image
-                  src={cat.image}
-                  alt={cat.name}
-                  fill
-                  className="object-cover transition-transform duration-500 group-hover:scale-110"
-                  sizes="(max-width: 768px) 50vw, 33vw"
-                />
-              ) : (
-                <div className="absolute inset-0 bg-[#1E2A3A]" />
-              )}
-              <div className="absolute inset-0 bg-linear-to-t from-equora-dark/80 via-equora-dark/30 to-transparent" />
-              <div className="absolute inset-0 bg-equora-amber/0 group-hover:bg-equora-amber/30 transition-all duration-300" />
-              <div className="absolute bottom-0 left-0 right-0 p-4">
-                <p className="font-display text-lg tracking-wider text-[#F9F7F4] group-hover:text-white transition-colors">
-                  {cat.name}
-                </p>
-              </div>
-            </button>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {categories.slice(0, 4).map((cat, i) => (
+            <ScrollReveal key={cat._id} direction={i % 2 === 0 ? 'left' : 'right'} delay={i * 100}>
+              <button
+                onClick={() => router.push(`/productos?categoria=${cat._id}`)}
+                className="group relative block w-full h-72 md:h-80 rounded-2xl overflow-hidden cursor-pointer text-left"
+                aria-label={`Ver productos de ${cat.name}`}
+              >
+                {cat.image ? (
+                  <Image
+                    src={cat.image}
+                    alt={cat.name}
+                    fill
+                    className="object-cover transition-transform duration-700 group-hover:scale-105"
+                    sizes="(max-width: 768px) 100vw, 50vw"
+                  />
+                ) : (
+                  <div className="absolute inset-0 bg-equora-dark" />
+                )}
+                <div className="absolute inset-0 bg-linear-to-t from-equora-dark/80 via-equora-dark/20 to-transparent" />
+                <div className="absolute bottom-0 left-0 p-8">
+                  <h3 className="font-display text-3xl text-equora-ivory tracking-wider mb-1">
+                    {cat.name.toUpperCase()}
+                  </h3>
+                  <p className="font-body text-equora-ivory/60 text-sm">
+                    {cat.productCount ?? 0} {cat.productCount === 1 ? 'producto' : 'productos'}
+                  </p>
+                </div>
+                <div className="absolute top-4 right-4 w-10 h-10 rounded-full bg-equora-amber/0 group-hover:bg-equora-amber flex items-center justify-center transition-all duration-300">
+                  <span className="text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300 text-lg font-bold">
+                    →
+                  </span>
+                </div>
+              </button>
+            </ScrollReveal>
           ))}
         </div>
 
-        {hasMore && (
-          <div className="mt-10 text-center reveal">
+        <ScrollReveal direction="up" delay={400}>
+          <div className="text-center mt-12">
             <Link
               href="/categorias"
-              className="inline-flex items-center gap-3 px-10 py-4 border border-white/30 text-[#F9F7F4] rounded-full font-body font-medium text-base hover:bg-white/10 transition-colors cursor-pointer"
+              className="inline-flex items-center gap-3 px-10 py-4 bg-equora-amber hover:bg-[#8a5224] text-white rounded-full font-body font-medium text-sm tracking-widest uppercase transition-colors duration-300"
             >
               Ver todas las categorías
             </Link>
           </div>
-        )}
+        </ScrollReveal>
       </div>
     </section>
   );

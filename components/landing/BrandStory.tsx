@@ -1,86 +1,70 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
+import Image from 'next/image';
+import { ScrollReveal } from '@/components/ScrollReveal';
+
+const STORY_IMAGE = 'https://res.cloudinary.com/dybweubbo/image/upload/v1774137578/WhatsApp_Image_2026-03-21_at_18.58.24_etrovr.jpg';
 
 export default function BrandStory() {
-  const ref = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.querySelector('.reveal-left')?.classList.add('visible');
-            entry.target.querySelector('.reveal-right')?.classList.add('visible');
-          }
-        });
-      },
-      { threshold: 0.15 }
-    );
-    if (ref.current) observer.observe(ref.current);
-    return () => observer.disconnect();
-  }, []);
-
   return (
-    <section id="historia" className="bg-[#1E2A3A] py-24 px-6" ref={ref}>
+    <section id="historia" className="bg-equora-navy py-24 md:py-36 px-6 overflow-hidden">
       <div className="max-w-7xl mx-auto">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
           {/* Image */}
-          <div
-            className="reveal-left relative"
-            style={{ transitionDelay: '0ms' }}
-          >
-            <div
-              className="rounded-2xl overflow-hidden aspect-[4/5]"
-              style={{
-                backgroundImage: "url('https://images.unsplash.com/photo-1598928506311-c55ded91a20c?w=800&q=85')",
-                backgroundSize: 'cover',
-                backgroundPosition: 'center',
-              }}
-              role="img"
-              aria-label="Fotografía ecuestre de finca"
-            />
-            {/* Decorative amber accent */}
-            <div className="absolute -bottom-4 -right-4 w-32 h-32 border-2 border-equora-amber rounded-2xl -z-10" aria-hidden="true" />
-          </div>
-
-          {/* Text */}
-          <div className="reveal-right" style={{ transitionDelay: '150ms' }}>
-            <p className="font-editorial italic text-equora-amber text-lg mb-4">Nuestra Historia</p>
-            <h2 className="font-display text-4xl md:text-5xl text-[#F9F7F4] tracking-wider mb-8 leading-tight">
-              DE UNA PASIÓN
-              <br />
-              <span className="text-equora-amber">HEREDADA</span>
-            </h2>
-
-            <div className="space-y-5 font-editorial text-lg text-[#F9F7F4]/80 leading-relaxed italic">
-              <p>
-                Mi amor por los caballos ha existido toda mi vida. En mi familia siempre han estado presentes
-                y he tenido el gran privilegio de crecer rodeada de ellos desde que tengo memoria.
-                Crecí en una finca, donde el campo, la ganadería y los caballos siempre han sido parte de mi realidad.
-              </p>
-              <p>
-                Pero si hay alguien de quien heredé profundamente este amor por los caballos, fue de mi abuelo.
-                De él aprendí a admirar su nobleza, su carácter y la conexión especial que puede existir entre
-                una persona y su caballo. Esa pasión fue pasando de generación en generación hasta convertirse
-                en una parte esencial de quién soy.
-              </p>
-              <p>
-                Con los años, viviendo de cerca el mundo equino y todo lo que lo rodea, empezó a surgir en mí
-                una idea: crear productos pensados para quienes comparten esta misma pasión. Detalles que
-                acompañaran la vida alrededor de los caballos, desde la pesebrera hasta cada cabalgata,
-                y que también reflejaran la personalidad de quien los usa.
-              </p>
-              <p className="not-italic font-body font-medium text-[#F9F7F4]">
-                De ahí nació Equora.
-              </p>
+          <ScrollReveal direction="left">
+            <div className="relative">
+              <div className="rounded-3xl overflow-hidden shadow-2xl">
+                <Image
+                  src={STORY_IMAGE}
+                  alt="Fundadora de Equora junto a su caballo en una finca colombiana"
+                  width={800}
+                  height={650}
+                  className="w-full h-125 lg:h-162 object-cover"
+                />
+              </div>
             </div>
+          </ScrollReveal>
 
-            <div className="mt-10 pt-8 border-t border-white/10">
-              <p className="font-display text-2xl tracking-[4px] text-equora-amber">
-                DISTINCIÓN. CARÁCTER. NOBLEZA.
+          {/* Content */}
+          <div>
+            <ScrollReveal direction="right">
+              <p className="font-editorial text-equora-amber italic text-lg mb-3">
+                Nuestra Historia
               </p>
-            </div>
+              <h2 className="font-display text-4xl md:text-5xl text-white tracking-wider mb-8">
+                EL ORIGEN DE EQUORA
+              </h2>
+            </ScrollReveal>
+
+            <ScrollReveal direction="right" delay={150}>
+              <div className="space-y-5 font-body text-[#F9F7F4]/75 text-[15px] leading-relaxed">
+                <p>
+                  Mi amor por los caballos ha existido toda la vida. Crecí en una
+                  finca rodeada de campo, ganadería y caballos — un privilegio que
+                  marcó cada parte de quien soy. Pero si hay alguien de quien heredé
+                  profundamente esta pasión, fue de mi abuelo. De él aprendí a
+                  admirar su nobleza y esa conexión única entre una persona y su
+                  caballo.
+                </p>
+                <p>
+                  Con los años, viviendo de cerca todo lo que rodea al mundo equino,
+                  surgió una idea: crear productos pensados para quienes comparten
+                  esta misma pasión. Detalles que acompañen cada momento — desde la
+                  pesebrera hasta cada cabalgata — y que reflejen la personalidad de
+                  quien los usa.
+                </p>
+                <p className="font-editorial text-equora-amber/90 italic text-lg">
+                  &ldquo;En el gremio caballista los detalles hablan. Una rienda bien
+                  elegida, un apero con personalidad o un espacio cuidado dicen mucho
+                  de quien está detrás del caballo.&rdquo;
+                </p>
+                <p>
+                  Así nació <span className="text-equora-amber font-semibold">Equora</span> — una
+                  marca inspirada en quienes viven esta pasión todos los días.
+                  Distinción, carácter y nobleza en cada detalle.
+                </p>
+              </div>
+            </ScrollReveal>
           </div>
         </div>
       </div>

@@ -1,12 +1,32 @@
 import { NextRequest, NextResponse } from 'next/server';
+import mongoose from 'mongoose';
 import { connectDB } from '@/lib/mongodb';
 import Category from '@/models/Category';
 import { getAuthUser } from '@/lib/auth';
 
-export async function GET() {
+export async function GET(req: NextRequest) {
   try {
     await connectDB();
-    const categories = await Category.find().sort({ name: 1 });
+    const featured = req.nextUrl.searchParams.get('featured') === 'true';
+
+    const pipeline: mongoose.PipelineStage[] = [
+      ...(featured ? [{ $match: { isFeatured: true } }] : []),
+      {
+        $lookup: {
+          from: 'products',
+          localField: '_id',
+          foreignField: 'category',
+          as: 'productList',
+        },
+      },
+      {
+        $addFields: { productCount: { $size: '$productList' } },
+      },
+      { $project: { productList: 0 } },
+      { $sort: { name: 1 } },
+    ];
+
+    const categories = await Category.aggregate(pipeline);
     return NextResponse.json({ success: true, data: categories });
   } catch {
     return NextResponse.json({ error: 'Error obteniendo categorías' }, { status: 500 });

@@ -1,76 +1,46 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
-import Button from '@/components/ui/Button';
+import Link from 'next/link';
+import { ScrollReveal } from '@/components/ScrollReveal';
+
+const WHATSAPP_NUMBER = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || '573043844516';
+const WHATSAPP_MSG = encodeURIComponent('Hola, quiero conocer más sobre los productos de Equora');
 
 export default function CTASection() {
-  const bgRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.querySelectorAll('.reveal').forEach((el, i) => {
-              setTimeout(() => el.classList.add('visible'), i * 150);
-            });
-          }
-        });
-      },
-      { threshold: 0.2 }
-    );
-    if (bgRef.current) observer.observe(bgRef.current);
-    return () => observer.disconnect();
-  }, []);
-
   return (
-    <section
-      className="relative py-32 px-6 overflow-hidden"
-      aria-label="Llamada a la acción"
-      ref={bgRef}
-    >
-      {/* Background */}
-      <div
-        className="absolute inset-0"
-        style={{
-          backgroundImage: "url('https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?w=1920&q=85')",
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-        }}
-        aria-hidden="true"
-      />
-      <div className="absolute inset-0 bg-equora-amber/70" aria-hidden="true" />
-
-      {/* Content */}
-      <div className="relative z-10 max-w-3xl mx-auto text-center">
-        <p className="reveal font-editorial italic text-white/80 text-xl mb-4">
-          Es el momento
-        </p>
-        <h2 className="reveal font-display text-5xl md:text-7xl text-white tracking-wider mb-6" style={{ transitionDelay: '100ms' }}>
-          ELEVA TU PRESENCIA
-          <br />EN CADA MONTURA
-        </h2>
-        <p className="reveal font-editorial italic text-white/80 text-xl mb-10" style={{ transitionDelay: '200ms' }}>
-          Colección 2026. Disponible en todo Colombia.
-        </p>
-        <div className="reveal flex flex-wrap justify-center gap-4" style={{ transitionDelay: '300ms' }}>
-          <Button
-            size="lg"
-            variant="dark"
-            onClick={() => document.getElementById('productos')?.scrollIntoView({ behavior: 'smooth' })}
-            className="bg-white text-equora-dark hover:bg-equora-ivory"
-          >
-            Comprar ahora
-          </Button>
-          <Button
-            size="lg"
-            variant="outline"
-            className="border-white text-white hover:bg-white/20 hover:border-white"
-            onClick={() => document.getElementById('productos')?.scrollIntoView({ behavior: 'smooth' })}
-          >
-            Explorar colección
-          </Button>
-        </div>
+    <section className="py-24 md:py-32 bg-equora-ivory px-6" aria-label="Llamada a la acción">
+      <div className="max-w-5xl mx-auto">
+        <ScrollReveal direction="up">
+          <div className="relative rounded-3xl overflow-hidden bg-equora-navy p-12 md:p-20 text-center">
+            <div className="relative z-10">
+              <p className="font-editorial text-equora-amber italic text-lg mb-4">
+                ¿Listo para elevar tu experiencia?
+              </p>
+              <h2 className="font-display text-4xl md:text-6xl text-white tracking-wider mb-6">
+                COMIENZA TU HISTORIA<br />CON EQUORA
+              </h2>
+              <p className="font-body text-[#F9F7F4]/60 max-w-xl mx-auto mb-10">
+                Descubre la colección completa y encuentra la pieza perfecta para ti y tu caballo.
+              </p>
+              <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                <Link
+                  href={`https://wa.me/${WHATSAPP_NUMBER}?text=${WHATSAPP_MSG}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="px-8 py-4 bg-equora-amber hover:bg-[#8a5224] text-white rounded-full font-body font-medium text-sm tracking-widest uppercase transition-colors duration-300"
+                >
+                  Comprar ahora
+                </Link>
+                <Link
+                  href="/productos"
+                  className="px-8 py-4 border border-white/40 text-white rounded-full font-body font-medium text-sm tracking-widest uppercase hover:border-white hover:bg-white/10 transition-colors duration-300"
+                >
+                  Explorar colección
+                </Link>
+              </div>
+            </div>
+          </div>
+        </ScrollReveal>
       </div>
     </section>
   );

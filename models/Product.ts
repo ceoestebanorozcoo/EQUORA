@@ -8,6 +8,7 @@ export interface IProductDocument extends Document {
   description: string;
   productCode: string;
   stockStatus: 'available' | 'soldout';
+  isFeatured: boolean;
   createdAt: Date;
 }
 
@@ -24,6 +25,7 @@ const ProductSchema = new Schema<IProductDocument>(
       enum: ['available', 'soldout'],
       default: 'available',
     },
+    isFeatured: { type: Boolean, default: false },
   },
   { timestamps: true }
 );

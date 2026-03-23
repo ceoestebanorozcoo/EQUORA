@@ -9,28 +9,28 @@ import BrandValues from '@/components/landing/BrandValues';
 import WhyChooseUs from '@/components/landing/WhyChooseUs';
 import Lifestyle from '@/components/landing/Lifestyle';
 import Testimonials from '@/components/landing/Testimonials';
-import Differentiators from '@/components/landing/Differentiators';
 import CTASection from '@/components/landing/CTASection';
 import FAQ from '@/components/landing/FAQ';
 import Footer from '@/components/landing/Footer';
 import MobileCTA from '@/components/landing/MobileCTA';
+import HashScroller from '@/components/HashScroller';
 
 export default function LandingPage() {
   return (
     <>
       <Navbar />
+      <HashScroller />
       <main>
         <Hero />
         <ValueProposition />
         <FeaturedProducts />
         <Categories />
         <TechnicalBenefits />
+        <Lifestyle />
         <BrandStory />
         <BrandValues />
         <WhyChooseUs />
-        <Lifestyle />
         <Testimonials />
-        <Differentiators />
         <CTASection />
         <FAQ />
       </main>

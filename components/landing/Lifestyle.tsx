@@ -1,94 +1,85 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
+import Image from 'next/image';
+import { ScrollReveal } from '@/components/ScrollReveal';
 
-const images = [
-  {
-    src: 'https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?w=800&q=85',
-    alt: 'Caballo en finca',
-    className: 'col-span-2 row-span-2',
-  },
-  {
-    src: 'https://images.unsplash.com/photo-1594388702866-3a14e3e21daa?w=600&q=85',
-    alt: 'Entrenamiento ecuestre',
-    className: 'col-span-1 row-span-1',
-  },
-  {
-    src: 'https://images.unsplash.com/photo-1598928506311-c55ded91a20c?w=600&q=85',
-    alt: 'Caballo noble',
-    className: 'col-span-1 row-span-1',
-  },
-  {
-    src: 'https://images.unsplash.com/photo-1548430395-ec39eaf2aa1a?w=600&q=85',
-    alt: 'Competencia ecuestre',
-    className: 'col-span-1 row-span-1',
-  },
-  {
-    src: 'https://images.unsplash.com/photo-1553284965-83fd3e82fa5a?w=600&q=85',
-    alt: 'Caballista en campo',
-    className: 'col-span-1 row-span-1',
-  },
-];
+const MAIN_IMAGE = 'https://res.cloudinary.com/dybweubbo/image/upload/v1774135099/lifestyle-equora_ymtlu0.jpg';
+const TRAINING_IMAGE = 'https://res.cloudinary.com/dybweubbo/image/upload/v1774135099/lifestyle-training_rbrqck.jpg';
+const COMPETITION_IMAGE = 'https://res.cloudinary.com/dybweubbo/image/upload/v1774135099/lifestyle-competition_m3e6rq.jpg';
 
 export default function Lifestyle() {
-  const ref = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.querySelectorAll('.reveal').forEach((el, i) => {
-              setTimeout(() => el.classList.add('visible'), i * 100);
-            });
-          }
-        });
-      },
-      { threshold: 0.1 }
-    );
-    if (ref.current) observer.observe(ref.current);
-    return () => observer.disconnect();
-  }, []);
-
   return (
-    <section className="bg-[#1E2A3A] py-24 px-6 overflow-hidden" ref={ref}>
+    <section id="lifestyle" className="py-24 md:py-32 bg-equora-ivory px-6">
       <div className="max-w-7xl mx-auto">
-        <div className="text-center mb-14 reveal">
-          <p className="font-editorial italic text-equora-amber text-lg mb-3">El estilo de vida</p>
-          <h2 className="font-display text-5xl md:text-6xl text-[#F9F7F4] tracking-wider">
-            PARA QUIEN MONTA
-            <br />
-            <span className="text-equora-amber">CON CRITERIO</span>
-          </h2>
-        </div>
+        <ScrollReveal direction="up">
+          <div className="text-center mb-16">
+            <p className="font-editorial text-equora-amber italic text-lg mb-3">
+              Un estilo de vida
+            </p>
+            <h2 className="font-display text-4xl md:text-5xl text-equora-dark tracking-wider">
+              MÁS QUE ACCESORIOS
+            </h2>
+          </div>
+        </ScrollReveal>
 
-        {/* Asymmetric gallery */}
-        <div className="grid grid-cols-3 grid-rows-2 gap-4 h-[500px]">
-          {images.map((img, i) => (
-            <div
-              key={i}
-              className={`reveal overflow-hidden rounded-2xl ${img.className}`}
-              style={{ transitionDelay: `${i * 100}ms` }}
-            >
-              <div
-                className="w-full h-full transition-transform duration-700 hover:scale-105"
-                style={{
-                  backgroundImage: `url('${img.src}')`,
-                  backgroundSize: 'cover',
-                  backgroundPosition: 'center',
-                }}
-                role="img"
-                aria-label={img.alt}
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
+          {/* Main large image */}
+          <ScrollReveal direction="left" className="md:col-span-7">
+            <div className="relative h-96 md:h-125 rounded-2xl overflow-hidden group">
+              <Image
+                src={MAIN_IMAGE}
+                alt="EQUORA Lifestyle"
+                fill
+                className="object-cover transition-transform duration-700 group-hover:scale-105"
+                sizes="(max-width: 768px) 100vw, 58vw"
               />
+              <div className="absolute inset-0 bg-linear-to-t from-equora-dark/60 to-transparent" />
+              <div className="absolute bottom-8 left-8">
+                <p className="font-editorial text-[#F9F7F4] text-2xl italic">
+                  &ldquo;Para quien monta con criterio&rdquo;
+                </p>
+              </div>
             </div>
-          ))}
-        </div>
+          </ScrollReveal>
 
-        {/* Tagline overlay */}
-        <div className="text-center mt-12 reveal" style={{ transitionDelay: '500ms' }}>
-          <blockquote className="font-editorial italic text-3xl md:text-4xl text-[#F9F7F4]/80">
-            &ldquo;Para quien monta con criterio.&rdquo;
-          </blockquote>
+          {/* Two smaller images stacked */}
+          <div className="md:col-span-5 flex flex-col gap-6">
+            <ScrollReveal direction="right" delay={200}>
+              <div className="relative h-60 rounded-2xl overflow-hidden group">
+                <Image
+                  src={TRAINING_IMAGE}
+                  alt="Entrenamiento ecuestre"
+                  fill
+                  className="object-cover transition-transform duration-700 group-hover:scale-105"
+                  sizes="(max-width: 768px) 100vw, 42vw"
+                />
+                <div className="absolute inset-0 bg-linear-to-t from-equora-dark/60 to-transparent" />
+                <div className="absolute bottom-6 left-6">
+                  <p className="font-display text-[#F9F7F4] tracking-wider text-lg">
+                    ENTRENAMIENTO
+                  </p>
+                </div>
+              </div>
+            </ScrollReveal>
+
+            <ScrollReveal direction="right" delay={400}>
+              <div className="relative h-60 rounded-2xl overflow-hidden group">
+                <Image
+                  src={COMPETITION_IMAGE}
+                  alt="Competencia ecuestre"
+                  fill
+                  className="object-cover transition-transform duration-700 group-hover:scale-105"
+                  sizes="(max-width: 768px) 100vw, 42vw"
+                />
+                <div className="absolute inset-0 bg-linear-to-t from-equora-dark/60 to-transparent" />
+                <div className="absolute bottom-6 left-6">
+                  <p className="font-display text-[#F9F7F4] tracking-wider text-lg">
+                    COMPETENCIA
+                  </p>
+                </div>
+              </div>
+            </ScrollReveal>
+          </div>
         </div>
       </div>
     </section>

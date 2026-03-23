@@ -11,6 +11,8 @@ export interface ICategory {
   name: string;
   slug: string;
   image?: string;
+  isFeatured?: boolean;
+  productCount?: number;
   createdAt: Date;
 }
 
@@ -23,6 +25,7 @@ export interface IProduct {
   description: string;
   productCode: string;
   stockStatus: 'available' | 'soldout';
+  isFeatured?: boolean;
   createdAt: Date;
 }
 

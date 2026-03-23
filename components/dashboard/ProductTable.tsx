@@ -2,14 +2,13 @@
 
 import { useState } from 'react';
 import Image from 'next/image';
-import Link from 'next/link';
 import api from '@/lib/axios';
 import { IProduct, ICategory } from '@/types';
 import { formatPrice } from '@/utils/formatPrice';
 import Button from '@/components/ui/Button';
 import Modal from '@/components/ui/Modal';
 import { Skeleton } from '@/components/ui/Skeleton';
-import { IoCreate, IoTrash, IoEye } from 'react-icons/io5';
+import { IoPencilOutline, IoTrashOutline } from 'react-icons/io5';
 
 interface ProductTableProps {
   products: IProduct[];
@@ -69,7 +68,7 @@ export default function ProductTable({ products, loading, onEdit, onRefresh }: P
     <>
       <div className="overflow-x-auto rounded-2xl border border-gray-100 shadow-sm">
         <table className="w-full min-w-175" role="table">
-          <thead className="bg-equora-dark text-[#F9F7F4]">
+          <thead className="bg-equora-navy text-[#F9F7F4]">
             <tr>
               <th className="text-left py-4 px-5 font-body text-xs font-medium tracking-wider uppercase" scope="col">Producto</th>
               <th className="text-left py-4 px-5 font-body text-xs font-medium tracking-wider uppercase" scope="col">Código</th>
@@ -115,45 +114,37 @@ export default function ProductTable({ products, loading, onEdit, onRefresh }: P
                       className="flex items-center gap-2 cursor-pointer disabled:opacity-50 group"
                       aria-label={`Cambiar estado de ${product.name}`}
                     >
-                      {/* Track */}
                       <div className={`relative w-11 h-6 rounded-full transition-colors duration-200 ${
-                        product.stockStatus === 'available' ? 'bg-green-500' : 'bg-gray-300'
+                        product.stockStatus === 'available' ? 'bg-equora-amber' : 'bg-gray-300'
                       }`}>
-                        {/* Thumb */}
                         <div className={`absolute top-0.5 w-5 h-5 bg-white rounded-full shadow transition-all duration-200 ${
                           product.stockStatus === 'available' ? 'left-5' : 'left-0.5'
                         }`} />
                       </div>
                       <span className={`font-body text-xs font-medium ${
-                        product.stockStatus === 'available' ? 'text-green-600' : 'text-[#6B7280]'
+                        product.stockStatus === 'available' ? 'text-equora-amber' : 'text-[#6B7280]'
                       }`}>
                         {product.stockStatus === 'available' ? 'Disponible' : 'Agotado'}
                       </span>
                     </button>
                   </td>
                   <td className="py-4 px-5">
-                    <div className="flex items-center justify-end gap-2">
-                      <Link
-                        href={`/producto/${product._id}`}
-                        target="_blank"
-                        className="p-2 text-[#6B7280] hover:text-equora-amber hover:bg-equora-ivory rounded-lg transition-colors cursor-pointer"
-                        aria-label={`Ver ${product.name} en la tienda`}
-                      >
-                        <IoEye size={16} aria-hidden="true" />
-                      </Link>
+                    <div className="flex items-center justify-end gap-1">
                       <button
                         onClick={() => onEdit(product)}
-                        className="p-2 text-[#6B7280] hover:text-equora-amber hover:bg-equora-ivory rounded-lg transition-colors cursor-pointer"
+                        className="flex items-center gap-1.5 px-3 py-1.5 text-[#6B7280] hover:text-equora-amber hover:bg-equora-amber/8 rounded-lg transition-colors cursor-pointer font-body text-xs font-medium"
                         aria-label={`Editar ${product.name}`}
                       >
-                        <IoCreate size={16} aria-hidden="true" />
+                        <IoPencilOutline size={15} aria-hidden="true" />
+                        Editar
                       </button>
                       <button
                         onClick={() => setDeleteId(product._id)}
-                        className="p-2 text-[#6B7280] hover:text-red-500 hover:bg-red-50 rounded-lg transition-colors cursor-pointer"
+                        className="flex items-center gap-1.5 px-3 py-1.5 text-[#6B7280] hover:text-red-500 hover:bg-red-50 rounded-lg transition-colors cursor-pointer font-body text-xs font-medium"
                         aria-label={`Eliminar ${product.name}`}
                       >
-                        <IoTrash size={16} aria-hidden="true" />
+                        <IoTrashOutline size={15} aria-hidden="true" />
+                        Eliminar
                       </button>
                     </div>
                   </td>

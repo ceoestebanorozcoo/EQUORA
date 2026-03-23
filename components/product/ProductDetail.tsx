@@ -8,9 +8,9 @@ import api from '@/lib/axios';
 import { IProduct, ICategory } from '@/types';
 import { formatPrice } from '@/utils/formatPrice';
 import Badge from '@/components/ui/Badge';
-import Button from '@/components/ui/Button';
 import { Skeleton } from '@/components/ui/Skeleton';
-import { IoLogoWhatsapp, IoArrowBack, IoChevronBack, IoChevronForward } from 'react-icons/io5';
+import { IoLogoWhatsapp, IoChevronBack, IoChevronForward } from 'react-icons/io5';
+import { ArrowLeft, Clock, Truck, CreditCard, ShieldCheck } from 'lucide-react';
 import Navbar from '@/components/landing/Navbar';
 import Footer from '@/components/landing/Footer';
 
@@ -21,7 +21,7 @@ function ImageCarousel({ images, name }: { images: string[]; name: string }) {
 
   if (!images.length) {
     return (
-      <div className="relative aspect-square rounded-2xl overflow-hidden bg-white shadow-sm flex items-center justify-center">
+      <div className="relative aspect-square rounded-2xl overflow-hidden bg-equora-navy flex items-center justify-center">
         <span className="font-display text-6xl text-equora-amber/20">EQUORA</span>
       </div>
     );
@@ -32,7 +32,6 @@ function ImageCarousel({ images, name }: { images: string[]; name: string }) {
 
   return (
     <div className="space-y-3">
-      {/* Main image */}
       <div className="relative aspect-square rounded-2xl overflow-hidden bg-white shadow-sm group">
         <Image
           src={images[current]}
@@ -42,8 +41,6 @@ function ImageCarousel({ images, name }: { images: string[]; name: string }) {
           sizes="(max-width: 768px) 100vw, 50vw"
           priority={current === 0}
         />
-
-        {/* Arrows — only if more than 1 image */}
         {images.length > 1 && (
           <>
             <button
@@ -60,15 +57,13 @@ function ImageCarousel({ images, name }: { images: string[]; name: string }) {
             >
               <IoChevronForward size={18} className="text-equora-dark" aria-hidden="true" />
             </button>
-
-            {/* Dots */}
             <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-1.5">
               {images.map((_, i) => (
                 <button
                   key={i}
                   onClick={() => setCurrent(i)}
-                  className={`w-2 h-2 rounded-full transition-all cursor-pointer ${
-                    i === current ? 'bg-white w-5' : 'bg-white/50'
+                  className={`h-2 rounded-full transition-all cursor-pointer ${
+                    i === current ? 'bg-white w-5' : 'bg-white/50 w-2'
                   }`}
                   aria-label={`Ir a imagen ${i + 1}`}
                 />
@@ -78,7 +73,6 @@ function ImageCarousel({ images, name }: { images: string[]; name: string }) {
         )}
       </div>
 
-      {/* Thumbnails */}
       {images.length > 1 && (
         <div className="flex gap-2 overflow-x-auto pb-1">
           {images.map((url, i) => (
@@ -118,20 +112,26 @@ export default function ProductDetail() {
     return (
       <>
         <Navbar />
-        <div className="min-h-screen bg-equora-ivory pt-28 pb-24 px-6">
-          <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12">
+        <div className="relative overflow-hidden bg-equora-dark">
+          <div className="absolute inset-0 bg-linear-to-b from-equora-dark/80 to-equora-navy/90" />
+          <div className="relative max-w-5xl mx-auto px-6 pt-36 pb-20 space-y-4">
+            <Skeleton className="h-5 w-28 bg-white/10" />
+            <Skeleton className="h-5 w-32 bg-white/10" />
+            <Skeleton className="h-14 w-96 bg-white/10" />
+          </div>
+        </div>
+        <div className="min-h-screen bg-equora-ivory">
+          <div className="max-w-5xl mx-auto px-6 py-16 grid grid-cols-1 md:grid-cols-2 gap-12">
             <div className="space-y-3">
               <Skeleton className="aspect-square rounded-2xl" />
               <div className="flex gap-2">
                 {[1, 2, 3].map((i) => <Skeleton key={i} className="w-16 h-16 rounded-xl" />)}
               </div>
             </div>
-            <div className="space-y-4 pt-8">
+            <div className="space-y-4 pt-4">
               <Skeleton className="h-6 w-24" />
-              <Skeleton className="h-10 w-3/4" />
-              <Skeleton className="h-4 w-20" />
-              <Skeleton className="h-24 w-full" />
               <Skeleton className="h-8 w-32" />
+              <Skeleton className="h-24 w-full" />
               <div className="flex gap-3 pt-4">
                 <Skeleton className="h-12 flex-1 rounded-full" />
                 <Skeleton className="h-12 w-32 rounded-full" />
@@ -148,9 +148,9 @@ export default function ProductDetail() {
     return (
       <>
         <Navbar />
-        <div className="min-h-screen bg-equora-ivory flex items-center justify-center px-6">
+        <div className="min-h-screen bg-equora-dark flex items-center justify-center px-6">
           <div className="text-center">
-            <p className="font-editorial italic text-2xl text-[#6B7280] mb-6">
+            <p className="font-editorial italic text-2xl text-[#F9F7F4]/50 mb-6">
               {error || 'Producto no encontrado'}
             </p>
             <Link href="/productos" className="font-body text-sm text-equora-amber hover:underline cursor-pointer">
@@ -172,46 +172,61 @@ export default function ProductDetail() {
   return (
     <>
       <Navbar />
-      <div className="min-h-screen bg-equora-ivory">
-        <main className="max-w-5xl mx-auto px-6 pt-28 pb-24">
-          {/* Back button */}
+
+      {/* Dark hero */}
+      <div className="relative overflow-hidden bg-equora-dark">
+        <div className="absolute inset-0 bg-linear-to-b from-equora-dark/80 to-equora-navy/90" />
+        <div className="relative max-w-5xl mx-auto px-6 pt-36 pb-20 md:pt-44 md:pb-24">
           <button
             onClick={() => router.back()}
-            className="flex items-center gap-2 text-[#6B7280] hover:text-equora-dark transition-colors font-body text-sm mb-10 cursor-pointer"
+            className="group inline-flex items-center gap-2.5 font-body text-sm text-[#F9F7F4]/80 hover:text-equora-amber transition-all duration-300 mb-10 cursor-pointer"
           >
-            <IoArrowBack size={16} aria-hidden="true" />
-            Volver
+            <span className="flex items-center justify-center w-8 h-8 rounded-full border border-[#F9F7F4]/50 group-hover:border-equora-amber/60 group-hover:bg-equora-amber/10 transition-all duration-300">
+              <ArrowLeft size={14} className="transition-transform duration-300 group-hover:-translate-x-0.5" />
+            </span>
+            <span className="tracking-wide uppercase text-xs font-medium">Volver</span>
           </button>
 
+          {category?.name && (
+            <p className="font-editorial text-equora-amber italic text-lg md:text-xl mb-3">
+              {category.name}
+            </p>
+          )}
+          <h1 className="font-display text-5xl md:text-7xl text-[#F9F7F4] tracking-wider leading-tight">
+            DETALLE DEL PRODUCTO
+          </h1>
+        </div>
+      </div>
+
+      {/* Content */}
+      <div className="bg-equora-ivory">
+        <main className="max-w-5xl mx-auto px-6 py-16">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-start">
             {/* Carousel */}
-            <div className="animate-fade-in">
-              <ImageCarousel images={images} name={product.name} />
-            </div>
+            <ImageCarousel images={images} name={product.name} />
 
             {/* Info */}
-            <div className="space-y-6 animate-fade-in-up">
+            <div className="space-y-6">
               <div className="flex items-center gap-3">
-                {category && <Badge variant="amber">{category.name}</Badge>}
-                <span className="font-body text-sm text-[#6B7280]">{product.productCode}</span>
-              </div>
-
-              <h1 className="font-display text-5xl tracking-wider text-equora-dark leading-tight">
-                {product.name}
-              </h1>
-
-              <div className="flex items-center gap-4">
-                <span className="font-editorial text-3xl font-semibold text-equora-dark">
-                  {formatPrice(product.price)}
-                </span>
+                <span className="font-body text-sm text-equora-dark/50">CODIGO: {product.productCode}</span>
                 <Badge variant={isAvailable ? 'green' : 'gray'}>
                   {isAvailable ? 'Disponible' : 'Agotado'}
                 </Badge>
               </div>
 
+              <h2 className="font-display text-4xl md:text-5xl tracking-wider text-equora-dark leading-tight">
+                {product.name}
+              </h2>
+
+              <div className="flex items-center gap-4">
+                <span className="font-editorial text-4xl text-equora-amber italic">
+                  {formatPrice(product.price)}
+                </span>
+              </div>
+
               {product.description && (
                 <div className="border-t border-equora-dark/10 pt-6">
-                  <p className="font-editorial italic text-lg text-[#0D0D0D] leading-relaxed">
+                  <p className="font-editorial italic text-lg text-equora-dark/80 leading-relaxed">
                     {product.description}
                   </p>
                 </div>
@@ -223,7 +238,7 @@ export default function ProductDetail() {
                     href={whatsappLink}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex-1 flex items-center justify-center gap-2 py-4 bg-green-500 text-white rounded-full font-body font-medium hover:bg-green-600 transition-colors cursor-pointer"
+                    className="flex-1 flex items-center justify-center gap-2 py-4 bg-equora-amber text-white rounded-full font-body font-medium hover:bg-[#8a5224] transition-colors cursor-pointer"
                     aria-label={`Comprar ${product.name} por WhatsApp`}
                   >
                     <IoLogoWhatsapp size={20} aria-hidden="true" />
@@ -238,30 +253,36 @@ export default function ProductDetail() {
                     Producto Agotado
                   </button>
                 )}
-                <Link href="/productos">
-                  <Button variant="outline" size="lg" className="w-full sm:w-auto">
-                    Ver más productos
-                  </Button>
+                <Link
+                  href="/productos"
+                  className="flex-1 flex items-center justify-center py-4 rounded-full border-2 border-equora-amber text-equora-amber font-body font-medium hover:bg-equora-amber hover:text-white transition-colors duration-300"
+                >
+                  Ver más productos
                 </Link>
-              </div>
-
-              <div className="bg-white/60 rounded-xl p-4 space-y-2">
-                {[
-                  'Fabricación: 3 a 4 días hábiles',
-                  'Envío a todo Colombia vía Interrapidísimo',
-                  'Pago por transferencia bancaria',
-                  'Garantía: 15 días calendario',
-                ].map((note) => (
-                  <div key={note} className="flex items-center gap-2">
-                    <div className="w-1.5 h-1.5 rounded-full bg-equora-amber shrink-0" aria-hidden="true" />
-                    <p className="font-body text-sm text-[#6B7280]">{note}</p>
-                  </div>
-                ))}
               </div>
             </div>
           </div>
+
+          {/* Info notes — full width below both columns */}
+          <div className="mt-10 bg-white rounded-2xl overflow-hidden border border-equora-dark/8">
+            {[
+              { icon: <Clock className="w-5 h-5 text-equora-amber shrink-0" />, text: 'Fabricación: 3 a 4 días hábiles' },
+              { icon: <Truck className="w-5 h-5 text-equora-amber shrink-0" />, text: 'Envío a todo Colombia vía Interrapidísimo' },
+              { icon: <CreditCard className="w-5 h-5 text-equora-amber shrink-0" />, text: 'Pago por transferencia bancaria' },
+              { icon: <ShieldCheck className="w-5 h-5 text-equora-amber shrink-0" />, text: 'Garantía: 15 días calendario' },
+            ].map((item, i, arr) => (
+              <div key={item.text}>
+                <div className="flex items-center gap-4 px-6 py-4">
+                  {item.icon}
+                  <p className="font-body text-sm text-equora-dark/70">{item.text}</p>
+                </div>
+                {i < arr.length - 1 && <div className="h-px bg-equora-dark/8 mx-6" />}
+              </div>
+            ))}
+          </div>
         </main>
       </div>
+
       <Footer />
     </>
   );

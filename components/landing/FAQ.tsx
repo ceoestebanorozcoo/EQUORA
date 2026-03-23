@@ -1,7 +1,8 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
-import Accordion from '@/components/ui/Accordion';
+import { useState } from 'react';
+import { ScrollReveal } from '@/components/ScrollReveal';
+import { ChevronDown } from 'lucide-react';
 
 const faqItems = [
   {
@@ -38,40 +39,72 @@ const faqItems = [
   },
 ];
 
-export default function FAQ() {
-  const ref = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.querySelectorAll('.reveal').forEach((el, i) => {
-              setTimeout(() => el.classList.add('visible'), i * 100);
-            });
-          }
-        });
-      },
-      { threshold: 0.1 }
-    );
-    if (ref.current) observer.observe(ref.current);
-    return () => observer.disconnect();
-  }, []);
+function FAQItem({ item, index }: { item: typeof faqItems[0]; index: number }) {
+  const [open, setOpen] = useState(false);
 
   return (
-    <section className="bg-equora-dark py-24 px-6" ref={ref}>
-      <div className="max-w-3xl mx-auto">
-        <div className="text-center mb-14 reveal">
-          <p className="font-editorial italic text-equora-amber text-lg mb-3">Resolvemos tus dudas</p>
-          <h2 className="font-display text-5xl md:text-6xl text-[#F9F7F4] tracking-wider">
-            PREGUNTAS
-            <br />FRECUENTES
-          </h2>
-        </div>
+    <div
+      className={`border rounded-xl px-6 transition-colors duration-300 ${
+        open ? 'border-equora-amber/30' : 'border-equora-dark/10'
+      }`}
+    >
+      <button
+        onClick={() => setOpen(!open)}
+        className="w-full flex items-center justify-between py-5 text-left cursor-pointer group"
+        aria-expanded={open}
+        aria-controls={`faq-answer-${index}`}
+        id={`faq-question-${index}`}
+      >
+        <span className="font-body font-medium text-equora-dark group-hover:text-equora-amber transition-colors duration-300 pr-8">
+          {item.question}
+        </span>
+        <ChevronDown
+          className={`w-5 h-5 text-equora-dark/40 shrink-0 transition-transform duration-300 ${
+            open ? 'rotate-180 text-equora-amber' : ''
+          }`}
+          aria-hidden="true"
+        />
+      </button>
+      <div
+        id={`faq-answer-${index}`}
+        role="region"
+        aria-labelledby={`faq-question-${index}`}
+        style={{
+          maxHeight: open ? '400px' : '0',
+          overflow: 'hidden',
+          transition: 'max-height 0.4s ease',
+        }}
+      >
+        <p className="pb-5 font-body text-sm text-equora-dark/50 leading-relaxed">
+          {item.answer}
+        </p>
+      </div>
+    </div>
+  );
+}
 
-        <div className="reveal" style={{ transitionDelay: '150ms' }}>
-          <Accordion items={faqItems} />
-        </div>
+export default function FAQ() {
+  return (
+    <section id="faq" className="bg-equora-ivory py-24 md:py-32 px-6">
+      <div className="max-w-3xl mx-auto">
+        <ScrollReveal direction="up">
+          <div className="text-center mb-16">
+            <p className="font-editorial text-equora-amber italic text-lg mb-3">
+              Preguntas frecuentes
+            </p>
+            <h2 className="font-display text-4xl md:text-5xl text-equora-dark tracking-wider">
+              ¿TIENES DUDAS?
+            </h2>
+          </div>
+        </ScrollReveal>
+
+        <ScrollReveal direction="up" delay={200}>
+          <div className="space-y-3">
+            {faqItems.map((item, i) => (
+              <FAQItem key={i} item={item} index={i} />
+            ))}
+          </div>
+        </ScrollReveal>
       </div>
     </section>
   );
