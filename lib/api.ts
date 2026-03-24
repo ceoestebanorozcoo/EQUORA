@@ -4,7 +4,7 @@
    ═══════════════════════════════════════════════ */
 
 import axios from 'axios';
-import type { Product, LoginPayload, ProductPayload } from '@/types';
+import type { IProduct, LoginPayload, ProductPayload } from '@/types';
 
 const api = axios.create({
     baseURL: '/api',
@@ -25,13 +25,13 @@ export const getMe = () =>
 /* ── Products ── */
 
 export const getProducts = (params?: { search?: string; category?: string }) =>
-    api.get<Product[]>('/products', { params });
+    api.get<IProduct[]>('/products', { params });
 
 export const createProduct = (data: ProductPayload) =>
-    api.post<Product>('/products', data);
+    api.post<IProduct>('/products', data);
 
 export const updateProduct = (id: string, data: Partial<ProductPayload>) =>
-    api.put<Product>(`/products/${id}`, data);
+    api.put<IProduct>(`/products/${id}`, data);
 
 export const deleteProduct = (id: string) =>
     api.delete(`/products/${id}`);

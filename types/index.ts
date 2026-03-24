@@ -44,3 +44,19 @@ export interface ApiResponse<T = unknown> {
   message?: string;
   error?: string;
 }
+
+export interface LoginPayload {
+  email: string;
+  password: string;
+}
+
+export interface ProductPayload {
+  name: string;
+  category: string;
+  price: number;
+  images: string[];
+  description: string;
+  productCode: string;
+  stockStatus: 'available' | 'soldout';
+  isFeatured?: boolean;
+}
