@@ -4,7 +4,7 @@ import { useState, useEffect, useCallback } from 'react';
 import api from '@/lib/axios';
 import Button from '@/components/ui/Button';
 import Modal from '@/components/ui/Modal';
-import { IoCreateOutline, IoTrashOutline, IoAdd } from 'react-icons/io5';
+import { IoCreateOutline, IoTrashOutline, IoAdd, IoChatbubbleEllipses } from 'react-icons/io5';
 import { Star } from 'lucide-react';
 
 interface ITestimonial {
