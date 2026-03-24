@@ -1,127 +1,184 @@
 'use client';
 
+import { useState } from 'react';
 import { ScrollReveal } from '@/components/ScrollReveal';
 import { Check, X } from 'lucide-react';
 
 const pillars = [
-  {
-    title: 'Materiales de alto nivel',
-    description: 'Seleccionados para resistir uso continuo y condiciones reales.',
-  },
-  {
-    title: 'Diseño funcional',
-    description: 'Pensado para adaptarse bien, verse limpio y rendir sin incomodar.',
-  },
-  {
-    title: 'Construcción precisa',
-    description: 'Acabados firmes, costuras seguras y detalles bien resueltos.',
-  },
-  {
-    title: 'Confiabilidad total',
-    description: 'Equipo que responde igual hoy, mañana y con el tiempo.',
-  },
+  { title: 'Materiales que resisten' },
+  { title: 'Diseño que funciona' },
+  { title: 'Construcción precisa' },
+  { title: 'Confiabilidad constante' },
 ];
 
 const comparisons = [
-  { generic: 'Material estándar',       equora: 'Materiales seleccionados' },
-  { generic: 'Producción masiva',       equora: 'Fabricación cuidada' },
-  { generic: 'Ajustes básicos',         equora: 'Ajuste funcional' },
-  { generic: 'Durabilidad limitada',    equora: 'Uso prolongado' },
-  { generic: 'Apariencia',             equora: 'Rendimiento real' },
+  { generic: 'Meses',       equora: 'Años',          label: 'Durabilidad' },
+  { generic: 'Constante',   equora: 'Ninguno',        label: 'Mantenimiento' },
+  { generic: 'Dudas',       equora: 'Seguridad',      label: 'Confiabilidad' },
+  { generic: 'Impersonal',  equora: 'Personalizada',  label: 'Atención' },
+  { generic: 'Frustración', equora: 'Satisfacción',   label: 'Resultado' },
 ];
 
 export default function TechnicalBenefits() {
+  const [hoveredRow, setHoveredRow]       = useState<string | null>(null);
+  const [hoveredPillar, setHoveredPillar] = useState<string | null>(null);
+
   return (
-    <section className="bg-equora-dark py-24 md:py-32 px-6">
-      <div className="max-w-7xl mx-auto">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-start">
+    <section className="bg-equora-navy py-24 md:py-32 px-6 relative overflow-hidden">
+      {/* Ambient glow */}
+      <div className="absolute top-0 right-0 w-125 h-125 bg-equora-amber/4 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute bottom-0 left-0 w-100 h-100 bg-equora-amber/3 rounded-full blur-3xl pointer-events-none" />
 
-          {/* Left */}
-          <ScrollReveal direction="left">
-            <div>
-              <p className="font-editorial text-equora-amber italic text-lg mb-3">
-                La diferencia EQUORA
-              </p>
-              <h2 className="font-display text-4xl md:text-5xl text-white tracking-wider mb-6 leading-tight">
-                CALIDAD QUE SE NOTA.<br />RENDIMIENTO QUE SE SIENTE.
-              </h2>
-              <div className="space-y-3 font-body text-[#F9F7F4]/60 leading-relaxed mb-10 text-[15px]">
+      <div className="max-w-7xl mx-auto relative">
+
+        {/* ── Header ── */}
+        <ScrollReveal direction="up">
+          <p className="font-editorial text-equora-amber italic text-lg mb-3">
+            La diferencia EQUORA
+          </p>
+          <h2 className="font-display text-2xl sm:text-4xl md:text-5xl lg:text-6xl text-white tracking-wider leading-tight mb-3">
+            CALIDAD QUE SE NOTA.<br />RENDIMIENTO QUE RESPONDE.
+          </h2>
+          <div className="w-12 h-px bg-equora-amber mb-16" />
+        </ScrollReveal>
+
+        {/* ── Row 1: Description + Table ── */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-stretch mb-16">
+
+          {/* LEFT */}
+          <div className="flex flex-col justify-center gap-8">
+            <ScrollReveal direction="left" delay={0}>
+              <div className="space-y-5 font-body text-[#F9F7F4]/55 leading-relaxed text-base sm:text-xl md:text-2xl lg:text-3xl">
                 <p>
-                  En EQUORA no trabajamos para que se vea bien…<br />
-                  trabajamos para que <span className="text-[#F9F7F4]/90">funcione mejor, dure más</span> y responda cuando realmente importa.
+                  No hacemos productos para verse bien.<br />
+                  Los hacemos para{' '}
+                  <span className="text-[#F9F7F4]/85 font-medium">durar, adaptarse y rendir sin fallar.</span>
                 </p>
                 <p>
-                  Cada producto está diseñado para el uso real: jornadas largas, exigencia constante y cero margen para fallos.
-                </p>
-                <p className="font-editorial italic text-white text-base">
-                  Porque en este mundo, lo genérico no aguanta.
+                  Diseñados para uso real: exigencia diaria,<br />
+                  jornadas largas y cero margen de error.
                 </p>
               </div>
+            </ScrollReveal>
 
-              {/* Pillars grid 2x2 */}
-              <p className="font-display text-xs tracking-widest text-[#F9F7F4]/30 uppercase mb-5">
-                Lo que nos define
-              </p>
-              <div className="grid grid-cols-2 gap-4">
-                {pillars.map((p) => (
-                  <div key={p.title} className="p-4 rounded-xl bg-equora-navy/50 flex flex-col gap-2">
-                    <p className="font-body font-semibold text-[#F9F7F4]/90 text-sm">{p.title}</p>
-                    <p className="font-body text-[#F9F7F4]/45 text-xs leading-relaxed">{p.description}</p>
-                  </div>
-                ))}
+            <ScrollReveal direction="left" delay={180}>
+              <div className="flex items-stretch gap-4">
+                <div className="w-px bg-equora-amber/40 shrink-0" />
+                <p className="font-editorial italic text-white/55 text-base sm:text-xl md:text-2xl lg:text-3xl">
+                  Porque lo genérico no aguanta.
+                </p>
               </div>
-            </div>
-          </ScrollReveal>
+            </ScrollReveal>
+          </div>
 
-          {/* Right */}
-          <ScrollReveal direction="right">
-            <div className="bg-equora-navy/50 rounded-2xl p-8">
-              <h3 className="font-display text-2xl tracking-wider text-white text-center mb-2">
-                GENÉRICO VS EQUORA
-              </h3>
-              <p className="font-body text-center text-[#F9F7F4]/40 text-sm mb-8 leading-relaxed">
-                La diferencia no está en lo que prometen…<br />
-                está en cómo responden cuando los usas.
-              </p>
+          {/* RIGHT: Comparison table */}
+          <ScrollReveal direction="right" delay={100}>
+            <div className="group rounded-2xl border border-white/8 overflow-hidden h-full flex flex-col transition-all duration-500 hover:border-white/15 hover:shadow-[0_0_40px_rgba(255,255,255,0.03)]">
 
               {/* Header */}
-              <div className="flex justify-between items-center mb-3 px-1">
-                <span className="font-display text-xs tracking-widest text-[#F9F7F4]/30 uppercase">Característica</span>
-                <div className="flex gap-6">
-                  <span className="font-display text-xs tracking-widest text-[#F9F7F4]/30 uppercase w-16 text-center">Otro</span>
-                  <span className="font-display text-xs tracking-widest text-equora-amber uppercase w-16 text-center">EQUORA</span>
-                </div>
+              <div className="grid grid-cols-3 px-4 sm:px-8 pt-6 sm:pt-8 pb-4 sm:pb-5 bg-white/3">
+                <span className="font-display text-xs sm:text-sm tracking-widest text-[#F9F7F4]/20 uppercase" />
+                <span className="font-display text-xs sm:text-sm tracking-widest text-[#F9F7F4]/30 uppercase">Otros</span>
+                <span className="font-display text-xs sm:text-sm tracking-widest text-equora-amber uppercase">EQUORA</span>
               </div>
+              <div className="h-px bg-white/8 mx-4 sm:mx-8" />
 
-              <div className="space-y-1">
-                {comparisons.map((item) => (
+              {/* Rows */}
+              <div className="flex flex-col flex-1 px-4 sm:px-8 py-1">
+                {comparisons.map((item, i) => (
                   <div
-                    key={item.generic}
-                    className="flex items-center justify-between py-3 border-b border-[#F9F7F4]/10"
+                    key={item.label}
+                    className={`
+                      grid grid-cols-3 items-center py-3 sm:py-5 border-b border-white/6 cursor-default
+                      transition-all duration-300
+                      ${hoveredRow === item.label
+                        ? 'bg-white/4 px-2 sm:px-3 rounded-lg -mx-2 sm:-mx-3'
+                        : ''
+                      }
+                    `}
+                    style={{ transitionDelay: hoveredRow === item.label ? '0ms' : `${i * 20}ms` }}
+                    onMouseEnter={() => setHoveredRow(item.label)}
+                    onMouseLeave={() => setHoveredRow(null)}
                   >
-                    <div className="flex flex-col gap-0.5">
-                      <span className="font-body text-xs text-[#F9F7F4]/35 line-through">{item.generic}</span>
-                      <span className="font-body text-sm text-[#F9F7F4]/80">{item.equora}</span>
+                    <span className={`font-display text-xs sm:text-sm tracking-wider sm:tracking-widest uppercase transition-colors duration-300 ${hoveredRow === item.label ? 'text-[#F9F7F4]/70' : 'text-[#F9F7F4]/30'}`}>
+                      {item.label}
+                    </span>
+                    <div className="flex items-center gap-1.5 sm:gap-3">
+                      <X className={`w-3 h-3 sm:w-4 sm:h-4 shrink-0 transition-colors duration-300 ${hoveredRow === item.label ? 'text-red-400/70' : 'text-red-400/25'}`} />
+                      <span className={`font-body text-xs sm:text-base line-through transition-colors duration-300 ${hoveredRow === item.label ? 'text-[#F9F7F4]/35' : 'text-[#F9F7F4]/20'}`}>{item.generic}</span>
                     </div>
-                    <div className="flex gap-6 shrink-0 ml-4">
-                      <span className="w-16 flex justify-center">
-                        <X className="w-4 h-4 text-red-400/50" aria-hidden="true" />
-                      </span>
-                      <span className="w-16 flex justify-center">
-                        <Check className="w-4 h-4 text-equora-amber" aria-hidden="true" />
+                    <div className="flex items-center gap-1.5 sm:gap-3">
+                      <Check className={`w-3 h-3 sm:w-4 sm:h-4 shrink-0 transition-all duration-300 ${hoveredRow === item.label ? 'text-equora-amber scale-110' : 'text-equora-amber/50'}`} />
+                      <span className={`font-body text-xs sm:text-base font-medium transition-colors duration-300 ${hoveredRow === item.label ? 'text-white' : 'text-[#F9F7F4]/65'}`}>
+                        {item.equora}
                       </span>
                     </div>
                   </div>
                 ))}
               </div>
 
-              <p className="font-editorial italic text-white text-sm text-center mt-8 leading-relaxed">
-                EQUORA es simple:<br />hacer las cosas bien desde el inicio.
-              </p>
+              {/* Footer */}
+              <div className="h-px bg-white/8 mx-4 sm:mx-8" />
+              <div className="text-center px-4 sm:px-8 py-5 sm:py-6">
+                <p className="font-display text-xs tracking-widest text-equora-amber uppercase mb-1">EQUORA</p>
+                <p className="font-body text-[#F9F7F4]/50 text-sm">Bien hecho desde el principio.</p>
+              </div>
             </div>
           </ScrollReveal>
-
         </div>
+
+        {/* ── Separator ── */}
+        <ScrollReveal direction="up">
+          <div className="flex items-center gap-6 mb-14">
+            <div className="flex-1 h-px bg-white/8" />
+            <div className="w-1.5 h-1.5 rounded-full bg-equora-amber/40" />
+            <div className="flex-1 h-px bg-white/8" />
+          </div>
+        </ScrollReveal>
+
+        {/* ── Quote ── */}
+        <ScrollReveal direction="up" delay={0}>
+          <p className="font-display text-[#F9F7F4]/80 text-2xl md:text-3xl leading-snug tracking-wider text-center mb-12 max-w-3xl mx-auto uppercase">
+            No vendemos cosas.<br />
+            Resolvemos problemas.<br />
+            Los que vives cada día con tu caballo.
+          </p>
+        </ScrollReveal>
+
+        {/* ── Pillars ── */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          {pillars.map((p, i) => (
+            <ScrollReveal key={p.title} direction="up" delay={i * 100}>
+              <div
+                className={`
+                  flex items-center gap-5 p-8 rounded-xl border cursor-default
+                  transition-all duration-400 ease-out
+                  ${hoveredPillar === p.title
+                    ? 'bg-equora-amber/8 border-equora-amber/25 -translate-y-1 shadow-[0_8px_30px_rgba(0,0,0,0.3)]'
+                    : 'bg-white/3 border-white/6'
+                  }
+                `}
+                onMouseEnter={() => setHoveredPillar(p.title)}
+                onMouseLeave={() => setHoveredPillar(null)}
+              >
+                <span className={`
+                  w-9 h-9 shrink-0 rounded-full flex items-center justify-center
+                  transition-all duration-400
+                  ${hoveredPillar === p.title
+                    ? 'bg-equora-amber/25 scale-110'
+                    : 'bg-equora-amber/12'
+                  }
+                `}>
+                  <Check className={`w-5 h-5 transition-colors duration-400 ${hoveredPillar === p.title ? 'text-equora-amber' : 'text-equora-amber/70'}`} />
+                </span>
+                <p className={`font-body font-medium text-lg transition-colors duration-400 ${hoveredPillar === p.title ? 'text-[#F9F7F4]/90' : 'text-[#F9F7F4]/60'}`}>
+                  {p.title}
+                </p>
+              </div>
+            </ScrollReveal>
+          ))}
+        </div>
+
       </div>
     </section>
   );

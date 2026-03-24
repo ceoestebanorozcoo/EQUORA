@@ -58,7 +58,7 @@ export default function Modal({ isOpen, onClose, title, children, size = 'md' }:
       >
         {/* Header */}
         {title && (
-          <div className="flex items-center justify-between p-6 border-b border-gray-100 shrink-0">
+          <div className="flex items-center justify-between p-4 sm:p-6 border-b border-gray-100 shrink-0">
             <h2 className="font-display text-xl tracking-wider text-equora-dark">{title}</h2>
             <button
               onClick={onClose}
@@ -71,7 +71,7 @@ export default function Modal({ isOpen, onClose, title, children, size = 'md' }:
         )}
 
         {/* Content */}
-        <div className="overflow-y-auto flex-1 p-6">
+        <div className="overflow-y-auto flex-1 p-4 sm:p-6">
           {!title && (
             <button
               onClick={onClose}

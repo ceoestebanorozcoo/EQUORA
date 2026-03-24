@@ -35,7 +35,7 @@ export default function ValueProposition() {
             <p className="font-editorial text-equora-amber italic text-lg mb-3">
               ¿Por qué EQUORA?
             </p>
-            <h2 className="font-display text-4xl md:text-5xl text-equora-dark tracking-wider">
+            <h2 className="font-display text-3xl sm:text-4xl md:text-5xl text-equora-dark tracking-wider">
               NUESTRA PROPUESTA DE VALOR
             </h2>
           </div>
@@ -45,8 +45,8 @@ export default function ValueProposition() {
           {pillars.map((pillar, i) => (
             <ScrollReveal key={pillar.title} direction="up" delay={i * 150} className="h-full">
               <div className="group h-full text-center p-8 rounded-2xl bg-equora-ivory/40 hover:bg-equora-ivory/60 transition-all duration-500 hover:shadow-xl hover:-translate-y-1">
-                <div className="w-16 h-16 mx-auto mb-6 rounded-2xl bg-equora-amber/10 flex items-center justify-center group-hover:bg-equora-amber/20 transition-colors duration-300">
-                  <pillar.icon className="w-7 h-7 text-equora-amber" />
+                <div className="w-20 h-20 mx-auto mb-6 rounded-full bg-equora-amber/10 flex items-center justify-center group-hover:bg-equora-amber/20 transition-colors duration-300">
+                  <pillar.icon className="w-9 h-9 text-equora-amber" />
                 </div>
                 <h3 className="font-display text-xl tracking-wider text-equora-dark mb-3">
                   {pillar.title}

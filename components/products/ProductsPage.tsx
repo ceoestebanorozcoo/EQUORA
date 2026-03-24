@@ -51,7 +51,7 @@ export default function ProductsPage() {
   const hasFilters = search || selectedCategory;
 
   return (
-    <div className="min-h-screen bg-equora-ivory">
+    <div className="min-h-screen bg-white">
       {/* Hero header */}
       <div className="relative overflow-hidden bg-equora-dark">
         <div className="absolute inset-0 bg-linear-to-b from-equora-dark/80 to-equora-navy/90" />
@@ -67,9 +67,9 @@ export default function ProductsPage() {
           </button>
 
           <p className="font-editorial text-equora-amber italic text-lg md:text-xl mb-3">
-            Colección completa
+            Catálogo completo
           </p>
-          <h1 className="font-display text-5xl md:text-7xl text-[#F9F7F4] tracking-wider">
+          <h1 className="font-display text-3xl sm:text-4xl md:text-5xl lg:text-7xl text-[#F9F7F4] tracking-wider">
             NUESTROS PRODUCTOS
           </h1>
           <p className="font-body text-equora-dark/50 text-base md:text-lg mt-4 max-w-xl">
@@ -79,7 +79,7 @@ export default function ProductsPage() {
       </div>
 
       {/* Sticky filter bar */}
-      <div className="bg-equora-ivory border-b border-equora-dark/10">
+      <div className="bg-white border-b border-equora-dark/10">
         <div className="max-w-7xl mx-auto px-6 py-4">
           <div className="flex flex-wrap items-center gap-2 sm:gap-3">
 
@@ -169,12 +169,6 @@ export default function ProductsPage() {
               </button>
             )}
 
-            {/* Count */}
-            {!loading && (
-              <span className="font-body text-xs text-equora-dark/50 ml-auto hidden sm:block shrink-0">
-                {filtered.length} producto{filtered.length !== 1 ? 's' : ''}
-              </span>
-            )}
           </div>
         </div>
       </div>

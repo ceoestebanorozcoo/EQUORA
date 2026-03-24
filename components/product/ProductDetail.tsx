@@ -120,7 +120,7 @@ export default function ProductDetail() {
             <Skeleton className="h-14 w-full max-w-sm bg-white/10" />
           </div>
         </div>
-        <div className="min-h-screen bg-equora-ivory">
+        <div className="min-h-screen bg-white">
           <div className="max-w-5xl mx-auto px-6 py-16 grid grid-cols-1 md:grid-cols-2 gap-12">
             <div className="space-y-3">
               <Skeleton className="aspect-square rounded-2xl" />
@@ -192,70 +192,87 @@ export default function ProductDetail() {
               {category.name}
             </p>
           )}
-          <h1 className="font-display text-5xl md:text-7xl text-[#F9F7F4] tracking-wider leading-tight">
+          <h1 className="font-display text-3xl sm:text-4xl md:text-5xl lg:text-7xl text-[#F9F7F4] tracking-wider leading-tight">
             DETALLE DEL PRODUCTO
           </h1>
         </div>
       </div>
 
       {/* Content */}
-      <div className="bg-equora-ivory">
-        <main className="max-w-5xl mx-auto px-6 py-16">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-start">
+      <div className="bg-white">
+        <main className="max-w-6xl mx-auto px-6 py-16 md:py-20">
+
+          {/* Product grid */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-start mb-14">
+
             {/* Carousel */}
             <ImageCarousel images={images} name={product.name} />
 
-            {/* Info */}
-            <div className="space-y-6">
+            {/* Info panel */}
+            <div className="space-y-8">
+
+              {/* Code + badge */}
               <div className="flex items-center gap-3">
-                <span className="font-body text-sm text-equora-dark/50">CODIGO: {product.productCode}</span>
+                <span className="font-body text-xs tracking-widest text-equora-dark/40 uppercase">
+                  {product.productCode}
+                </span>
+                <span className="w-px h-4 bg-equora-dark/15" />
                 <Badge variant={isAvailable ? 'green' : 'gray'}>
                   {isAvailable ? 'Disponible' : 'Agotado'}
                 </Badge>
               </div>
 
-              <h2 className="font-display text-4xl md:text-5xl tracking-wider text-equora-dark leading-tight">
-                {product.name}
-              </h2>
+              {/* Name */}
+              <div>
+                {category?.name && (
+                  <p className="font-editorial text-equora-amber italic text-base mb-2">
+                    {category.name}
+                  </p>
+                )}
+                <h2 className="font-display text-3xl sm:text-4xl md:text-5xl lg:text-6xl tracking-wider text-equora-dark leading-tight">
+                  {product.name}
+                </h2>
+              </div>
 
-              <div className="flex items-center gap-4">
-                <span className="font-editorial text-4xl text-equora-amber italic">
+              {/* Price */}
+              <div className="flex items-end gap-3 pb-6 border-b border-equora-navy/40">
+                <span className="font-editorial text-3xl md:text-5xl text-equora-amber italic leading-none">
                   {formatPrice(product.price)}
                 </span>
               </div>
 
+              {/* Description */}
               {product.description && (
-                <div className="border-t border-equora-dark/10 pt-6">
-                  <p className="font-editorial italic text-lg text-equora-dark/80 leading-relaxed">
-                    {product.description}
-                  </p>
-                </div>
+                <p className="font-editorial italic text-lg text-equora-dark/70 leading-relaxed">
+                  {product.description}
+                </p>
               )}
 
+              {/* Buttons */}
               <div className="flex flex-col sm:flex-row gap-3 pt-2">
                 {isAvailable ? (
                   <a
                     href={whatsappLink}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex-1 flex items-center justify-center gap-2 py-4 bg-equora-amber text-white rounded-full font-body font-medium hover:bg-[#8a5224] transition-colors cursor-pointer"
+                    className="flex-1 flex items-center justify-center gap-2.5 py-4 bg-equora-amber text-white rounded-full font-body font-medium tracking-wide hover:bg-[#8a5224] transition-colors duration-300 cursor-pointer"
                     aria-label={`Comprar ${product.name} por WhatsApp`}
                   >
-                    <IoLogoWhatsapp size={20} aria-hidden="true" />
-                    Comprar por WhatsApp
+                    <IoLogoWhatsapp size={21} aria-hidden="true" />
+                    Comprar
                   </a>
                 ) : (
                   <button
                     disabled
-                    className="flex-1 flex items-center justify-center gap-2 py-4 bg-gray-100 text-gray-400 rounded-full font-body font-medium cursor-not-allowed"
+                    className="flex-1 flex items-center justify-center gap-2.5 py-4 bg-gray-100 text-gray-400 rounded-full font-body font-medium cursor-not-allowed"
                   >
-                    <IoLogoWhatsapp size={20} aria-hidden="true" />
+                    <IoLogoWhatsapp size={21} aria-hidden="true" />
                     Producto Agotado
                   </button>
                 )}
                 <Link
                   href="/productos"
-                  className="flex-1 flex items-center justify-center py-4 rounded-full border-2 border-equora-amber text-equora-amber font-body font-medium hover:bg-equora-amber hover:text-white transition-colors duration-300"
+                  className="flex-1 flex items-center justify-center py-4 rounded-full border-2 border-equora-amber/60 text-equora-amber font-body font-medium hover:border-equora-amber hover:bg-equora-amber hover:text-white transition-all duration-300"
                 >
                   Ver más productos
                 </Link>
@@ -263,23 +280,29 @@ export default function ProductDetail() {
             </div>
           </div>
 
-          {/* Info notes — full width below both columns */}
-          <div className="mt-10 bg-white rounded-2xl overflow-hidden border border-equora-dark/8">
+          {/* Info notes — 2×2 grid */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             {[
-              { icon: <Clock className="w-5 h-5 text-equora-amber shrink-0" />, text: 'Fabricación: 3 a 4 días hábiles' },
-              { icon: <Truck className="w-5 h-5 text-equora-amber shrink-0" />, text: 'Envío a todo Colombia vía Interrapidísimo' },
-              { icon: <CreditCard className="w-5 h-5 text-equora-amber shrink-0" />, text: 'Pago por transferencia bancaria' },
-              { icon: <ShieldCheck className="w-5 h-5 text-equora-amber shrink-0" />, text: 'Garantía: 15 días calendario' },
-            ].map((item, i, arr) => (
-              <div key={item.text}>
-                <div className="flex items-center gap-4 px-6 py-4">
-                  {item.icon}
-                  <p className="font-body text-sm text-equora-dark/70">{item.text}</p>
+              { icon: Clock,       text: 'Fabricación: 8 a 15 días hábiles',          label: 'Producción' },
+              { icon: Truck,       text: 'Envío a todo Colombia vía Interrapidísimo', label: 'Envíos' },
+              { icon: CreditCard,  text: 'Pago por transferencia bancaria',           label: 'Pago' },
+              { icon: ShieldCheck, text: 'Garantía: 15 días calendario',              label: 'Garantía' },
+            ].map(({ icon: Icon, text, label }) => (
+              <div
+                key={label}
+                className="group flex items-center gap-5 px-6 py-5 bg-[#F0EBE1] rounded-2xl border border-equora-dark/8 transition-all duration-300 hover:border-equora-amber/40 hover:shadow-lg hover:shadow-equora-amber/10 hover:-translate-y-0.5"
+              >
+                <span className="flex items-center justify-center w-10 h-10 rounded-full bg-equora-amber/15 shrink-0 transition-all duration-300 group-hover:bg-equora-amber/25 group-hover:scale-110">
+                  <Icon className="w-5 h-5 text-equora-amber" />
+                </span>
+                <div>
+                  <p className="font-display text-[10px] tracking-widest text-equora-dark/40 uppercase mb-0.5">{label}</p>
+                  <p className="font-body text-sm text-equora-dark/70 group-hover:text-equora-dark/90 transition-colors duration-300">{text}</p>
                 </div>
-                {i < arr.length - 1 && <div className="h-px bg-equora-dark/8 mx-6" />}
               </div>
             ))}
           </div>
+
         </main>
       </div>
 

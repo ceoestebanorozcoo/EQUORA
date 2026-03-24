@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import api from '@/lib/axios';
 import Button from '@/components/ui/Button';
 import CodeInput from '@/components/ui/CodeInput';
+import { IoArrowBackOutline, IoRefreshOutline } from 'react-icons/io5';
 
 type Step = 'login' | 'forgot-email' | 'forgot-code' | 'forgot-new-pw';
 
@@ -94,7 +95,7 @@ export default function LoginPage() {
             <div className="w-14 h-14 rounded-full bg-equora-amber/10 border border-equora-amber/25 overflow-hidden flex items-center justify-center shrink-0 group-hover:border-equora-amber/50 transition-colors duration-300">
               <img src="/logo.svg" alt="EQUORA" className="w-full h-full object-contain p-2" />
             </div>
-            <h1 className="font-display text-4xl tracking-[6px] text-[#F9F7F4] group-hover:text-equora-amber transition-colors duration-300">
+            <h1 className="font-display text-2xl sm:text-3xl md:text-4xl tracking-[6px] text-[#F9F7F4] group-hover:text-equora-amber transition-colors duration-300">
               EQUORA
             </h1>
           </a>
@@ -102,7 +103,7 @@ export default function LoginPage() {
         </div>
 
         {/* Card */}
-        <div className="bg-[#1E2A3A] rounded-2xl p-8 shadow-2xl">
+        <div className="bg-[#1E2A3A] rounded-2xl px-5 py-6 sm:p-8 shadow-2xl">
           {error && (
             <div className="mb-5 bg-red-900/30 border border-red-800 text-red-300 rounded-xl px-4 py-3 text-sm font-body" role="alert">
               {error}
@@ -170,7 +171,14 @@ export default function LoginPage() {
                 />
               </div>
               <Button type="submit" loading={loading} className="w-full">Enviar código</Button>
-              <button type="button" onClick={() => { setStep('login'); setError(''); }} className="w-full text-sm text-[#F9F7F4]/40 hover:text-equora-amber transition-colors cursor-pointer font-body">← Volver al login</button>
+              <div className="flex items-center gap-3">
+                <div className="flex-1 h-px bg-white/10" />
+                <button type="button" onClick={() => { setStep('login'); setError(''); }} className="flex items-center gap-1.5 font-body text-xs text-[#F9F7F4]/40 hover:text-equora-amber transition-colors cursor-pointer shrink-0 group">
+                  <IoArrowBackOutline size={12} className="transition-transform group-hover:-translate-x-0.5" />
+                  Volver al login
+                </button>
+                <div className="flex-1 h-px bg-white/10" />
+              </div>
             </form>
           )}
 
@@ -181,7 +189,14 @@ export default function LoginPage() {
               <p className="font-body text-sm text-[#F9F7F4]/40">Código válido por 15 minutos.</p>
               <CodeInput value={code} onChange={setCode} disabled={loading} />
               <Button type="submit" loading={loading} className="w-full">Verificar código</Button>
-              <button type="button" onClick={() => { setStep('forgot-email'); setCode(''); setError(''); }} className="w-full text-sm text-[#F9F7F4]/40 hover:text-equora-amber transition-colors cursor-pointer font-body">← Reenviar código</button>
+              <div className="flex items-center gap-3">
+                <div className="flex-1 h-px bg-white/10" />
+                <button type="button" onClick={() => { setStep('forgot-email'); setCode(''); setError(''); }} className="flex items-center gap-1.5 font-body text-xs text-[#F9F7F4]/40 hover:text-equora-amber transition-colors cursor-pointer shrink-0 group">
+                  <IoRefreshOutline size={12} className="transition-transform group-hover:rotate-180 duration-300" />
+                  Reenviar código
+                </button>
+                <div className="flex-1 h-px bg-white/10" />
+              </div>
             </form>
           )}
 

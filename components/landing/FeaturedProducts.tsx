@@ -32,7 +32,7 @@ function FeaturedProductCard({ product, index }: { product: IProduct; index: num
             </div>
           )}
           {category?.name && (
-            <span className="absolute top-4 left-4 bg-equora-amber text-white text-xs font-body font-semibold px-3 py-1 rounded-full uppercase tracking-wider">
+            <span className="absolute top-4 left-4 bg-equora-navy text-white text-xs font-body font-semibold px-3 py-1 rounded-full uppercase tracking-wider">
               {category.name}
             </span>
           )}
@@ -47,9 +47,24 @@ function FeaturedProductCard({ product, index }: { product: IProduct; index: num
 
         {/* Info */}
         <div className="p-5">
+          <div className="flex items-center justify-between mb-1.5">
+            <span className="font-body text-[10px] text-equora-amber tracking-widest uppercase">
+              {product.productCode}
+            </span>
+            {product.stockStatus === 'available' ? (
+              <span className="w-2 h-2 rounded-full bg-green-400 ring-2 ring-green-400/20" title="Disponible" />
+            ) : (
+              <span className="w-2 h-2 rounded-full bg-gray-500 ring-2 ring-gray-500/20" title="Agotado" />
+            )}
+          </div>
           <h3 className="font-display text-lg tracking-wider text-white mb-1 truncate">
             {product.name.toUpperCase()}
           </h3>
+          {product.description && (
+            <p className="font-body text-xs text-white/40 leading-relaxed mb-2 line-clamp-2">
+              {product.description}
+            </p>
+          )}
           <p className="font-editorial text-equora-amber text-xl mb-4">
             {formatPrice(product.price)}
           </p>
@@ -84,7 +99,7 @@ export default function FeaturedProducts() {
             <p className="font-editorial text-equora-amber italic text-lg mb-3">
               Productos destacados
             </p>
-            <h2 className="font-display text-5xl md:text-6xl text-white tracking-wider">
+            <h2 className="font-display text-3xl sm:text-4xl md:text-5xl lg:text-6xl text-white tracking-wider">
               CONOCE NUESTROS PRODUCTOS
             </h2>
           </div>

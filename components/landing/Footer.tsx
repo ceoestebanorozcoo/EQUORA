@@ -30,10 +30,10 @@ export default function Footer() {
             {/* Brand */}
             <div className="sm:col-span-2 lg:col-span-1">
               <Link href="/" className="group flex items-center gap-3 mb-2 w-fit cursor-pointer transition-transform duration-300 hover:scale-105">
-                <div className="w-14 h-14 rounded-full bg-equora-amber/10 border border-equora-amber/25 overflow-hidden flex items-center justify-center shrink-0 group-hover:border-equora-amber/50 transition-colors duration-300">
+                <div className="w-11 h-11 md:w-14 md:h-14 rounded-full bg-equora-amber/10 border border-equora-amber/25 overflow-hidden flex items-center justify-center shrink-0 group-hover:border-equora-amber/50 transition-colors duration-300">
                   <Image src="/logo.svg" alt="EQUORA" width={48} height={48} className="object-contain p-2" />
                 </div>
-                <h2 className="font-display text-4xl tracking-[6px] text-[#F9F7F4] group-hover:text-equora-amber transition-colors duration-300">EQUORA</h2>
+                <h2 className="font-display text-2xl md:text-4xl tracking-[6px] text-[#F9F7F4] group-hover:text-equora-amber transition-colors duration-300">EQUORA</h2>
               </Link>
               <p className="font-editorial italic text-[#F9F7F4]/50 text-sm mb-6 pl-1">
                 Lujo que no necesita explicación.

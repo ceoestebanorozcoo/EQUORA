@@ -12,7 +12,7 @@ export default function ProductCard({ product }: { product: IProduct }) {
   return (
     <Link
       href={`/producto/${product._id}`}
-      className="group block relative rounded-2xl border border-white/10 overflow-hidden transition-all duration-500 transform-gpu hover:-translate-y-2 hover:shadow-2xl hover:shadow-equora-amber/10 hover:border-equora-amber/30"
+      className="group block relative rounded-2xl border border-equora-dark/10 bg-[#EDE5D8] overflow-hidden transition-all duration-500 transform-gpu hover:-translate-y-2 hover:shadow-2xl hover:shadow-equora-amber/10 hover:border-equora-amber/30"
     >
       {/* Image */}
       <div className="relative aspect-3/4 overflow-hidden bg-equora-navy">
@@ -51,7 +51,7 @@ export default function ProductCard({ product }: { product: IProduct }) {
       </div>
 
       {/* Info */}
-      <div className="bg-white p-4 md:p-5">
+      <div className="p-4 md:p-5">
         <div className="flex items-center justify-between mb-2">
           <span className="font-body text-[10px] text-equora-amber tracking-widest uppercase">
             {product.productCode}

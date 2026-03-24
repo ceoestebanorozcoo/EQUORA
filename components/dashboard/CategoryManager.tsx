@@ -1,13 +1,14 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import Image from 'next/image';
 import api from '@/lib/axios';
 import { ICategory } from '@/types';
 import Button from '@/components/ui/Button';
 import Modal from '@/components/ui/Modal';
 import ImageUpload from './ImageUpload';
 import { Skeleton } from '@/components/ui/Skeleton';
-import { IoCreate, IoTrash, IoAdd } from 'react-icons/io5';
+import { IoCreateOutline, IoTrash, IoAdd, IoPricetag } from 'react-icons/io5';
 
 export default function CategoryManager() {
   const [categories, setCategories] = useState<ICategory[]>([]);
@@ -45,45 +46,96 @@ export default function CategoryManager() {
 
   return (
     <div>
-      <div className="flex justify-between items-center mb-6">
-        <h2 className="font-display text-2xl tracking-wider text-equora-dark">CATEGORÍAS</h2>
-        <Button onClick={() => setCreateOpen(true)} size="sm">
-          <IoAdd size={16} className="mr-1" aria-hidden="true" />
-          Nueva categoría
+      {/* Header */}
+      <div className="flex items-center justify-between gap-4 mb-6 pb-5 border-b border-gray-100">
+        <div>
+          <p className="font-body text-[10px] text-equora-amber tracking-widest uppercase mb-0.5">Gestión</p>
+          <h2 className="font-display text-xl sm:text-2xl tracking-wider text-equora-dark">CATEGORÍAS</h2>
+          {!loading && (
+            <p className="font-body text-xs text-gray-400 mt-0.5">
+              {categories.length} categoría{categories.length !== 1 ? 's' : ''} registrada{categories.length !== 1 ? 's' : ''}
+            </p>
+          )}
+        </div>
+        <Button onClick={() => setCreateOpen(true)} size="sm" className="shrink-0">
+          <IoAdd size={15} className="mr-1" aria-hidden="true" />
+          <span className="hidden sm:inline">Nueva categoría</span>
+          <span className="sm:hidden">Nueva</span>
         </Button>
       </div>
 
       {loading ? (
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-          {Array.from({ length: 6 }).map((_, i) => <Skeleton key={i} className="h-24 rounded-xl" />)}
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
+          {Array.from({ length: 6 }).map((_, i) => <Skeleton key={i} className="h-16 rounded-xl" />)}
         </div>
       ) : categories.length === 0 ? (
-        <div className="text-center py-16">
-          <p className="font-editorial italic text-xl text-[#6B7280]">No hay categorías aún</p>
+        <div className="flex flex-col items-center justify-center py-16 text-center">
+          <div className="w-12 h-12 rounded-full bg-gray-100 flex items-center justify-center mb-3">
+            <IoPricetag size={20} className="text-gray-300" />
+          </div>
+          <p className="font-body text-sm text-gray-400">No hay categorías aún</p>
+          <p className="font-body text-xs text-gray-300 mt-1">Crea la primera con el botón de arriba</p>
         </div>
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-          {categories.map((cat) => (
-            <div key={cat._id} className="bg-white rounded-2xl p-4 border border-gray-100 flex items-center justify-between gap-3 shadow-sm">
-              <div>
-                <p className="font-body font-medium text-equora-dark">{cat.name}</p>
-                <p className="font-body text-xs text-[#6B7280]">/{cat.slug}</p>
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
+          {categories.map((cat, i) => (
+            <div
+              key={cat._id}
+              className="group bg-white rounded-2xl border border-gray-100 overflow-hidden hover:border-equora-amber/25 hover:shadow-md transition-all duration-250"
+            >
+              {/* Image strip */}
+              <div className="relative h-28 bg-equora-ivory overflow-hidden">
+                {cat.image ? (
+                  <Image
+                    src={cat.image}
+                    alt={cat.name}
+                    fill
+                    className="object-cover transition-transform duration-500 group-hover:scale-105"
+                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                  />
+                ) : (
+                  <div className="w-full h-full flex items-center justify-center">
+                    <span className="font-display text-4xl text-equora-amber/15 tracking-widest">
+                      {cat.name.charAt(0)}
+                    </span>
+                  </div>
+                )}
+                {/* Gradient overlay */}
+                <div className="absolute inset-0 bg-linear-to-t from-black/20 to-transparent" />
+                {/* Index badge */}
+                <span className="absolute top-2.5 left-3 font-body text-[10px] text-white/60 font-mono">
+                  {String(i + 1).padStart(2, '0')}
+                </span>
+                {/* Actions — appear on hover */}
+                <div className="absolute top-2 right-2 flex gap-1">
+                  <button
+                    onClick={() => setEditItem(cat)}
+                    className="flex items-center justify-center w-7 h-7 bg-white/90 hover:bg-white text-gray-500 hover:text-equora-amber rounded-lg transition-colors cursor-pointer shadow-sm"
+                    aria-label={`Editar ${cat.name}`}
+                  >
+                    <IoCreateOutline size={14} aria-hidden="true" />
+                  </button>
+                  <button
+                    onClick={() => { setDeleteId(cat._id); setDeleteError(''); }}
+                    className="flex items-center justify-center w-7 h-7 bg-white/90 hover:bg-red-50 text-gray-500 hover:text-red-500 rounded-lg transition-colors cursor-pointer shadow-sm"
+                    aria-label={`Eliminar ${cat.name}`}
+                  >
+                    <IoTrash size={13} aria-hidden="true" />
+                  </button>
+                </div>
               </div>
-              <div className="flex gap-1 shrink-0">
-                <button
-                  onClick={() => setEditItem(cat)}
-                  className="p-2 text-[#6B7280] hover:text-equora-amber hover:bg-equora-ivory rounded-lg transition-colors cursor-pointer"
-                  aria-label={`Editar ${cat.name}`}
-                >
-                  <IoCreate size={16} aria-hidden="true" />
-                </button>
-                <button
-                  onClick={() => { setDeleteId(cat._id); setDeleteError(''); }}
-                  className="p-2 text-[#6B7280] hover:text-red-500 hover:bg-red-50 rounded-lg transition-colors cursor-pointer"
-                  aria-label={`Eliminar ${cat.name}`}
-                >
-                  <IoTrash size={16} aria-hidden="true" />
-                </button>
+
+              {/* Info */}
+              <div className="px-4 py-3">
+                <p className="font-display text-sm tracking-widest text-equora-dark truncate">{cat.name.toUpperCase()}</p>
+                <div className="flex items-center justify-between mt-1">
+                  <p className="font-body text-[11px] text-gray-400 font-mono">/{cat.slug}</p>
+                  {(cat.productCount ?? 0) > 0 && (
+                    <span className="font-body text-[10px] text-equora-amber/80 bg-equora-amber/8 px-2 py-0.5 rounded-full">
+                      {cat.productCount} prod.
+                    </span>
+                  )}
+                </div>
               </div>
             </div>
           ))}
