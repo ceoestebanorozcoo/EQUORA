@@ -25,10 +25,10 @@ export default function Footer() {
     <>
       <footer id="footer" className="bg-equora-dark border-t border-[#F9F7F4]/10">
         <div className="max-w-7xl mx-auto px-6 py-16">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-12">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12">
 
             {/* Brand */}
-            <div className="md:col-span-1">
+            <div className="sm:col-span-2 lg:col-span-1">
               <Link href="/" className="group flex items-center gap-3 mb-2 w-fit cursor-pointer transition-transform duration-300 hover:scale-105">
                 <div className="w-14 h-14 rounded-full bg-equora-amber/10 border border-equora-amber/25 overflow-hidden flex items-center justify-center shrink-0 group-hover:border-equora-amber/50 transition-colors duration-300">
                   <Image src="/logo.svg" alt="EQUORA" width={48} height={48} className="object-contain p-2" />

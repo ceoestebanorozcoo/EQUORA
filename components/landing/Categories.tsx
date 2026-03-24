@@ -19,15 +19,15 @@ export default function Categories() {
   if (!categories.length) return null;
 
   return (
-    <section id="categorias" className="py-24 md:py-32 bg-equora-ivory px-6">
+    <section id="categorias" className="py-24 md:py-32 bg-white px-6">
       <div className="max-w-7xl mx-auto">
         <ScrollReveal direction="up">
           <div className="text-center mb-16">
             <p className="font-editorial text-equora-amber italic text-lg mb-3">
-              Explora por categoría
+              Categorías
             </p>
             <h2 className="font-display text-4xl md:text-5xl text-equora-dark tracking-wider">
-              CATEGORÍAS
+              LO QUE NECESITAS ESTÁ AQUÍ
             </h2>
           </div>
         </ScrollReveal>
@@ -76,7 +76,7 @@ export default function Categories() {
               href="/categorias"
               className="inline-flex items-center gap-3 px-10 py-4 bg-equora-amber hover:bg-[#8a5224] text-white rounded-full font-body font-medium text-sm tracking-widest uppercase transition-colors duration-300"
             >
-              Ver todas las categorías
+              Ver más categorías
             </Link>
           </div>
         </ScrollReveal>

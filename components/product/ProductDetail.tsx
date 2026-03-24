@@ -117,7 +117,7 @@ export default function ProductDetail() {
           <div className="relative max-w-5xl mx-auto px-6 pt-36 pb-20 space-y-4">
             <Skeleton className="h-5 w-28 bg-white/10" />
             <Skeleton className="h-5 w-32 bg-white/10" />
-            <Skeleton className="h-14 w-96 bg-white/10" />
+            <Skeleton className="h-14 w-full max-w-sm bg-white/10" />
           </div>
         </div>
         <div className="min-h-screen bg-equora-ivory">
@@ -201,7 +201,7 @@ export default function ProductDetail() {
       {/* Content */}
       <div className="bg-equora-ivory">
         <main className="max-w-5xl mx-auto px-6 py-16">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-start">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-start">
             {/* Carousel */}
             <ImageCarousel images={images} name={product.name} />
 

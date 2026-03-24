@@ -49,7 +49,7 @@ export default function Hero() {
           </p>
 
           <h1
-            className="font-display text-6xl md:text-8xl leading-none text-[#F9F7F4] mb-6 opacity-0 animate-fade-in-up animation-delay-200"
+            className="font-display text-5xl sm:text-6xl md:text-8xl leading-none text-[#F9F7F4] mb-6 opacity-0 animate-fade-in-up animation-delay-200"
             style={{ animationFillMode: 'forwards' }}
           >
             ACCESORIOS

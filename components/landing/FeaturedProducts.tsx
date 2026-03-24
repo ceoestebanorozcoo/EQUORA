@@ -82,10 +82,10 @@ export default function FeaturedProducts() {
         <ScrollReveal direction="up">
           <div className="text-center mb-16">
             <p className="font-editorial text-equora-amber italic text-lg mb-3">
-              Colección destacada
+              Productos destacados
             </p>
             <h2 className="font-display text-5xl md:text-6xl text-white tracking-wider">
-              PRODUCTOS DESTACADOS
+              CONOCE NUESTROS PRODUCTOS
             </h2>
           </div>
         </ScrollReveal>
@@ -121,7 +121,7 @@ export default function FeaturedProducts() {
               href="/productos"
               className="inline-flex items-center gap-3 px-10 py-4 bg-equora-amber hover:bg-[#8a5224] text-white rounded-full font-body font-medium text-sm tracking-widest uppercase transition-colors duration-300"
             >
-              Explorar colección completa
+              Ver más productos
             </Link>
           </div>
         </ScrollReveal>

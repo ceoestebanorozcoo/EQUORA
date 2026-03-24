@@ -11,12 +11,12 @@ export default function CTASection() {
     <section className="py-24 md:py-32 bg-equora-ivory px-6" aria-label="Llamada a la acción">
       <div className="max-w-5xl mx-auto">
         <ScrollReveal direction="up">
-          <div className="relative rounded-3xl overflow-hidden bg-equora-navy p-12 md:p-20 text-center">
+          <div className="relative rounded-3xl overflow-hidden bg-equora-navy p-7 sm:p-12 md:p-16 lg:p-20 text-center">
             <div className="relative z-10">
               <p className="font-editorial text-equora-amber italic text-lg mb-4">
                 ¿Listo para elevar tu experiencia?
               </p>
-              <h2 className="font-display text-4xl md:text-6xl text-white tracking-wider mb-6">
+              <h2 className="font-display text-3xl sm:text-4xl md:text-5xl lg:text-6xl text-white tracking-wider mb-6">
                 COMIENZA TU HISTORIA<br />CON EQUORA
               </h2>
               <p className="font-body text-[#F9F7F4]/60 max-w-xl mx-auto mb-10">

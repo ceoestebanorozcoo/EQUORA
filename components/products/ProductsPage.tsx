@@ -81,10 +81,10 @@ export default function ProductsPage() {
       {/* Sticky filter bar */}
       <div className="bg-equora-ivory border-b border-equora-dark/10">
         <div className="max-w-7xl mx-auto px-6 py-4">
-          <div className="flex items-center gap-3">
+          <div className="flex flex-wrap items-center gap-2 sm:gap-3">
 
             {/* Search */}
-            <div className="relative flex-1 max-w-xs">
+            <div className="relative flex-1 min-w-35 sm:max-w-xs">
               <Search size={15} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-equora-dark/50" aria-hidden="true" />
               <input
                 type="text"
