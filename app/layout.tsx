@@ -5,14 +5,14 @@ import "./globals.css";
 export const metadata: Metadata = {
   title: "EQUORA | Productos Equinos",
   description:
-    "Accesorios ecuestres de lujo moderno. Diseñados para rendimiento, elegancia y estilo. Distinción. Carácter. Nobleza.",
-  keywords: "accesorios equinos, caballos, lujo, equitación, Colombia, pesebrera, riendas",
+    "Productos equinos y ecuestres. Diseñados para rendimiento, durabilidad y estetica. Distinción. Carácter. Nobleza.",
+  keywords: "productos y accesorios equinos, ecuestres, equitación, Colombia, pesebrera, riendas",
   icons: {
     icon: "/logo.2.svg",
   },
   openGraph: {
-    title: "EQUORA — Lujo que no necesita explicación.",
-    description: "Accesorios ecuestres de lujo moderno para quienes montan con criterio.",
+    title: "EQUORA | Productos Equinos",
+    description: "Productos equinos y ecuestres",
     type: "website",
   },
 };
