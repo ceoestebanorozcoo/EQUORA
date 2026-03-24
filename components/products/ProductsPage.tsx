@@ -117,7 +117,7 @@ export default function ProductsPage() {
 
               {/* Dropdown panel */}
               {catOpen && (
-                <div className="absolute left-0 top-full mt-2 w-72 bg-white rounded-2xl shadow-xl border border-equora-dark/10 overflow-hidden z-50">
+                <div className="absolute right-0 sm:right-auto sm:left-0 top-full mt-2 w-72 bg-white rounded-2xl shadow-xl border border-equora-dark/10 overflow-hidden z-50">
                   <div className="p-4 border-b border-equora-dark/8">
                     <p className="font-display text-xs tracking-widest text-equora-dark/40 uppercase">
                       Filtrar por categoría
