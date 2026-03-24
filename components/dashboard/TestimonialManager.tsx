@@ -4,7 +4,7 @@ import { useState, useEffect, useCallback } from 'react';
 import api from '@/lib/axios';
 import Button from '@/components/ui/Button';
 import Modal from '@/components/ui/Modal';
-import { IoPencilOutline, IoTrashOutline, IoAdd, IoCheckmark, IoClose } from 'react-icons/io5';
+import { IoCreateOutline, IoTrashOutline, IoAdd, IoChatbubbleEllipses } from 'react-icons/io5';
 import { Star } from 'lucide-react';
 
 interface ITestimonial {
@@ -84,78 +84,86 @@ export default function TestimonialManager() {
 
   return (
     <div>
-      <div className="flex items-center justify-between mb-6">
+      {/* Header */}
+      <div className="flex items-center justify-between gap-4 mb-6 pb-5 border-b border-gray-100">
         <div>
-          <h2 className="font-display text-2xl tracking-wider text-equora-dark">TESTIMONIOS</h2>
-          <p className="font-body text-sm text-[#6B7280] mt-1">
-            {testimonials.length} testimonio{testimonials.length !== 1 ? 's' : ''}
-          </p>
+          <p className="font-body text-[10px] text-equora-amber tracking-widest uppercase mb-0.5">Gestión</p>
+          <h2 className="font-display text-xl sm:text-2xl tracking-wider text-equora-dark">TESTIMONIOS</h2>
+          {!loading && (
+            <p className="font-body text-xs text-gray-400 mt-0.5">
+              {testimonials.length} testimonio{testimonials.length !== 1 ? 's' : ''}
+            </p>
+          )}
         </div>
-        <Button onClick={openNew} size="sm">
-          <IoAdd size={16} className="mr-1" aria-hidden="true" />
-          Nuevo testimonio
+        <Button onClick={openNew} size="sm" className="shrink-0">
+          <IoAdd size={15} className="mr-1" aria-hidden="true" />
+          <span className="hidden sm:inline">Nuevo testimonio</span>
+          <span className="sm:hidden">Nuevo</span>
         </Button>
       </div>
 
       {loading ? (
-        <div className="space-y-3">
-          {Array.from({ length: 3 }).map((_, i) => (
-            <div key={i} className="h-20 bg-gray-100 rounded-xl animate-pulse" />
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          {Array.from({ length: 4 }).map((_, i) => (
+            <div key={i} className="h-36 bg-gray-100 rounded-2xl animate-pulse" />
           ))}
         </div>
       ) : testimonials.length === 0 ? (
-        <div className="text-center py-16">
-          <p className="font-editorial italic text-xl text-[#6B7280]">No hay testimonios aún</p>
+        <div className="flex flex-col items-center justify-center py-16 text-center">
+          <div className="w-12 h-12 rounded-full bg-gray-100 flex items-center justify-center mb-3">
+            <IoChatbubbleEllipses size={20} className="text-gray-300" />
+          </div>
+          <p className="font-body text-sm text-gray-400">No hay testimonios aún</p>
+          <p className="font-body text-xs text-gray-300 mt-1">Crea el primero con el botón de arriba</p>
         </div>
       ) : (
-        <div className="space-y-3">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
           {testimonials.map((t) => (
             <div
               key={t._id}
-              className={`bg-white rounded-2xl border p-5 flex gap-4 items-start transition-opacity ${
-                t.active ? 'border-gray-100' : 'border-gray-100 opacity-50'
+              className={`group bg-white rounded-2xl border overflow-hidden transition-all duration-200 hover:shadow-md ${
+                t.active ? 'border-gray-100' : 'border-gray-100 opacity-60'
               }`}
             >
-              <div className="flex-1 min-w-0">
-                <div className="flex items-center gap-3 mb-1">
+              {/* Top: name + stars */}
+              <div className="px-5 pt-4 pb-3">
+                <div className="flex items-center gap-2 flex-wrap">
                   <p className="font-body font-semibold text-equora-dark text-sm">{t.name}</p>
-                  <span className="font-body text-xs text-[#6B7280]">{t.role}</span>
-                  <div className="flex gap-0.5">
-                    {Array.from({ length: t.rating }).map((_, i) => (
-                      <Star key={i} className="w-3 h-3 fill-equora-amber text-equora-amber" aria-hidden="true" />
-                    ))}
-                  </div>
+                  <span className="font-body text-[11px] text-gray-400 bg-gray-50 px-2 py-0.5 rounded-full">{t.role}</span>
                 </div>
-                <p className="font-body text-sm text-[#6B7280] leading-relaxed line-clamp-2">{t.text}</p>
+                <div className="flex gap-0.5 mt-1.5">
+                  {Array.from({ length: 5 }).map((_, i) => (
+                    <Star
+                      key={i}
+                      className={`w-3 h-3 ${i < t.rating ? 'fill-equora-amber text-equora-amber' : 'text-gray-200'}`}
+                      aria-hidden="true"
+                    />
+                  ))}
+                </div>
               </div>
-              <div className="flex items-center gap-1 shrink-0">
-                <button
-                  onClick={() => toggleActive(t)}
-                  className={`flex items-center gap-1 px-3 py-1.5 rounded-lg font-body text-xs font-medium transition-colors cursor-pointer ${
-                    t.active
-                      ? 'text-green-600 hover:bg-green-50'
-                      : 'text-[#6B7280] hover:bg-gray-50'
-                  }`}
-                  aria-label={t.active ? 'Desactivar' : 'Activar'}
-                >
-                  {t.active ? <IoCheckmark size={14} /> : <IoClose size={14} />}
-                  {t.active ? 'Activo' : 'Inactivo'}
-                </button>
+
+              {/* Quote */}
+              <div className="px-5 pb-4">
+                <p className="font-editorial italic text-sm text-gray-500 leading-relaxed line-clamp-2">
+                  &ldquo;{t.text}&rdquo;
+                </p>
+              </div>
+
+              {/* Footer actions */}
+              <div className="flex items-center justify-end gap-1.5 px-4 py-2.5 border-t border-gray-50 bg-gray-50/50">
                 <button
                   onClick={() => openEdit(t)}
-                  className="flex items-center gap-1.5 px-3 py-1.5 text-[#6B7280] hover:text-equora-amber hover:bg-equora-amber/8 rounded-lg transition-colors cursor-pointer font-body text-xs font-medium"
+                  className="flex items-center justify-center w-7 h-7 bg-white border border-gray-200 hover:bg-equora-amber/10 hover:border-equora-amber/30 text-gray-400 hover:text-equora-amber rounded-lg transition-colors cursor-pointer shadow-sm"
                   aria-label={`Editar testimonio de ${t.name}`}
                 >
-                  <IoPencilOutline size={14} aria-hidden="true" />
-                  Editar
+                  <IoCreateOutline size={14} aria-hidden="true" />
                 </button>
                 <button
                   onClick={() => setDeleteId(t._id)}
-                  className="flex items-center gap-1.5 px-3 py-1.5 text-[#6B7280] hover:text-red-500 hover:bg-red-50 rounded-lg transition-colors cursor-pointer font-body text-xs font-medium"
+                  className="flex items-center justify-center w-7 h-7 bg-white border border-gray-200 hover:bg-red-50 hover:border-red-200 text-gray-400 hover:text-red-500 rounded-lg transition-colors cursor-pointer shadow-sm"
                   aria-label={`Eliminar testimonio de ${t.name}`}
                 >
-                  <IoTrashOutline size={14} aria-hidden="true" />
-                  Eliminar
+                  <IoTrashOutline size={13} aria-hidden="true" />
                 </button>
               </div>
             </div>

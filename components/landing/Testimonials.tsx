@@ -59,7 +59,7 @@ export default function Testimonials() {
             <p className="font-editorial text-equora-amber italic text-lg mb-3">
               Lo que dicen nuestros clientes
             </p>
-            <h2 className="font-display text-4xl md:text-5xl text-white tracking-wider">
+            <h2 className="font-display text-3xl sm:text-4xl md:text-5xl text-white tracking-wider">
               TESTIMONIOS
             </h2>
           </div>

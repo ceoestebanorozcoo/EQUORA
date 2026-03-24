@@ -21,7 +21,7 @@ export default function CategoriesPage() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-equora-ivory">
+    <div className="min-h-screen bg-white">
       {/* Hero header */}
       <div className="relative overflow-hidden bg-equora-dark">
         <div className="absolute inset-0 bg-linear-to-b from-equora-dark/80 to-equora-navy/90" />
@@ -37,14 +37,11 @@ export default function CategoriesPage() {
           </button>
 
           <p className="font-editorial text-equora-amber italic text-lg md:text-xl mb-3">
-            Explora
+            Búsqueda por secciones
           </p>
-          <h1 className="font-display text-5xl md:text-7xl text-[#F9F7F4] tracking-wider">
+          <h1 className="font-display text-3xl sm:text-4xl md:text-5xl lg:text-7xl text-[#F9F7F4] tracking-wider">
             TODAS LAS CATEGORÍAS
           </h1>
-          <p className="font-body text-[#F9F7F4]/50 text-base md:text-lg mt-4 max-w-xl">
-            Encuentra exactamente lo que buscas para ti y tu caballo.
-          </p>
         </div>
       </div>
 
@@ -84,14 +81,14 @@ export default function CategoriesPage() {
                 )}
                 <div className="absolute inset-0 bg-linear-to-t from-equora-dark/80 via-equora-dark/20 to-transparent" />
                 <div className="absolute bottom-0 left-0 p-8">
-                  <h2 className="font-display text-3xl text-[#F9F7F4] tracking-wider mb-1 group-hover:text-equora-amber transition-colors duration-300">
+                  <h2 className="font-display text-3xl text-[#F9F7F4] tracking-wider mb-1 group-hover:text-gray-300 group-hover:scale-105 inline-block origin-left transition-all duration-300">
                     {cat.name.toUpperCase()}
                   </h2>
                   <p className="font-body text-[#F9F7F4]/60 text-sm">
                     {cat.productCount ?? 0} {cat.productCount === 1 ? 'producto' : 'productos'}
                   </p>
                 </div>
-                <div className="absolute top-4 right-4 w-10 h-10 rounded-full bg-equora-amber/0 group-hover:bg-equora-amber flex items-center justify-center transition-all duration-300">
+                <div className="absolute top-4 right-4 w-10 h-10 rounded-full bg-equora-navy/0 group-hover:bg-equora-navy flex items-center justify-center transition-all duration-300">
                   <ArrowRight size={16} className="text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300" aria-hidden="true" />
                 </div>
               </button>

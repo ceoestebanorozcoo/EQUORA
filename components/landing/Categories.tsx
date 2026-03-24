@@ -53,14 +53,14 @@ export default function Categories() {
                 )}
                 <div className="absolute inset-0 bg-linear-to-t from-equora-dark/80 via-equora-dark/20 to-transparent" />
                 <div className="absolute bottom-0 left-0 p-8">
-                  <h3 className="font-display text-3xl text-equora-ivory tracking-wider mb-1">
+                  <h3 className="font-display text-3xl text-equora-ivory tracking-wider mb-1 group-hover:text-gray-300 group-hover:scale-105 inline-block origin-left transition-all duration-300">
                     {cat.name.toUpperCase()}
                   </h3>
                   <p className="font-body text-equora-ivory/60 text-sm">
                     {cat.productCount ?? 0} {cat.productCount === 1 ? 'producto' : 'productos'}
                   </p>
                 </div>
-                <div className="absolute top-4 right-4 w-10 h-10 rounded-full bg-equora-amber/0 group-hover:bg-equora-amber flex items-center justify-center transition-all duration-300">
+                <div className="absolute top-4 right-4 w-10 h-10 rounded-full bg-equora-navy/0 group-hover:bg-equora-navy flex items-center justify-center transition-all duration-300">
                   <span className="text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300 text-lg font-bold">
                     →
                   </span>

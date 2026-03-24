@@ -15,7 +15,7 @@ const navLinks = [
 
 function EquoraLogo() {
   return (
-    <div className="relative h-10 w-10 rounded-full bg-equora-amber/10 border border-equora-amber/25 overflow-hidden transition-all duration-500 group-hover:scale-105 group-hover:border-equora-amber/50 shrink-0">
+    <div className="relative h-12 w-12 rounded-full bg-equora-amber/10 border border-equora-amber/25 overflow-hidden transition-all duration-500 group-hover:scale-105 group-hover:border-equora-amber/50 shrink-0">
       <Image
         src="/logo.svg"
         alt="EQUORA"
@@ -68,98 +68,129 @@ export default function Navbar() {
   };
 
   return (
-    <nav
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 border-b border-white/10 ${
-        visible ? 'translate-y-0' : '-translate-y-full'
-      } ${
-        transparent
-          ? 'bg-transparent py-5'
-          : 'navbar-blur bg-equora-dark/90 shadow-lg py-3'
-      }`}
-      role="navigation"
-      aria-label="Navegación principal"
-    >
-      <div className="max-w-screen-2xl mx-auto w-full px-8 flex items-center justify-between">
+    <>
+      <nav
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 border-b border-white/10 ${
+          visible ? 'translate-y-0' : '-translate-y-full'
+        } ${
+          transparent && !menuOpen
+            ? 'bg-transparent py-7'
+            : 'navbar-blur bg-equora-dark/90 shadow-lg py-5'
+        }`}
+        role="navigation"
+        aria-label="Navegación principal"
+      >
+        <div className="max-w-screen-2xl mx-auto w-full px-4 sm:px-8 md:px-12 flex items-center justify-between">
 
-        {/* Logo */}
-        <a
-          href="/"
-          className="flex items-center gap-2.5 group transition-transform duration-300 hover:scale-105"
-          aria-label="EQUORA — Inicio"
-        >
-          <EquoraLogo />
-          <span className="font-display text-xl tracking-[5px] text-white group-hover:text-equora-amber transition-colors duration-200">
-            EQUORA
-          </span>
-        </a>
-
-        {/* Links + CTA + burger agrupados a la derecha */}
-        <div className="flex items-center gap-6">
-          {/* Desktop links */}
-          <ul className="hidden md:flex items-center gap-8" role="list">
-            {navLinks.map((link) => (
-              <li key={link.href}>
-                <a
-                  href={link.href}
-                  onClick={(e) => handleAnchorClick(e, link.href)}
-                  className="font-body text-sm text-white/80 hover:text-white transition-colors duration-200 relative group py-1"
-                >
-                  {link.label}
-                  <span className="absolute bottom-0 left-0 w-0 h-px bg-equora-amber group-hover:w-full transition-all duration-300" />
-                </a>
-              </li>
-            ))}
-          </ul>
-
-          {/* CTA desktop */}
+          {/* Logo */}
           <a
-            href="/productos"
-            className="hidden md:flex items-center gap-2 bg-equora-amber hover:bg-[#8a5224] text-white font-body text-sm font-medium px-5 py-2.5 rounded-full transition-colors duration-200"
+            href="/"
+            className="flex items-center gap-2.5 group transition-transform duration-300 hover:scale-105"
+            aria-label="EQUORA — Inicio"
           >
-            <IoBagHandleOutline size={17} />
-            Comprar
+            <EquoraLogo />
+            <span className="font-display text-2xl tracking-[5px] text-white group-hover:text-equora-amber transition-colors duration-200">
+              EQUORA
+            </span>
           </a>
 
-          {/* Mobile burger */}
+          {/* Links + CTA + burger */}
+          <div className="flex items-center gap-6">
+            {/* Desktop links */}
+            <ul className="hidden md:flex items-center gap-10" role="list">
+              {navLinks.map((link) => (
+                <li key={link.href}>
+                  <a
+                    href={link.href}
+                    onClick={(e) => handleAnchorClick(e, link.href)}
+                    className="font-body text-base text-white/80 hover:text-white transition-colors duration-200 relative group py-1"
+                  >
+                    {link.label}
+                    <span className="absolute bottom-0 left-0 w-0 h-px bg-equora-amber group-hover:w-full transition-all duration-300" />
+                  </a>
+                </li>
+              ))}
+            </ul>
+
+            {/* CTA desktop */}
+            <a
+              href="/productos"
+              className="hidden md:flex items-center gap-2 bg-equora-amber hover:bg-[#8a5224] text-white font-body text-base font-medium px-6 py-3 rounded-full transition-colors duration-200"
+            >
+              <IoBagHandleOutline size={17} />
+              Comprar
+            </a>
+
+            {/* Mobile burger */}
+            <button
+              className="md:hidden text-white cursor-pointer p-1 z-60 relative"
+              onClick={() => setMenuOpen(!menuOpen)}
+              aria-label={menuOpen ? 'Cerrar menú' : 'Abrir menú'}
+              aria-expanded={menuOpen}
+            >
+              {menuOpen ? <IoClose size={26} /> : <IoMenu size={26} />}
+            </button>
+          </div>
+        </div>
+      </nav>
+
+      {/* Mobile full-screen overlay menu */}
+      <div
+        className={`fixed inset-0 z-55 bg-equora-dark flex flex-col md:hidden transition-all duration-300 ${
+          menuOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
+        }`}
+        aria-hidden={!menuOpen}
+      >
+        {/* Top bar inside overlay */}
+        <div className="flex items-center justify-between px-5 py-5 border-b border-white/10">
+          <a href="/" className="flex items-center gap-2.5 group" onClick={() => setMenuOpen(false)}>
+            <EquoraLogo />
+            <span className="font-display text-2xl tracking-[5px] text-white">EQUORA</span>
+          </a>
           <button
-            className="md:hidden text-white cursor-pointer p-1"
-            onClick={() => setMenuOpen(!menuOpen)}
-            aria-label={menuOpen ? 'Cerrar menú' : 'Abrir menú'}
-            aria-expanded={menuOpen}
+            onClick={() => setMenuOpen(false)}
+            className="text-white/60 hover:text-white transition-colors duration-200 cursor-pointer p-1"
+            aria-label="Cerrar menú"
           >
-            {menuOpen ? <IoClose size={24} /> : <IoMenu size={24} />}
+            <IoClose size={28} />
           </button>
         </div>
-      </div>
 
-      {/* Mobile menu */}
-      {menuOpen && (
-        <div className="md:hidden bg-equora-dark/95 navbar-blur border-t border-white/10">
-          <ul className="flex flex-col py-4 px-6 gap-4" role="list">
-            {navLinks.map((link) => (
-              <li key={link.href}>
-                <a
-                  href={link.href}
-                  className="font-body text-white/80 hover:text-equora-amber transition-colors block py-2"
-                  onClick={(e) => { handleAnchorClick(e, link.href); setMenuOpen(false); }}
-                >
-                  {link.label}
-                </a>
-              </li>
-            ))}
-            <li>
+        {/* Links */}
+        <ul className="flex flex-col px-6 pt-6 gap-1 flex-1" role="list">
+          {navLinks.map((link, i) => (
+            <li key={link.href}>
               <a
-                href="/productos"
-                className="flex items-center gap-2 bg-equora-amber text-white font-body text-sm font-medium px-5 py-2.5 rounded-full w-fit mt-2"
-                onClick={() => setMenuOpen(false)}
+                href={link.href}
+                className={`block font-body text-2xl text-white/70 hover:text-equora-amber transition-all duration-200 py-4 border-b border-white/8 ${
+                  menuOpen ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-4'
+                }`}
+                style={{ transitionDelay: menuOpen ? `${i * 50}ms` : '0ms' }}
+                onClick={(e) => { handleAnchorClick(e, link.href); setMenuOpen(false); }}
               >
-                <IoBagHandleOutline size={17} />
-                Comprar
+                {link.label}
               </a>
             </li>
-          </ul>
+          ))}
+          <li className="pt-8">
+            <a
+              href="/productos"
+              className="inline-flex items-center gap-2.5 bg-equora-amber text-white font-body font-medium px-7 py-3.5 rounded-full text-base"
+              onClick={() => setMenuOpen(false)}
+            >
+              <IoBagHandleOutline size={19} />
+              Comprar
+            </a>
+          </li>
+        </ul>
+
+        {/* Bottom brand */}
+        <div className="px-6 pb-10">
+          <p className="font-editorial italic text-white/20 text-sm">
+            Equipamiento equino de alta calidad.
+          </p>
         </div>
-      )}
-    </nav>
+      </div>
+    </>
   );
 }

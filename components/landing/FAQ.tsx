@@ -43,68 +43,89 @@ function FAQItem({ item, index }: { item: typeof faqItems[0]; index: number }) {
   const [open, setOpen] = useState(false);
 
   return (
-    <div
-      className={`border rounded-xl px-6 transition-colors duration-300 ${
-        open ? 'border-equora-amber/30' : 'border-equora-dark/10'
-      }`}
-    >
-      <button
-        onClick={() => setOpen(!open)}
-        className="w-full flex items-center justify-between py-5 text-left cursor-pointer group"
-        aria-expanded={open}
-        aria-controls={`faq-answer-${index}`}
-        id={`faq-question-${index}`}
-      >
-        <span className="font-body font-medium text-equora-dark group-hover:text-equora-amber transition-colors duration-300 pr-8">
-          {item.question}
-        </span>
-        <ChevronDown
-          className={`w-5 h-5 text-equora-dark/40 shrink-0 transition-transform duration-300 ${
-            open ? 'rotate-180 text-equora-amber' : ''
-          }`}
-          aria-hidden="true"
-        />
-      </button>
-      <div
-        id={`faq-answer-${index}`}
-        role="region"
-        aria-labelledby={`faq-question-${index}`}
-        style={{
-          maxHeight: open ? '400px' : '0',
-          overflow: 'hidden',
-          transition: 'max-height 0.4s ease',
-        }}
-      >
-        <p className="pb-5 font-body text-sm text-equora-dark/50 leading-relaxed">
-          {item.answer}
-        </p>
+    <ScrollReveal direction="up" delay={index * 60}>
+      <div className={`
+        rounded-xl border px-4 md:px-6 cursor-pointer
+        transition-all duration-300
+        ${open
+          ? 'border-equora-amber/30 bg-white/5'
+          : 'border-white/8 bg-white/3 hover:border-white/15 hover:bg-white/5'
+        }
+      `}>
+        <button
+          onClick={() => setOpen(!open)}
+          className="w-full flex items-center justify-between py-5 text-left group"
+          aria-expanded={open}
+          aria-controls={`faq-answer-${index}`}
+          id={`faq-question-${index}`}
+        >
+          <span className={`font-body font-medium pr-8 transition-colors duration-300 ${open ? 'text-equora-amber' : 'text-[#F9F7F4]/80 group-hover:text-white'}`}>
+            {item.question}
+          </span>
+          <span className={`
+            w-7 h-7 shrink-0 rounded-full flex items-center justify-center
+            transition-all duration-300
+            ${open ? 'bg-equora-amber rotate-180' : 'bg-white/8 group-hover:bg-white/15'}
+          `}>
+            <ChevronDown className={`w-4 h-4 transition-colors duration-300 ${open ? 'text-white' : 'text-[#F9F7F4]/50'}`} aria-hidden="true" />
+          </span>
+        </button>
+
+        <div
+          id={`faq-answer-${index}`}
+          role="region"
+          aria-labelledby={`faq-question-${index}`}
+          style={{
+            maxHeight: open ? '400px' : '0',
+            overflow: 'hidden',
+            transition: 'max-height 0.4s cubic-bezier(0.4,0,0.2,1)',
+          }}
+        >
+          <div className="pb-5 flex gap-3">
+            <div className="w-px bg-equora-amber/30 shrink-0 mt-0.5" />
+            <p className="font-body text-sm text-[#F9F7F4]/55 leading-relaxed">
+              {item.answer}
+            </p>
+          </div>
+        </div>
       </div>
-    </div>
+    </ScrollReveal>
   );
 }
 
 export default function FAQ() {
   return (
-    <section id="faq" className="bg-equora-ivory py-24 md:py-32 px-6">
-      <div className="max-w-3xl mx-auto">
+    <section id="faq" className="bg-equora-navy py-24 md:py-32 px-6 relative overflow-hidden">
+      {/* Ambient glow */}
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-125 h-64 bg-equora-amber/4 rounded-full blur-3xl pointer-events-none" />
+
+      <div className="max-w-5xl mx-auto relative">
+
         <ScrollReveal direction="up">
-          <div className="text-center mb-16">
+          <div className="text-center mb-14">
             <p className="font-editorial text-equora-amber italic text-lg mb-3">
               Preguntas frecuentes
             </p>
-            <h2 className="font-display text-4xl md:text-5xl text-equora-dark tracking-wider">
+            <h2 className="font-display text-4xl md:text-5xl text-white tracking-wider">
               ¿TIENES DUDAS?
             </h2>
+            <div className="w-12 h-px bg-equora-amber/50 mx-auto mt-5" />
           </div>
         </ScrollReveal>
 
-        <ScrollReveal direction="up" delay={200}>
-          <div className="space-y-3">
-            {faqItems.map((item, i) => (
-              <FAQItem key={i} item={item} index={i} />
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-2 items-start">
+          <div className="space-y-2">
+            {faqItems.filter((_, i) => i % 2 === 0).map((item, i) => (
+              <FAQItem key={i * 2} item={item} index={i * 2} />
             ))}
           </div>
-        </ScrollReveal>
+          <div className="space-y-2">
+            {faqItems.filter((_, i) => i % 2 !== 0).map((item, i) => (
+              <FAQItem key={i * 2 + 1} item={item} index={i * 2 + 1} />
+            ))}
+          </div>
+        </div>
+
       </div>
     </section>
   );

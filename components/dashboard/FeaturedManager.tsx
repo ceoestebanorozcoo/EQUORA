@@ -82,60 +82,95 @@ function SelectionPanel<T extends { _id: string }>({
 
   return (
     <div>
-      {/* Header */}
-      <div className="flex items-center justify-between mb-6">
-        <div className="flex items-center gap-3">
+
+      {/* ── Top bar ── */}
+      <div className="flex items-center justify-between gap-3 mb-5">
+        {/* Back button + title */}
+        <div className="flex items-center gap-3 min-w-0">
           <button
             onClick={onBack}
-            className="flex items-center gap-1.5 text-gray-400 hover:text-equora-dark transition-colors font-body text-sm cursor-pointer"
+            className="flex items-center justify-center w-9 h-9 rounded-xl bg-white border border-gray-200 text-gray-500 hover:border-equora-amber hover:text-equora-amber transition-all duration-200 cursor-pointer shrink-0 shadow-sm"
+            aria-label="Volver"
           >
-            <IoArrowBack size={16} /> Volver
+            <IoArrowBack size={16} />
           </button>
-          <div className="w-px h-5 bg-gray-200" />
-          <div>
-            <h2 className="font-display text-2xl tracking-wider text-equora-dark">{label.toUpperCase()}</h2>
-            <p className="font-body text-sm text-gray-500 mt-0.5">
-              Selecciona hasta {max} para mostrar en la página de inicio
-            </p>
+          <div className="min-w-0">
+            <p className="font-body text-[10px] text-gray-400 tracking-widest uppercase leading-none mb-0.5">Destacados</p>
+            <p className="font-display text-sm sm:text-base md:text-lg tracking-wide sm:tracking-wider text-equora-dark leading-tight">{label.toUpperCase()}</p>
           </div>
         </div>
+
+        {/* Save button */}
         <button
           onClick={onSave}
           disabled={saving}
-          className={`flex items-center gap-2 px-5 py-2.5 rounded-full font-body text-sm font-medium transition-all cursor-pointer ${
-            saved ? 'bg-green-500 text-white' : 'bg-equora-amber text-white hover:bg-[#8a5224]'
+          className={`flex items-center gap-2 px-4 sm:px-5 py-2.5 rounded-xl font-body text-xs sm:text-sm font-medium transition-all duration-200 cursor-pointer shrink-0 ${
+            saved
+              ? 'bg-green-50 text-green-600 border border-green-200'
+              : 'bg-equora-amber text-white hover:bg-[#8a5224] shadow-sm hover:shadow-md'
           }`}
         >
-          {saved ? <IoCheckmarkCircle size={16} /> : <IoSave size={16} />}
-          {saved ? '¡Guardado!' : saving ? 'Guardando...' : 'Guardar cambios'}
+          {saved ? <IoCheckmarkCircle size={15} /> : <IoSave size={15} />}
+          <span className="hidden sm:inline">{saved ? '¡Guardado!' : saving ? 'Guardando...' : 'Guardar cambios'}</span>
+          <span className="sm:hidden">{saved ? 'Listo' : saving ? '...' : 'Guardar'}</span>
         </button>
       </div>
 
-      {/* Search */}
-      <div className="relative mb-6">
-        <IoSearch size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400" />
-        <input
-          type="text"
-          placeholder="Buscar por nombre..."
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-          className="w-full pl-9 pr-4 py-2.5 rounded-xl border border-gray-200 font-body text-sm text-equora-dark placeholder:text-gray-400 focus:outline-none focus:border-equora-amber transition-colors"
-        />
+      {/* ── Stats + Search bar ── */}
+      <div className="flex flex-col sm:flex-row sm:items-center gap-3 mb-5 p-3.5 bg-white rounded-2xl border border-gray-100">
+        {/* Search — LEFT */}
+        <div className="relative sm:w-52">
+          <IoSearch size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-300" />
+          <input
+            type="text"
+            placeholder="Buscar..."
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            className="w-full pl-8 pr-3 py-2 rounded-xl border border-gray-100 bg-[#F9F7F4] font-body text-sm text-equora-dark placeholder:text-gray-300 focus:outline-none focus:border-equora-amber focus:bg-white transition-all"
+          />
+        </div>
+
+        {/* Divider */}
+        <div className="hidden sm:block h-8 w-px bg-gray-100" />
+
+        {/* Progress — RIGHT */}
+        <div className="flex items-center gap-3 flex-1">
+          <div className="text-center shrink-0">
+            <p className="font-display text-lg tracking-wider text-equora-dark leading-none">{selected.length}</p>
+            <p className="font-body text-[10px] text-gray-400 mt-0.5 uppercase tracking-wider">Selec.</p>
+          </div>
+          <div className="h-6 w-px bg-gray-100 shrink-0" />
+          <div className="text-center shrink-0">
+            <p className="font-display text-lg tracking-wider text-gray-300 leading-none">{max}</p>
+            <p className="font-body text-[10px] text-gray-400 mt-0.5 uppercase tracking-wider">Máx.</p>
+          </div>
+          <div className="flex-1 h-1.5 bg-gray-100 rounded-full overflow-hidden">
+            <div
+              className="h-full bg-equora-amber rounded-full transition-all duration-500"
+              style={{ width: `${Math.min((selected.length / max) * 100, 100)}%` }}
+            />
+          </div>
+          {selected.length >= max && (
+            <span className="font-body text-[10px] text-equora-amber font-medium tracking-wider uppercase shrink-0">Completo</span>
+          )}
+        </div>
       </div>
 
-      {/* Two panels */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      {/* ── Two panels ── */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+
         {/* Available */}
-        <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
-          <div className="px-5 py-4 border-b border-gray-100 bg-gray-50">
-            <h3 className="font-body text-sm font-semibold text-gray-700">
-              Disponibles ({filteredAvailable.length})
-            </h3>
-            <p className="font-body text-xs text-gray-400 mt-0.5">Clic para agregar a destacados</p>
+        <div className="bg-white rounded-2xl border border-gray-100 overflow-hidden">
+          <div className="flex items-center justify-between px-4 py-3 border-b border-gray-50">
+            <div className="flex items-center gap-2">
+              <span className="w-1.5 h-1.5 rounded-full bg-gray-300" />
+              <p className="font-body text-xs font-semibold text-gray-500 uppercase tracking-wider">Disponibles</p>
+            </div>
+            <span className="font-body text-xs text-gray-400 bg-gray-50 px-2 py-0.5 rounded-full">{filteredAvailable.length}</span>
           </div>
-          <div className="p-3 space-y-2 max-h-120 overflow-y-auto">
+          <div className="p-2.5 space-y-1.5 max-h-56 sm:max-h-72 md:max-h-96 lg:max-h-120 overflow-y-auto">
             {filteredAvailable.length === 0 ? (
-              <p className="text-center py-8 font-body text-sm text-gray-400">
+              <p className="text-center py-10 font-body text-xs text-gray-300">
                 {search ? 'Sin resultados' : 'Todos están destacados'}
               </p>
             ) : (
@@ -154,28 +189,20 @@ function SelectionPanel<T extends { _id: string }>({
         </div>
 
         {/* Selected */}
-        <div className="bg-white rounded-2xl border border-equora-amber/20 shadow-sm overflow-hidden">
-          <div className="px-5 py-4 border-b border-equora-amber/20 bg-equora-amber/5">
-            <div className="flex items-center justify-between">
-              <div>
-                <h3 className="font-body text-sm font-semibold text-equora-dark">
-                  Destacados ({selected.length}/{max})
-                </h3>
-                <p className="font-body text-xs text-gray-400 mt-0.5">Clic para quitar de destacados</p>
-              </div>
-              {selected.length >= max && (
-                <span className="font-body text-xs bg-equora-amber text-white px-2.5 py-1 rounded-full">
-                  Completo
-                </span>
-              )}
+        <div className="bg-white rounded-2xl border border-equora-amber/20 overflow-hidden">
+          <div className="flex items-center justify-between px-4 py-3 border-b border-equora-amber/10 bg-equora-amber/3">
+            <div className="flex items-center gap-2">
+              <span className="w-1.5 h-1.5 rounded-full bg-equora-amber" />
+              <p className="font-body text-xs font-semibold text-equora-dark uppercase tracking-wider">Destacados</p>
             </div>
+            <span className="font-body text-xs text-equora-amber bg-equora-amber/10 px-2 py-0.5 rounded-full">{selected.length}/{max}</span>
           </div>
-          <div className="p-3 space-y-2 max-h-120 overflow-y-auto">
+          <div className="p-2.5 space-y-1.5 max-h-56 sm:max-h-72 md:max-h-96 lg:max-h-120 overflow-y-auto">
             {filteredSelected.length === 0 ? (
-              <div className="text-center py-8">
-                <IoStarOutline size={32} className="mx-auto text-gray-200 mb-2" />
-                <p className="font-body text-sm text-gray-400">
-                  {search ? 'Sin resultados' : 'Ninguno seleccionado'}
+              <div className="text-center py-10">
+                <IoStarOutline size={24} className="mx-auto text-gray-200 mb-2" />
+                <p className="font-body text-xs text-gray-300">
+                  {search ? 'Sin resultados' : 'Ninguno seleccionado aún'}
                 </p>
               </div>
             ) : (
@@ -192,6 +219,7 @@ function SelectionPanel<T extends { _id: string }>({
             )}
           </div>
         </div>
+
       </div>
     </div>
   );
@@ -281,52 +309,68 @@ export default function FeaturedManager() {
   // ── Choice screen ────────────────────────────────────────────────
   if (view === 'choice') {
     return (
-      <div>
+      <div className="max-w-2xl">
+        {/* Header */}
         <div className="mb-8">
-          <h2 className="font-display text-2xl tracking-wider text-equora-dark">PRODUCTOS DESTACADOS</h2>
-          <p className="font-body text-sm text-gray-500 mt-1">
-            ¿Qué quieres destacar en la página de inicio?
-          </p>
+          <p className="font-body text-xs text-equora-amber tracking-widest uppercase mb-1">Gestión</p>
+          <h2 className="font-display text-2xl tracking-wider text-equora-dark">CONTENIDO DESTACADO</h2>
+          <div className="mt-3 w-8 h-px bg-equora-amber/40" />
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-2xl">
+
+        {/* Cards */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           {/* Products card */}
           <button
             onClick={() => { loadProducts(); setView('products'); }}
-            className="group flex flex-col items-start gap-4 p-8 bg-white rounded-2xl border border-gray-100 shadow-sm hover:border-equora-amber hover:shadow-md transition-all duration-300 cursor-pointer text-left"
+            className="group relative flex items-center gap-5 p-5 bg-white rounded-2xl border border-gray-100 hover:border-equora-amber/40 hover:shadow-lg transition-all duration-300 cursor-pointer text-left overflow-hidden"
           >
-            <div className="w-14 h-14 rounded-2xl bg-equora-amber/10 flex items-center justify-center group-hover:bg-equora-amber/20 transition-colors">
-              <IoGrid size={24} className="text-equora-amber" />
+            {/* Subtle amber accent on hover */}
+            <div className="absolute left-0 top-0 h-full w-0.5 bg-equora-amber scale-y-0 group-hover:scale-y-100 transition-transform duration-300 origin-center" />
+
+            <div className="w-12 h-12 rounded-xl bg-equora-amber/8 flex items-center justify-center shrink-0 group-hover:bg-equora-amber/15 transition-colors duration-300">
+              <IoGrid size={22} className="text-equora-amber" />
             </div>
-            <div>
-              <h3 className="font-display text-xl tracking-wider text-equora-dark mb-1">PRODUCTOS</h3>
-              <p className="font-body text-sm text-gray-500 leading-relaxed">
-                Selecciona hasta 12 productos para mostrar en la sección de inicio
-              </p>
+
+            <div className="flex-1 min-w-0">
+              <p className="font-display text-base tracking-wider text-equora-dark">PRODUCTOS</p>
+              <p className="font-body text-xs text-gray-400 mt-0.5 leading-relaxed">Hasta 12 en la página de inicio</p>
             </div>
-            <span className="font-body text-sm text-equora-amber font-medium group-hover:underline">
-              Gestionar →
-            </span>
+
+            <div className="shrink-0 text-gray-300 group-hover:text-equora-amber transition-colors duration-300">
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+              </svg>
+            </div>
           </button>
 
           {/* Categories card */}
           <button
             onClick={() => { loadCategories(); setView('categories'); }}
-            className="group flex flex-col items-start gap-4 p-8 bg-white rounded-2xl border border-gray-100 shadow-sm hover:border-equora-amber hover:shadow-md transition-all duration-300 cursor-pointer text-left"
+            className="group relative flex items-center gap-5 p-5 bg-white rounded-2xl border border-gray-100 hover:border-equora-amber/40 hover:shadow-lg transition-all duration-300 cursor-pointer text-left overflow-hidden"
           >
-            <div className="w-14 h-14 rounded-2xl bg-equora-amber/10 flex items-center justify-center group-hover:bg-equora-amber/20 transition-colors">
-              <IoPricetag size={24} className="text-equora-amber" />
+            <div className="absolute left-0 top-0 h-full w-0.5 bg-equora-amber scale-y-0 group-hover:scale-y-100 transition-transform duration-300 origin-center" />
+
+            <div className="w-12 h-12 rounded-xl bg-equora-amber/8 flex items-center justify-center shrink-0 group-hover:bg-equora-amber/15 transition-colors duration-300">
+              <IoPricetag size={22} className="text-equora-amber" />
             </div>
-            <div>
-              <h3 className="font-display text-xl tracking-wider text-equora-dark mb-1">CATEGORÍAS</h3>
-              <p className="font-body text-sm text-gray-500 leading-relaxed">
-                Selecciona hasta 4 categorías para mostrar en la sección de inicio
-              </p>
+
+            <div className="flex-1 min-w-0">
+              <p className="font-display text-base tracking-wider text-equora-dark">CATEGORÍAS</p>
+              <p className="font-body text-xs text-gray-400 mt-0.5 leading-relaxed">Hasta 4 en la página de inicio</p>
             </div>
-            <span className="font-body text-sm text-equora-amber font-medium group-hover:underline">
-              Gestionar →
-            </span>
+
+            <div className="shrink-0 text-gray-300 group-hover:text-equora-amber transition-colors duration-300">
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+              </svg>
+            </div>
           </button>
         </div>
+
+        {/* Footer note */}
+        <p className="font-body text-xs text-gray-400 mt-6">
+          Los cambios se reflejan en la página de inicio después de guardar.
+        </p>
       </div>
     );
   }

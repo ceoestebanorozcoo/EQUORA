@@ -1,4 +1,5 @@
 import Navbar from '@/components/landing/Navbar';
+import SplashScreen from '@/components/landing/SplashScreen';
 import Hero from '@/components/landing/Hero';
 import ValueProposition from '@/components/landing/ValueProposition';
 import FeaturedProducts from '@/components/landing/FeaturedProducts';
@@ -12,12 +13,12 @@ import Testimonials from '@/components/landing/Testimonials';
 import CTASection from '@/components/landing/CTASection';
 import FAQ from '@/components/landing/FAQ';
 import Footer from '@/components/landing/Footer';
-import MobileCTA from '@/components/landing/MobileCTA';
 import HashScroller from '@/components/HashScroller';
 
 export default function LandingPage() {
   return (
     <>
+      <SplashScreen />
       <Navbar />
       <HashScroller />
       <main>
@@ -35,7 +36,6 @@ export default function LandingPage() {
         <FAQ />
       </main>
       <Footer />
-      <MobileCTA />
     </>
   );
 }

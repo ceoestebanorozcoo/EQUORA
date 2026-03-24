@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "EQUORA | Productos Ecuestres",
+  title: "EQUORA | Productos Equinos",
   description:
     "Accesorios ecuestres de lujo moderno. Diseñados para rendimiento, elegancia y estilo. Distinción. Carácter. Nobleza.",
   keywords: "accesorios equinos, caballos, lujo, equitación, Colombia, pesebrera, riendas",
