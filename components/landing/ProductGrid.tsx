@@ -4,11 +4,12 @@ import { useEffect, useState, useCallback } from 'react';
 import { FiSearch } from 'react-icons/fi';
 import ProductCard from './ProductCard';
 import { getProducts } from '@/lib/api';
-import type { Product } from '@/types';
-import { PRODUCT_CATEGORIES } from '@/types';
+import type { IProduct } from '@/types';
+
+const PRODUCT_CATEGORIES: string[] = [];
 
 export default function ProductGrid() {
-    const [products, setProducts] = useState<Product[]>([]);
+    const [products, setProducts] = useState<IProduct[]>([]);
     const [loading, setLoading] = useState(true);
     const [search, setSearch] = useState('');
     const [category, setCategory] = useState('');
@@ -56,7 +57,7 @@ export default function ProductGrid() {
                     <h2 className="font-display text-3xl md:text-4xl lg:text-5xl text-cocoa mb-4">
                         Colección <span className="text-caramel italic">Equora</span>
                     </h2>
-                    <div className="mx-auto w-12 h-[1px] bg-golden/60 mt-4" />
+                    <div className="mx-auto w-12 h-px bg-golden/60 mt-4" />
                 </div>
 
                 {/* ── Filters ── */}
@@ -92,13 +93,13 @@ export default function ProductGrid() {
               transition-all duration-300
               appearance-none
               bg-[url('data:image/svg+xml;charset=UTF-8,%3csvg%20xmlns%3d%22http%3a%2f%2fwww.w3.org%2f2000%2fsvg%22%20width%3d%2212%22%20height%3d%2212%22%20viewBox%3d%220%200%2012%2012%22%3e%3cpath%20fill%3d%22%239D9167%22%20d%3d%22M2%204l4%204%204-4%22%2f%3e%3c%2fsvg%3e')]
-              bg-[length:12px] bg-[right_12px_center] bg-no-repeat
+              bg-size-[12px] bg-position-[right_12px_center] bg-no-repeat
               pr-10
-              min-w-[180px]
+              min-w-45
             "
                     >
                         <option value="">Todas las categorías</option>
-                        {PRODUCT_CATEGORIES.map((cat) => (
+                        {PRODUCT_CATEGORIES.map((cat: string) => (
                             <option key={cat} value={cat}>{cat}</option>
                         ))}
                     </select>
