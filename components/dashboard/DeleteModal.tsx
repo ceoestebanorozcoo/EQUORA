@@ -3,10 +3,10 @@
 import { useState } from 'react';
 import { FiAlertTriangle } from 'react-icons/fi';
 import { deleteProduct } from '@/lib/api';
-import type { Product } from '@/types';
+import type { IProduct } from '@/types';
 
 interface DeleteModalProps {
-    product: Product;
+    product: IProduct;
     onClose: () => void;
     onDeleted: () => void;
 }

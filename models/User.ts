@@ -1,32 +1,22 @@
-/* ═══════════════════════════════════════════════
-   EQUORA — User Model (MongoDB/Mongoose)
-   ═══════════════════════════════════════════════ */
+import mongoose, { Schema, Document, Model } from 'mongoose';
 
-import mongoose, { Schema, type Document } from 'mongoose';
-
-export interface IUser extends Document {
-    email: string;
-    password: string;
-    role: string;
+export interface IUserDocument extends Document {
+  email: string;
+  password: string;
+  role: 'admin';
+  createdAt: Date;
 }
 
-const UserSchema = new Schema<IUser>({
-    email: {
-        type: String,
-        required: [true, 'El email es obligatorio'],
-        unique: true,
-        lowercase: true,
-        trim: true,
-    },
-    password: {
-        type: String,
-        required: [true, 'La contraseña es obligatoria'],
-    },
-    role: {
-        type: String,
-        default: 'admin',
-        enum: ['admin'],
-    },
-});
+const UserSchema = new Schema<IUserDocument>(
+  {
+    email: { type: String, required: true, unique: true, lowercase: true },
+    password: { type: String, required: true },
+    role: { type: String, enum: ['admin'], default: 'admin' },
+  },
+  { timestamps: true }
+);
 
-export default mongoose.models.User || mongoose.model<IUser>('User', UserSchema);
+const User: Model<IUserDocument> =
+  mongoose.models.User || mongoose.model<IUserDocument>('User', UserSchema);
+
+export default User;

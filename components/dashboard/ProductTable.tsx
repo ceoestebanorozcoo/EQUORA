@@ -1,216 +1,176 @@
 'use client';
 
+import { useState } from 'react';
 import Image from 'next/image';
-import { FiEdit2, FiTrash2, FiToggleLeft, FiToggleRight } from 'react-icons/fi';
-import { updateProduct } from '@/lib/api';
-import type { Product } from '@/types';
+import api from '@/lib/axios';
+import { IProduct, ICategory } from '@/types';
+import { formatPrice } from '@/utils/formatPrice';
+import Button from '@/components/ui/Button';
+import Modal from '@/components/ui/Modal';
+import { Skeleton } from '@/components/ui/Skeleton';
+import { IoPencilOutline, IoTrashOutline } from 'react-icons/io5';
 
 interface ProductTableProps {
-    products: Product[];
-    onEdit: (product: Product) => void;
-    onDelete: (product: Product) => void;
-    onRefresh: () => void;
+  products: IProduct[];
+  loading: boolean;
+  onEdit: (product: IProduct) => void;
+  onRefresh: () => void;
 }
 
-export default function ProductTable({ products, onEdit, onDelete, onRefresh }: ProductTableProps) {
-    const toggleStock = async (product: Product) => {
-        try {
-            const newStatus = product.stockStatus === 'available' ? 'soldout' : 'available';
-            await updateProduct(product._id, { stockStatus: newStatus });
-            onRefresh();
-        } catch (error) {
-            console.error('Error toggling stock:', error);
-        }
-    };
+export default function ProductTable({ products, loading, onEdit, onRefresh }: ProductTableProps) {
+  const [deleteId, setDeleteId] = useState<string | null>(null);
+  const [deleting, setDeleting] = useState(false);
+  const [togglingId, setTogglingId] = useState<string | null>(null);
 
-    const formatPrice = (price: number) =>
-        new Intl.NumberFormat('es-CO', {
-            style: 'currency',
-            currency: 'COP',
-            minimumFractionDigits: 0,
-        }).format(price);
-
-    if (products.length === 0) {
-        return (
-            <div className="text-center py-20 bg-white rounded-lg border border-golden/15">
-                <p className="text-olive/50 font-light tracking-wider text-sm">
-                    No hay productos registrados
-                </p>
-                <p className="text-olive/30 font-light text-xs mt-2">
-                    Crea tu primer producto para comenzar
-                </p>
-            </div>
-        );
+  const handleDelete = async () => {
+    if (!deleteId) return;
+    setDeleting(true);
+    try {
+      await api.delete(`/products/${deleteId}`);
+      onRefresh();
+    } finally {
+      setDeleting(false);
+      setDeleteId(null);
     }
+  };
 
+  const toggleStock = async (product: IProduct) => {
+    setTogglingId(product._id);
+    try {
+      await api.put(`/products/${product._id}`, {
+        stockStatus: product.stockStatus === 'available' ? 'soldout' : 'available',
+      });
+      onRefresh();
+    } finally {
+      setTogglingId(null);
+    }
+  };
+
+  if (loading) {
     return (
-        <div className="bg-white rounded-lg border border-golden/15 overflow-hidden shadow-sm">
-            {/* ── Desktop Table ── */}
-            <div className="hidden md:block overflow-x-auto">
-                <table className="w-full">
-                    <thead>
-                        <tr className="border-b border-golden/15 bg-cream/50">
-                            <th className="text-left px-6 py-4 text-[10px] tracking-[0.3em] uppercase text-olive/60 font-light">
-                                Producto
-                            </th>
-                            <th className="text-left px-4 py-4 text-[10px] tracking-[0.3em] uppercase text-olive/60 font-light">
-                                Categoría
-                            </th>
-                            <th className="text-left px-4 py-4 text-[10px] tracking-[0.3em] uppercase text-olive/60 font-light">
-                                Código
-                            </th>
-                            <th className="text-left px-4 py-4 text-[10px] tracking-[0.3em] uppercase text-olive/60 font-light">
-                                Precio
-                            </th>
-                            <th className="text-left px-4 py-4 text-[10px] tracking-[0.3em] uppercase text-olive/60 font-light">
-                                Estado
-                            </th>
-                            <th className="text-right px-6 py-4 text-[10px] tracking-[0.3em] uppercase text-olive/60 font-light">
-                                Acciones
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {products.map((product) => (
-                            <tr
-                                key={product._id}
-                                className="border-b border-golden/8 hover:bg-golden/5 transition-colors duration-200"
-                            >
-                                {/* Product */}
-                                <td className="px-6 py-4">
-                                    <div className="flex items-center gap-4">
-                                        <div className="relative w-12 h-12 rounded-sm overflow-hidden flex-shrink-0 border border-golden/10">
-                                            <Image
-                                                src={product.imageUrl}
-                                                alt={product.name}
-                                                fill
-                                                className="object-cover"
-                                                sizes="48px"
-                                            />
-                                        </div>
-                                        <span className="text-sm font-medium text-cocoa">
-                                            {product.name}
-                                        </span>
-                                    </div>
-                                </td>
-
-                                {/* Category */}
-                                <td className="px-4 py-4">
-                                    <span className="text-xs text-olive/70 font-light">
-                                        {product.category}
-                                    </span>
-                                </td>
-
-                                {/* Code */}
-                                <td className="px-4 py-4">
-                                    <span className="text-xs text-olive/50 font-mono tracking-wider">
-                                        {product.productCode}
-                                    </span>
-                                </td>
-
-                                {/* Price */}
-                                <td className="px-4 py-4">
-                                    <span className="text-sm text-caramel font-medium">
-                                        {formatPrice(product.price)}
-                                    </span>
-                                </td>
-
-                                {/* Status */}
-                                <td className="px-4 py-4">
-                                    <span
-                                        className={`inline-block text-[10px] tracking-[0.2em] uppercase px-3 py-1 rounded-full font-light ${product.stockStatus === 'available'
-                                            ? 'bg-olive/10 text-olive'
-                                            : 'bg-wine/10 text-wine'
-                                            }`}
-                                    >
-                                        {product.stockStatus === 'available' ? 'Disponible' : 'Agotado'}
-                                    </span>
-                                </td>
-
-                                {/* Actions */}
-                                <td className="px-6 py-4">
-                                    <div className="flex items-center justify-end gap-2">
-                                        <button
-                                            onClick={() => toggleStock(product)}
-                                            title="Cambiar estado"
-                                            className="p-2 text-olive/50 hover:text-caramel hover:bg-golden/10 rounded-sm transition-all duration-200"
-                                        >
-                                            {product.stockStatus === 'available' ? (
-                                                <FiToggleRight className="text-lg" />
-                                            ) : (
-                                                <FiToggleLeft className="text-lg" />
-                                            )}
-                                        </button>
-                                        <button
-                                            onClick={() => onEdit(product)}
-                                            title="Editar"
-                                            className="p-2 text-olive/50 hover:text-caramel hover:bg-golden/10 rounded-sm transition-all duration-200"
-                                        >
-                                            <FiEdit2 className="text-sm" />
-                                        </button>
-                                        <button
-                                            onClick={() => onDelete(product)}
-                                            title="Eliminar"
-                                            className="p-2 text-olive/50 hover:text-wine hover:bg-wine/10 rounded-sm transition-all duration-200"
-                                        >
-                                            <FiTrash2 className="text-sm" />
-                                        </button>
-                                    </div>
-                                </td>
-                            </tr>
-                        ))}
-                    </tbody>
-                </table>
-            </div>
-
-            {/* ── Mobile Cards ── */}
-            <div className="md:hidden divide-y divide-golden/10">
-                {products.map((product) => (
-                    <div key={product._id} className="p-4 space-y-3">
-                        <div className="flex items-center gap-3">
-                            <div className="relative w-14 h-14 rounded-sm overflow-hidden flex-shrink-0 border border-golden/10">
-                                <Image
-                                    src={product.imageUrl}
-                                    alt={product.name}
-                                    fill
-                                    className="object-cover"
-                                    sizes="56px"
-                                />
-                            </div>
-                            <div className="flex-1 min-w-0">
-                                <h4 className="text-sm font-medium text-cocoa truncate">{product.name}</h4>
-                                <p className="text-xs text-olive/50 font-mono">Cód: {product.productCode}</p>
-                            </div>
-                            <span
-                                className={`text-[10px] tracking-wider uppercase px-2 py-1 rounded-full font-light ${product.stockStatus === 'available'
-                                    ? 'bg-olive/10 text-olive'
-                                    : 'bg-wine/10 text-wine'
-                                    }`}
-                            >
-                                {product.stockStatus === 'available' ? 'Disp.' : 'Agot.'}
-                            </span>
-                        </div>
-
-                        <div className="flex items-center justify-between">
-                            <div className="flex items-center gap-3">
-                                <span className="text-xs text-olive/60">{product.category}</span>
-                                <span className="text-sm text-caramel font-medium">{formatPrice(product.price)}</span>
-                            </div>
-                            <div className="flex items-center gap-1">
-                                <button onClick={() => toggleStock(product)} className="p-2 text-olive/50 hover:text-caramel">
-                                    {product.stockStatus === 'available' ? <FiToggleRight /> : <FiToggleLeft />}
-                                </button>
-                                <button onClick={() => onEdit(product)} className="p-2 text-olive/50 hover:text-caramel">
-                                    <FiEdit2 className="text-sm" />
-                                </button>
-                                <button onClick={() => onDelete(product)} className="p-2 text-olive/50 hover:text-wine">
-                                    <FiTrash2 className="text-sm" />
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                ))}
-            </div>
-        </div>
+      <div className="space-y-3">
+        {Array.from({ length: 5 }).map((_, i) => (
+          <Skeleton key={i} className="h-16 w-full rounded-xl" />
+        ))}
+      </div>
     );
+  }
+
+  if (!products.length) {
+    return (
+      <div className="text-center py-16">
+        <p className="font-editorial italic text-xl text-[#6B7280]">No hay productos aún</p>
+      </div>
+    );
+  }
+
+  return (
+    <>
+      <div className="overflow-x-auto rounded-2xl border border-gray-100 shadow-sm">
+        <table className="w-full min-w-175" role="table">
+          <thead className="bg-equora-navy text-[#F9F7F4]">
+            <tr>
+              <th className="text-left py-4 px-5 font-body text-xs font-medium tracking-wider uppercase" scope="col">Producto</th>
+              <th className="text-left py-4 px-5 font-body text-xs font-medium tracking-wider uppercase" scope="col">Código</th>
+              <th className="text-left py-4 px-5 font-body text-xs font-medium tracking-wider uppercase" scope="col">Precio</th>
+              <th className="text-left py-4 px-5 font-body text-xs font-medium tracking-wider uppercase" scope="col">Estado</th>
+              <th className="text-right py-4 px-5 font-body text-xs font-medium tracking-wider uppercase" scope="col">Acciones</th>
+            </tr>
+          </thead>
+          <tbody className="bg-white divide-y divide-gray-50">
+            {products.map((product) => {
+              const category = product.category as ICategory;
+              return (
+                <tr key={product._id} className="hover:bg-[#F9F7F4] transition-colors">
+                  <td className="py-4 px-5">
+                    <div className="flex items-center gap-3">
+                      <div className="w-12 h-12 rounded-xl overflow-hidden bg-equora-ivory shrink-0">
+                        {product.images?.[0] ? (
+                          <Image src={product.images[0]} alt={product.name} width={48} height={48} className="w-full h-full object-cover" />
+                        ) : (
+                          <div className="w-full h-full flex items-center justify-center">
+                            <span className="font-display text-xs text-equora-amber/40">E</span>
+                          </div>
+                        )}
+                      </div>
+                      <div>
+                        <p className="font-body font-medium text-equora-dark text-sm">{product.name}</p>
+                        {category && <p className="font-body text-xs text-[#6B7280]">{category.name}</p>}
+                      </div>
+                    </div>
+                  </td>
+                  <td className="py-4 px-5">
+                    <span className="font-body text-sm text-[#6B7280] font-mono">{product.productCode}</span>
+                  </td>
+                  <td className="py-4 px-5">
+                    <span className="font-editorial text-sm font-semibold text-equora-dark">
+                      {formatPrice(product.price)}
+                    </span>
+                  </td>
+                  <td className="py-4 px-5">
+                    <button
+                      onClick={() => toggleStock(product)}
+                      disabled={togglingId === product._id}
+                      className="flex items-center gap-2 cursor-pointer disabled:opacity-50 group"
+                      aria-label={`Cambiar estado de ${product.name}`}
+                    >
+                      <div className={`relative w-11 h-6 rounded-full transition-colors duration-200 ${
+                        product.stockStatus === 'available' ? 'bg-equora-amber' : 'bg-gray-300'
+                      }`}>
+                        <div className={`absolute top-0.5 w-5 h-5 bg-white rounded-full shadow transition-all duration-200 ${
+                          product.stockStatus === 'available' ? 'left-5' : 'left-0.5'
+                        }`} />
+                      </div>
+                      <span className={`font-body text-xs font-medium ${
+                        product.stockStatus === 'available' ? 'text-equora-amber' : 'text-[#6B7280]'
+                      }`}>
+                        {product.stockStatus === 'available' ? 'Disponible' : 'Agotado'}
+                      </span>
+                    </button>
+                  </td>
+                  <td className="py-4 px-5">
+                    <div className="flex items-center justify-end gap-1">
+                      <button
+                        onClick={() => onEdit(product)}
+                        className="flex items-center gap-1.5 px-3 py-1.5 text-[#6B7280] hover:text-equora-amber hover:bg-equora-amber/8 rounded-lg transition-colors cursor-pointer font-body text-xs font-medium"
+                        aria-label={`Editar ${product.name}`}
+                      >
+                        <IoPencilOutline size={15} aria-hidden="true" />
+                        Editar
+                      </button>
+                      <button
+                        onClick={() => setDeleteId(product._id)}
+                        className="flex items-center gap-1.5 px-3 py-1.5 text-[#6B7280] hover:text-red-500 hover:bg-red-50 rounded-lg transition-colors cursor-pointer font-body text-xs font-medium"
+                        aria-label={`Eliminar ${product.name}`}
+                      >
+                        <IoTrashOutline size={15} aria-hidden="true" />
+                        Eliminar
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </div>
+
+      {/* Delete confirmation modal */}
+      <Modal isOpen={!!deleteId} onClose={() => setDeleteId(null)} title="Confirmar eliminación" size="sm">
+        <p className="font-body text-[#6B7280] mb-6">¿Estás seguro de que deseas eliminar este producto? Esta acción no se puede deshacer.</p>
+        <div className="flex gap-3">
+          <Button variant="ghost" onClick={() => setDeleteId(null)} className="flex-1 border border-gray-200">
+            Cancelar
+          </Button>
+          <Button
+            onClick={handleDelete}
+            loading={deleting}
+            className="flex-1 bg-red-500 hover:bg-red-600 text-white"
+          >
+            Eliminar
+          </Button>
+        </div>
+      </Modal>
+    </>
+  );
 }

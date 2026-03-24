@@ -1,0 +1,108 @@
+'use client';
+
+import { useRef, useState } from 'react';
+import Image from 'next/image';
+import { IoCloudUpload, IoClose } from 'react-icons/io5';
+
+interface ImageUploadProps {
+  value: string;
+  onChange: (url: string) => void;
+  folder?: string;
+  label?: string;
+}
+
+export default function ImageUpload({ value, onChange, folder = 'equora/products', label = 'Imagen del producto' }: ImageUploadProps) {
+  const inputRef = useRef<HTMLInputElement>(null);
+  const [uploading, setUploading] = useState(false);
+  const [error, setError] = useState('');
+
+  const handleFile = async (file: File) => {
+    if (!file.type.startsWith('image/')) {
+      setError('Solo se permiten imágenes');
+      return;
+    }
+    if (file.size > 5 * 1024 * 1024) {
+      setError('La imagen no debe superar 5MB');
+      return;
+    }
+
+    setUploading(true);
+    setError('');
+
+    const formData = new FormData();
+    formData.append('file', file);
+    formData.append('folder', folder);
+
+    try {
+      const res = await fetch('/api/upload', { method: 'POST', body: formData, credentials: 'include' });
+      const data = await res.json();
+      if (data.url) onChange(data.url);
+      else setError(data.error || 'Error subiendo imagen');
+    } catch {
+      setError('Error subiendo imagen');
+    } finally {
+      setUploading(false);
+    }
+  };
+
+  return (
+    <div>
+      <label className="block text-sm font-medium text-equora-dark mb-2 font-body">{label}</label>
+
+      {value ? (
+        <div className="relative w-full h-48 rounded-xl overflow-hidden border border-gray-200 group">
+          <Image src={value} alt="Preview" fill className="object-cover" />
+          <button
+            type="button"
+            onClick={() => onChange('')}
+            className="absolute top-2 right-2 w-8 h-8 bg-red-500 text-white rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer"
+            aria-label="Eliminar imagen"
+          >
+            <IoClose size={16} aria-hidden="true" />
+          </button>
+        </div>
+      ) : (
+        <div
+          onClick={() => inputRef.current?.click()}
+          onDragOver={(e) => e.preventDefault()}
+          onDrop={(e) => {
+            e.preventDefault();
+            const file = e.dataTransfer.files[0];
+            if (file) handleFile(file);
+          }}
+          className="w-full h-48 border-2 border-dashed border-gray-200 rounded-xl flex flex-col items-center justify-center gap-3 cursor-pointer hover:border-equora-amber hover:bg-equora-ivory/30 transition-colors"
+          role="button"
+          aria-label="Subir imagen"
+          tabIndex={0}
+          onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') inputRef.current?.click(); }}
+        >
+          {uploading ? (
+            <>
+              <div className="w-8 h-8 border-2 border-equora-amber border-t-transparent rounded-full animate-spin" aria-hidden="true" />
+              <p className="font-body text-sm text-[#6B7280]">Subiendo...</p>
+            </>
+          ) : (
+            <>
+              <IoCloudUpload size={32} className="text-equora-amber" aria-hidden="true" />
+              <p className="font-body text-sm text-[#6B7280] text-center">
+                Arrastra una imagen o <span className="text-equora-amber font-medium">haz clic aquí</span>
+              </p>
+              <p className="font-body text-xs text-[#6B7280]">PNG, JPG, WebP — máx. 5MB</p>
+            </>
+          )}
+        </div>
+      )}
+
+      {error && <p className="mt-2 text-sm text-red-500 font-body">{error}</p>}
+
+      <input
+        ref={inputRef}
+        type="file"
+        accept="image/*"
+        className="hidden"
+        onChange={(e) => { const f = e.target.files?.[0]; if (f) handleFile(f); }}
+        aria-hidden="true"
+      />
+    </div>
+  );
+}

@@ -1,101 +1,93 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useRef } from 'react';
+import Button from '@/components/ui/Button';
 
 export default function Hero() {
-    const [loaded, setLoaded] = useState(false);
+  const bgRef = useRef<HTMLDivElement>(null);
 
-    useEffect(() => {
-        setLoaded(true);
-    }, []);
+  useEffect(() => {
+    const handleScroll = () => {
+      if (bgRef.current) {
+        bgRef.current.style.transform = `translateY(${window.scrollY * 0.4}px)`;
+      }
+    };
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
-    return (
-        <section id="inicio" className="relative h-screen min-h-[700px] flex items-center justify-center overflow-hidden">
-            {/* ── Background Image ── */}
-            <div
-                className={`absolute inset-0 bg-cover bg-center bg-no-repeat transition-transform duration-[2000ms] ease-out ${loaded ? 'scale-100' : 'scale-110'
-                    }`}
-                style={{ backgroundImage: "url('/hero.jpg')" }}
-            />
+  return (
+    <section
+      id="top"
+      className="relative min-h-screen flex items-center overflow-hidden"
+      aria-label="Hero"
+    >
+      {/* Background image with parallax */}
+      <div
+        ref={bgRef}
+        className="absolute inset-0 scale-110 parallax-bg"
+        style={{
+          backgroundImage:
+            "url('https://images.unsplash.com/photo-1553284965-83fd3e82fa5a?w=1920&q=85')",
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+        }}
+        aria-hidden="true"
+      />
 
-            {/* ── Overlays ── */}
-            <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/40 to-cocoa/90" />
-            <div className="absolute inset-0 bg-gradient-to-r from-black/50 via-transparent to-transparent" />
+      {/* Overlay */}
+      <div className="absolute inset-0 bg-linear-to-r from-equora-dark/90 via-equora-dark/70 to-equora-dark/40" aria-hidden="true" />
 
-            {/* ── Content ── */}
-            <div className="relative z-10 max-w-5xl mx-auto px-6 text-center">
-                {/* Decorative line */}
-                <div
-                    className={`mx-auto w-16 h-[1px] bg-golden/60 mb-8 transition-all duration-1000 delay-300 ${loaded ? 'opacity-100 w-16' : 'opacity-0 w-0'
-                        }`}
-                />
+      {/* Content */}
+      <div className="relative z-10 max-w-7xl mx-auto px-6 pt-24 pb-16">
+        <div className="max-w-2xl">
+          <p
+            className="font-editorial italic text-equora-amber text-lg mb-4 opacity-0 animate-fade-in animation-delay-100"
+            style={{ animationFillMode: 'forwards' }}
+          >
+            Colección 2026
+          </p>
 
-                {/* Subtitle */}
-                <p
-                    className={`text-golden/80 text-xs tracking-[0.5em] uppercase mb-6 font-light transition-all duration-1000 delay-500 ${loaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
-                        }`}
-                >
-                    Artesanía ecuestre de distinción
-                </p>
+          <h1
+            className="font-display text-5xl sm:text-6xl md:text-8xl leading-none text-[#F9F7F4] mb-6 opacity-0 animate-fade-in-up animation-delay-200"
+            style={{ animationFillMode: 'forwards' }}
+          >
+            ACCESORIOS
+            <br />
+            <span className="text-equora-amber">EQUINOS</span>
+            <br />
+            DISEÑADOS PARA
+            <br />
+            RENDIMIENTO
+            <br />Y ESTILO
+          </h1>
 
-                {/* Headline */}
-                <h1
-                    className={`font-display text-4xl sm:text-5xl md:text-6xl lg:text-7xl text-cream leading-tight mb-6 transition-all duration-1000 delay-700 ${loaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'
-                        }`}
-                >
-                    Donde la tradición
-                    <br />
-                    <span className="text-golden italic">se encuentra</span>
-                    <br />
-                    con la nobleza
-                </h1>
+          <p
+            className="font-editorial italic text-xl md:text-2xl text-[#F9F7F4]/80 mb-10 leading-relaxed opacity-0 animate-fade-in-up animation-delay-300"
+            style={{ animationFillMode: 'forwards' }}
+          >
+            &ldquo;Lujo que no necesita explicación.&rdquo;
+          </p>
 
-                {/* Description */}
-                <p
-                    className={`text-cream/60 max-w-xl mx-auto text-base md:text-lg font-light leading-relaxed mb-10 transition-all duration-1000 delay-900 ${loaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
-                        }`}
-                >
-                    Cada pieza Equora nace de la pasión por el caballo y el respeto por la artesanía.
-                    Diseñamos para quienes entienden que la elegancia es un lenguaje.
-                </p>
+          <div
+            className="flex flex-wrap gap-4 opacity-0 animate-fade-in-up animation-delay-400"
+            style={{ animationFillMode: 'forwards' }}
+          >
+            <Button size="lg" variant="amber" onClick={() => document.getElementById('productos')?.scrollIntoView({ behavior: 'smooth' })}>
+              Explorar Colección
+            </Button>
+            <Button size="lg" variant="outline" className="border-white/40 text-white hover:bg-white/10 hover:border-white" onClick={() => document.getElementById('historia')?.scrollIntoView({ behavior: 'smooth' })}>
+              Nuestra Historia
+            </Button>
+          </div>
+        </div>
+      </div>
 
-                {/* CTA Button */}
-                <div
-                    className={`transition-all duration-1000 delay-1000 ${loaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
-                        }`}
-                >
-                    <a
-                        href="#coleccion"
-                        className="
-              inline-block
-              px-10 py-4
-              border border-golden/40
-              text-golden
-              text-xs tracking-[0.4em] uppercase
-              font-light
-              bg-golden/5
-              backdrop-blur-sm
-              rounded-sm
-              hover:bg-golden/15
-              hover:border-golden/70
-              hover:shadow-lg hover:shadow-golden/10
-              transition-all duration-500
-              group
-            "
-                    >
-                        Descubrir Colección
-                        <span className="inline-block ml-3 transition-transform duration-300 group-hover:translate-x-1">
-                            →
-                        </span>
-                    </a>
-                </div>
-            </div>
-
-            {/* ── Scroll Indicator ── */}
-            <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 animate-bounce">
-                <div className="w-[1px] h-8 bg-gradient-to-b from-transparent to-golden/40" />
-                <div className="w-1.5 h-1.5 rounded-full bg-golden/40" />
-            </div>
-        </section>
-    );
+      {/* Scroll indicator */}
+      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 opacity-60" aria-hidden="true">
+        <div className="w-px h-12 bg-equora-amber animate-pulse" />
+        <span className="font-body text-xs text-[#F9F7F4] tracking-widest uppercase">Scroll</span>
+      </div>
+    </section>
+  );
 }

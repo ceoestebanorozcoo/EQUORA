@@ -1,92 +1,64 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-import { GiHorseshoe, GiLeatherArmor, GiDiamondTrophy, GiHandOk } from 'react-icons/gi';
+import { ScrollReveal } from '@/components/ScrollReveal';
+import { Award, Palette, Heart, Shield } from 'lucide-react';
 
 const pillars = [
-    {
-        icon: GiHorseshoe,
-        title: 'Nobleza',
-        description:
-            'Cada producto refleja la majestuosidad y el espíritu indomable del caballo. Creamos para quienes honran la relación entre jinete y corcel.',
-    },
-    {
-        icon: GiLeatherArmor,
-        title: 'Artesanía',
-        description:
-            'Manos expertas transforman los mejores materiales en piezas que cuentan historias. La tradición artesanal vive en cada puntada.',
-    },
-    {
-        icon: GiDiamondTrophy,
-        title: 'Distinción',
-        description:
-            'Nuestro diseño habla sin palabras. Líneas elegantes, acabados impecables y una estética que eleva cualquier espacio ecuestre.',
-    },
-    {
-        icon: GiHandOk,
-        title: 'Confianza',
-        description:
-            'Calidad que se siente al primer contacto. Materiales nobles y construcción sólida que garantizan años de uso y satisfacción.',
-    },
+  {
+    icon: Award,
+    title: 'Calidad',
+    description: 'Cuero seleccionado, costuras que duran años, herrajes que no se oxidan. Cada material pasa por nuestras manos.',
+  },
+  {
+    icon: Palette,
+    title: 'Diseño Funcional',
+    description: 'Pensado para funcionar. Riendas que no resbalan, pellones que respetan al caballo, accesorios que te hacen sentir seguro.',
+  },
+  {
+    icon: Heart,
+    title: 'Comodidad',
+    description: 'Ergonomía pensada para ti y tu caballo, cada pieza está diseñada para el bienestar, no solo para verse bien.',
+  },
+  {
+    icon: Shield,
+    title: 'Estética',
+    description: 'Cada accesorio que usas refleja lo que te importa. Calidad, cuidado, atención al detalle.',
+  },
 ];
 
 export default function ValueProposition() {
-    const [visible, setVisible] = useState(false);
+  return (
+    <section className="py-24 md:py-32 bg-white" aria-label="Propuesta de valor">
+      <div className="max-w-7xl mx-auto px-6">
+        <ScrollReveal direction="up">
+          <div className="text-center mb-16">
+            <p className="font-editorial text-equora-amber italic text-lg mb-3">
+              ¿Por qué EQUORA?
+            </p>
+            <h2 className="font-display text-4xl md:text-5xl text-equora-dark tracking-wider">
+              NUESTRA PROPUESTA DE VALOR
+            </h2>
+          </div>
+        </ScrollReveal>
 
-    useEffect(() => {
-        const observer = new IntersectionObserver(
-            ([entry]) => { if (entry.isIntersecting) setVisible(true); },
-            { threshold: 0.15 }
-        );
-        const section = document.getElementById('propuesta-valor');
-        if (section) observer.observe(section);
-        return () => observer.disconnect();
-    }, []);
-
-    return (
-        <section id="propuesta-valor" className="py-24 md:py-32 bg-white">
-            <div className="max-w-7xl mx-auto px-6 lg:px-8">
-                {/* Header */}
-                <div className={`text-center mb-20 transition-all duration-1000 ${visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
-                    <p className="text-olive/60 text-xs tracking-[0.5em] uppercase mb-4 font-light">
-                        Nuestros pilares
-                    </p>
-                    <h2 className="font-display text-3xl md:text-4xl lg:text-5xl text-cocoa mb-4">
-                        Lo que nos <span className="text-caramel italic">define</span>
-                    </h2>
-                    <div className="mx-auto w-12 h-[1px] bg-golden/60 mt-4" />
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          {pillars.map((pillar, i) => (
+            <ScrollReveal key={pillar.title} direction="up" delay={i * 150} className="h-full">
+              <div className="group h-full text-center p-8 rounded-2xl bg-equora-ivory/40 hover:bg-equora-ivory/60 transition-all duration-500 hover:shadow-xl hover:-translate-y-1">
+                <div className="w-16 h-16 mx-auto mb-6 rounded-2xl bg-equora-amber/10 flex items-center justify-center group-hover:bg-equora-amber/20 transition-colors duration-300">
+                  <pillar.icon className="w-7 h-7 text-equora-amber" />
                 </div>
-
-                {/* Pillars Grid */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-6">
-                    {pillars.map((pillar, index) => {
-                        const Icon = pillar.icon;
-                        return (
-                            <div
-                                key={pillar.title}
-                                className={`text-center group transition-all duration-700 ${visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
-                                    }`}
-                                style={{ transitionDelay: `${index * 150}ms` }}
-                            >
-                                {/* Icon */}
-                                <div className="mx-auto w-16 h-16 rounded-full bg-cream flex items-center justify-center mb-6 border border-golden/20 group-hover:border-golden/50 group-hover:bg-golden/10 transition-all duration-500">
-                                    <Icon className="text-2xl text-caramel group-hover:text-wine transition-colors duration-500" />
-                                </div>
-
-                                {/* Title */}
-                                <h3 className="font-display text-xl text-cocoa mb-3 group-hover:text-caramel transition-colors duration-300">
-                                    {pillar.title}
-                                </h3>
-
-                                {/* Description */}
-                                <p className="text-sm text-olive/70 font-light leading-relaxed max-w-xs mx-auto">
-                                    {pillar.description}
-                                </p>
-                            </div>
-                        );
-                    })}
-                </div>
-            </div>
-        </section>
-    );
+                <h3 className="font-display text-xl tracking-wider text-equora-dark mb-3">
+                  {pillar.title}
+                </h3>
+                <p className="font-body text-equora-dark/60 text-sm leading-relaxed">
+                  {pillar.description}
+                </p>
+              </div>
+            </ScrollReveal>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
 }

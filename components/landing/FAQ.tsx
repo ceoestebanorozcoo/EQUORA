@@ -1,119 +1,111 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-import { FiChevronDown } from 'react-icons/fi';
+import { useState } from 'react';
+import { ScrollReveal } from '@/components/ScrollReveal';
+import { ChevronDown } from 'lucide-react';
 
-const faqs = [
-    {
-        question: '¿De qué materiales están hechos los productos Equora?',
-        answer:
-            'Utilizamos exclusivamente cuero de primera selección, maderas nobles como el roble y el nogal, herrajes en latón macizo y acabados artesanales. Cada material pasa por un riguroso proceso de selección para garantizar la máxima calidad y durabilidad.',
-    },
-    {
-        question: '¿Cómo puedo realizar un pedido?',
-        answer:
-            'Puedes hacer tu pedido directamente a través de WhatsApp. Selecciona el producto que deseas en nuestra colección, haz clic en "Comprar por WhatsApp" y te guiaremos en todo el proceso de compra. También puedes escribirnos para pedidos personalizados.',
-    },
-    {
-        question: '¿Realizan envíos a todo el país?',
-        answer:
-            'Sí, realizamos envíos a toda Colombia a través de transportadoras de confianza. Empacamos cada producto con el mayor cuidado para que llegue en perfectas condiciones. Los tiempos de entrega varían según la ubicación.',
-    },
-    {
-        question: '¿Puedo solicitar un producto personalizado?',
-        answer:
-            'Absolutamente. Realizamos productos personalizados bajo pedido. Contáctanos por WhatsApp con tu idea y nuestro equipo de artesanos evaluará la viabilidad y te enviará una cotización. Grabados, medidas especiales y combinaciones de materiales están disponibles.',
-    },
-    {
-        question: '¿Cuál es la garantía de los productos?',
-        answer:
-            'Todos los productos Equora cuentan con garantía por defectos de fabricación. Nuestro compromiso es que cada pieza supere tus expectativas. Si un producto presenta algún defecto, contáctanos y lo resolveremos a la brevedad.',
-    },
-    {
-        question: '¿Cómo debo cuidar mis productos de cuero?',
-        answer:
-            'Recomendamos limpiar con un paño suave y seco, aplicar crema de cuero cada 3-6 meses, evitar exposición prolongada al sol y almacenar en un lugar seco y ventilado. Con el cuidado adecuado, tus productos Equora mejorarán con el paso del tiempo.',
-    },
+const faqItems = [
+  {
+    question: '¿Cuánto tarda en fabricarse mi pedido?',
+    answer: '3 a 4 días hábiles. Los tiempos pueden variar en temporadas de alta demanda.',
+  },
+  {
+    question: '¿A qué lugares hacen envíos?',
+    answer: 'A todo el territorio colombiano, a través de Interrapidísimo.',
+  },
+  {
+    question: '¿Cuánto cuesta el envío?',
+    answer: 'El costo del envío es asumido por el cliente.',
+  },
+  {
+    question: '¿Cuánto tarda en llegar mi pedido?',
+    answer: '3 a 5 días hábiles después del despacho.',
+  },
+  {
+    question: '¿Cómo pago?',
+    answer: 'Transferencia bancaria. El pedido se confirma una vez verificado el pago.',
+  },
+  {
+    question: '¿Tienen garantía los productos?',
+    answer: 'Sí, 15 días calendario desde la entrega. Cubre defectos de fabricación y fallas estructurales por uso normal.',
+  },
+  {
+    question: '¿Hacen cambios o devoluciones?',
+    answer: 'No se realizan devoluciones por cambio de opinión. Los productos personalizados no tienen cambio salvo por defecto de fabricación. Tienes 2 días calendario desde la recepción para reportar inconformidades.',
+  },
+  {
+    question: '¿Qué hago si mi producto llegó dañado?',
+    answer: 'Repórtalo dentro de los 2 días calendario siguientes a la entrega con fotos o video del daño.',
+  },
 ];
 
-function FAQItem({ question, answer, index, visible }: {
-    question: string;
-    answer: string;
-    index: number;
-    visible: boolean;
-}) {
-    const [open, setOpen] = useState(false);
+function FAQItem({ item, index }: { item: typeof faqItems[0]; index: number }) {
+  const [open, setOpen] = useState(false);
 
-    return (
-        <div
-            className={`border-b border-golden/15 transition-all duration-700 ${visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'
-                }`}
-            style={{ transitionDelay: `${index * 80}ms` }}
-        >
-            <button
-                onClick={() => setOpen(!open)}
-                className="w-full flex items-center justify-between py-6 text-left group"
-            >
-                <span className="font-display text-base md:text-lg text-cocoa group-hover:text-caramel transition-colors duration-300 pr-4">
-                    {question}
-                </span>
-                <FiChevronDown
-                    className={`flex-shrink-0 text-olive/40 group-hover:text-caramel transition-all duration-500 ${open ? 'rotate-180' : 'rotate-0'
-                        }`}
-                />
-            </button>
-            <div
-                className={`overflow-hidden transition-all duration-500 ease-in-out ${open ? 'max-h-60 opacity-100 pb-6' : 'max-h-0 opacity-0 pb-0'
-                    }`}
-            >
-                <p className="text-sm text-olive/70 font-light leading-relaxed max-w-3xl">
-                    {answer}
-                </p>
-            </div>
-        </div>
-    );
+  return (
+    <div
+      className={`border rounded-xl px-6 transition-colors duration-300 ${
+        open ? 'border-equora-amber/30' : 'border-equora-dark/10'
+      }`}
+    >
+      <button
+        onClick={() => setOpen(!open)}
+        className="w-full flex items-center justify-between py-5 text-left cursor-pointer group"
+        aria-expanded={open}
+        aria-controls={`faq-answer-${index}`}
+        id={`faq-question-${index}`}
+      >
+        <span className="font-body font-medium text-equora-dark group-hover:text-equora-amber transition-colors duration-300 pr-8">
+          {item.question}
+        </span>
+        <ChevronDown
+          className={`w-5 h-5 text-equora-dark/40 shrink-0 transition-transform duration-300 ${
+            open ? 'rotate-180 text-equora-amber' : ''
+          }`}
+          aria-hidden="true"
+        />
+      </button>
+      <div
+        id={`faq-answer-${index}`}
+        role="region"
+        aria-labelledby={`faq-question-${index}`}
+        style={{
+          maxHeight: open ? '400px' : '0',
+          overflow: 'hidden',
+          transition: 'max-height 0.4s ease',
+        }}
+      >
+        <p className="pb-5 font-body text-sm text-equora-dark/50 leading-relaxed">
+          {item.answer}
+        </p>
+      </div>
+    </div>
+  );
 }
 
 export default function FAQ() {
-    const [visible, setVisible] = useState(false);
+  return (
+    <section id="faq" className="bg-equora-ivory py-24 md:py-32 px-6">
+      <div className="max-w-3xl mx-auto">
+        <ScrollReveal direction="up">
+          <div className="text-center mb-16">
+            <p className="font-editorial text-equora-amber italic text-lg mb-3">
+              Preguntas frecuentes
+            </p>
+            <h2 className="font-display text-4xl md:text-5xl text-equora-dark tracking-wider">
+              ¿TIENES DUDAS?
+            </h2>
+          </div>
+        </ScrollReveal>
 
-    useEffect(() => {
-        const observer = new IntersectionObserver(
-            ([entry]) => { if (entry.isIntersecting) setVisible(true); },
-            { threshold: 0.1 }
-        );
-        const el = document.getElementById('faq');
-        if (el) observer.observe(el);
-        return () => observer.disconnect();
-    }, []);
-
-    return (
-        <section id="faq" className="py-24 md:py-32 bg-cream">
-            <div className="max-w-3xl mx-auto px-6 lg:px-8">
-                {/* Header */}
-                <div className={`text-center mb-16 transition-all duration-1000 ${visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
-                    <p className="text-olive/60 text-xs tracking-[0.5em] uppercase mb-4 font-light">
-                        Resolvemos tus dudas
-                    </p>
-                    <h2 className="font-display text-3xl md:text-4xl lg:text-5xl text-cocoa mb-4">
-                        Preguntas <span className="text-caramel italic">frecuentes</span>
-                    </h2>
-                    <div className="mx-auto w-12 h-[1px] bg-golden/60 mt-4" />
-                </div>
-
-                {/* Accordion */}
-                <div className="border-t border-golden/15">
-                    {faqs.map((faq, index) => (
-                        <FAQItem
-                            key={index}
-                            question={faq.question}
-                            answer={faq.answer}
-                            index={index}
-                            visible={visible}
-                        />
-                    ))}
-                </div>
-            </div>
-        </section>
-    );
+        <ScrollReveal direction="up" delay={200}>
+          <div className="space-y-3">
+            {faqItems.map((item, i) => (
+              <FAQItem key={i} item={item} index={i} />
+            ))}
+          </div>
+        </ScrollReveal>
+      </div>
+    </section>
+  );
 }

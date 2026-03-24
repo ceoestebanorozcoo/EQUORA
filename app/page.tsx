@@ -1,27 +1,41 @@
 import Navbar from '@/components/landing/Navbar';
 import Hero from '@/components/landing/Hero';
 import ValueProposition from '@/components/landing/ValueProposition';
+import FeaturedProducts from '@/components/landing/FeaturedProducts';
+import Categories from '@/components/landing/Categories';
+import TechnicalBenefits from '@/components/landing/TechnicalBenefits';
 import BrandStory from '@/components/landing/BrandStory';
-import ProductGrid from '@/components/landing/ProductGrid';
-import Benefits from '@/components/landing/Benefits';
+import BrandValues from '@/components/landing/BrandValues';
+import WhyChooseUs from '@/components/landing/WhyChooseUs';
+import Lifestyle from '@/components/landing/Lifestyle';
 import Testimonials from '@/components/landing/Testimonials';
-import CallToAction from '@/components/landing/CallToAction';
+import CTASection from '@/components/landing/CTASection';
 import FAQ from '@/components/landing/FAQ';
 import Footer from '@/components/landing/Footer';
+import MobileCTA from '@/components/landing/MobileCTA';
+import HashScroller from '@/components/HashScroller';
 
-export default function HomePage() {
+export default function LandingPage() {
   return (
-    <main className="min-h-screen">
+    <>
       <Navbar />
-      <Hero />
-      <ValueProposition />
-      <BrandStory />
-      <ProductGrid />
-      <Benefits />
-      <Testimonials />
-      <CallToAction />
-      <FAQ />
+      <HashScroller />
+      <main>
+        <Hero />
+        <ValueProposition />
+        <FeaturedProducts />
+        <Categories />
+        <TechnicalBenefits />
+        <Lifestyle />
+        <BrandStory />
+        <BrandValues />
+        <WhyChooseUs />
+        <Testimonials />
+        <CTASection />
+        <FAQ />
+      </main>
       <Footer />
-    </main>
+      <MobileCTA />
+    </>
   );
 }

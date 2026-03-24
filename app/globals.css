@@ -1,71 +1,130 @@
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Inter:wght@300;400;500;600;700&display=swap');
-
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500;1,600&family=DM+Sans:wght@300;400;500;600;700&display=swap');
 @import "tailwindcss";
 
-/* ═══════════════════════════════════════════════════════════
-   EQUORA — Brand Design System
-   ─────────────────────────────────────────────────────────
-   Modify any color below to change the entire site palette.
-   All Tailwind utilities (bg-golden, text-caramel, etc.)
-   will update automatically.
-   ═══════════════════════════════════════════════════════════ */
+:root {
+  --color-bg-light: #F0E8D8;
+  --color-bg-white: #FFFFFF;
+  --color-dark-1: #090C12;
+  --color-dark-2: #111827;
+  --color-dark-3: #1E2A3A;
+  --color-amber: #A0622A;
+  --color-amber-light: #C4895A;
+  --color-amber-dark: #7A4820;
+  --color-text-dark: #0D0D0D;
+  --color-text-muted: #6B7280;
+  --color-text-light: #F9F7F4;
 
-@theme {
-  /* ── Primary Palette ── */
-  --color-golden: #E8D1A7;
-  --color-golden-light: #F5E6CC;
-  --color-golden-dark: #D4B87C;
-
-  /* ── Accent Tones ── */
-  --color-caramel: #84592B;
-  --color-wine: #743014;
-  --color-olive: #9D9167;
-
-  /* ── Dark Tones ── */
-  --color-cocoa: #442D1C;
-  --color-cocoa-light: #5A3F2A;
-
-  /* ── Neutral Backgrounds ── */
-  --color-cream: #FDF8F0;
-  --color-cream-dark: #F5EDE0;
-  --color-charcoal: #1A1A1A;
-
-  /* ── Typography ── */
-  --font-display: 'Playfair Display', Georgia, 'Times New Roman', serif;
-  --font-body: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-display: 'Bebas Neue', sans-serif;
+  --font-editorial: 'Cormorant Garamond', serif;
+  --font-body: 'DM Sans', sans-serif;
 }
 
-/* ── Base Styles ── */
+@theme inline {
+  --color-equora-ivory: #F0E8D8;
+  --color-equora-cream: #FAF6F0;
+  --color-equora-dark: #090C12;
+  --color-equora-navy: #111827;
+  --color-equora-amber: #A0622A;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   font-family: var(--font-body);
-  color: var(--color-cocoa);
-  background-color: var(--color-cream);
+  background: var(--color-bg-white);
+  color: var(--color-text-dark);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* ── Scrollbar (WebKit) ── */
-::-webkit-scrollbar {
-  width: 8px;
-}
-::-webkit-scrollbar-track {
-  background: var(--color-cream);
-}
-::-webkit-scrollbar-thumb {
-  background: var(--color-caramel);
-  border-radius: 4px;
-}
-::-webkit-scrollbar-thumb:hover {
-  background: var(--color-cocoa);
+.font-display { font-family: var(--font-display); }
+.font-editorial { font-family: var(--font-editorial); }
+.font-body { font-family: var(--font-body); }
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(32px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
-/* ── Selection ── */
-::selection {
-  background-color: var(--color-golden);
-  color: var(--color-cocoa);
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 
-/* ── Smooth Scroll ── */
-html {
-  scroll-behavior: smooth;
+@keyframes slideInLeft {
+  from { opacity: 0; transform: translateX(-32px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+.animate-fade-in-up { animation: fadeInUp 0.7s ease forwards; }
+.animate-fade-in { animation: fadeIn 0.6s ease forwards; }
+.animate-slide-in-left { animation: slideInLeft 0.7s ease forwards; }
+
+.animation-delay-100 { animation-delay: 100ms; }
+.animation-delay-200 { animation-delay: 200ms; }
+.animation-delay-300 { animation-delay: 300ms; }
+.animation-delay-400 { animation-delay: 400ms; }
+.animation-delay-500 { animation-delay: 500ms; }
+.animation-delay-600 { animation-delay: 600ms; }
+
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+.reveal.visible { opacity: 1; transform: translateY(0); }
+
+.reveal-left {
+  opacity: 0;
+  transform: translateX(-24px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+.reveal-left.visible { opacity: 1; transform: translateX(0); }
+
+.reveal-right {
+  opacity: 0;
+  transform: translateX(24px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+.reveal-right.visible { opacity: 1; transform: translateX(0); }
+
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--color-dark-1); }
+::-webkit-scrollbar-thumb { background: var(--color-amber); border-radius: 3px; }
+
+.navbar-blur {
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+
+.product-card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.product-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 20px 40px rgba(160, 98, 42, 0.15);
+}
+
+.btn-amber {
+  transition: background-color 0.2s ease, box-shadow 0.2s ease, transform 0.15s ease;
+}
+.btn-amber:hover {
+  box-shadow: 0 8px 24px rgba(160, 98, 42, 0.35);
+  transform: translateY(-1px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal, .reveal-left, .reveal-right,
+  .animate-fade-in-up, .animate-fade-in, .animate-slide-in-left {
+    animation: none;
+    transition: none;
+    opacity: 1;
+    transform: none;
+  }
 }

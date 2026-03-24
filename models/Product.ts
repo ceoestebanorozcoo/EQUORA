@@ -1,53 +1,37 @@
-/* ═══════════════════════════════════════════════
-   EQUORA — Product Model (MongoDB/Mongoose)
-   ═══════════════════════════════════════════════ */
+import mongoose, { Schema, Document, Model } from 'mongoose';
 
-import mongoose, { Schema, type Document } from 'mongoose';
-
-export interface IProduct extends Document {
-    name: string;
-    category: string;
-    price: number;
-    imageUrl: string;
-    productCode: string;
-    stockStatus: 'available' | 'soldout';
-    createdAt: Date;
+export interface IProductDocument extends Document {
+  name: string;
+  category: mongoose.Types.ObjectId;
+  price: number;
+  images: string[];
+  description: string;
+  productCode: string;
+  stockStatus: 'available' | 'soldout';
+  isFeatured: boolean;
+  createdAt: Date;
 }
 
-const ProductSchema = new Schema<IProduct>({
-    name: {
-        type: String,
-        required: [true, 'El nombre es obligatorio'],
-        trim: true,
-    },
-    category: {
-        type: String,
-        required: [true, 'La categoría es obligatoria'],
-        enum: ['Percheros', 'Soportes', 'Riendas', 'Canasta', 'Accesorios'],
-    },
-    price: {
-        type: Number,
-        required: [true, 'El precio es obligatorio'],
-        min: [0, 'El precio no puede ser negativo'],
-    },
-    imageUrl: {
-        type: String,
-        required: [true, 'La imagen es obligatoria'],
-    },
-    productCode: {
-        type: String,
-        required: true,
-        unique: true,
-    },
+const ProductSchema = new Schema<IProductDocument>(
+  {
+    name: { type: String, required: true },
+    category: { type: Schema.Types.ObjectId, ref: 'Category', required: true },
+    price: { type: Number, required: true },
+    images: { type: [String], default: [] },
+    description: { type: String, default: '' },
+    productCode: { type: String, unique: true },
     stockStatus: {
-        type: String,
-        enum: ['available', 'soldout'],
-        default: 'available',
+      type: String,
+      enum: ['available', 'soldout'],
+      default: 'available',
     },
-    createdAt: {
-        type: Date,
-        default: Date.now,
-    },
-});
+    isFeatured: { type: Boolean, default: false },
+  },
+  { timestamps: true }
+);
 
-export default mongoose.models.Product || mongoose.model<IProduct>('Product', ProductSchema);
+const Product: Model<IProductDocument> =
+  mongoose.models.Product ||
+  mongoose.model<IProductDocument>('Product', ProductSchema);
+
+export default Product;

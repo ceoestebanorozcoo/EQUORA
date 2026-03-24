@@ -1,203 +1,189 @@
 'use client';
 
-import { useEffect, useState, useCallback } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
-import Image from 'next/image';
-import { FiPlus, FiLogOut, FiPackage } from 'react-icons/fi';
+import api from '@/lib/axios';
+import { IProduct } from '@/types';
 import ProductTable from '@/components/dashboard/ProductTable';
 import ProductForm from '@/components/dashboard/ProductForm';
-import DeleteModal from '@/components/dashboard/DeleteModal';
-import { getProducts, logout } from '@/lib/api';
-import type { Product } from '@/types';
+import CategoryManager from '@/components/dashboard/CategoryManager';
+import FeaturedManager from '@/components/dashboard/FeaturedManager';
+import TestimonialManager from '@/components/dashboard/TestimonialManager';
+import ChangeEmailForm from '@/components/dashboard/ChangeEmailForm';
+import ChangePasswordForm from '@/components/dashboard/ChangePasswordForm';
+import Modal from '@/components/ui/Modal';
+import Button from '@/components/ui/Button';
+import { IoAdd, IoLogOut, IoGrid, IoPricetag, IoSettings, IoStar, IoChatbubbleEllipses } from 'react-icons/io5';
+
+type Tab = 'products' | 'featured' | 'categories' | 'testimonials' | 'account';
 
 export default function DashboardPage() {
-    const router = useRouter();
-    const [products, setProducts] = useState<Product[]>([]);
-    const [loading, setLoading] = useState(true);
-    const [showForm, setShowForm] = useState(false);
-    const [editingProduct, setEditingProduct] = useState<Product | null>(null);
-    const [deletingProduct, setDeletingProduct] = useState<Product | null>(null);
+  const router = useRouter();
+  const [tab, setTab] = useState<Tab>('products');
+  const [products, setProducts] = useState<IProduct[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [formOpen, setFormOpen] = useState(false);
+  const [editProduct, setEditProduct] = useState<IProduct | null>(null);
+  const [search, setSearch] = useState('');
 
-    const fetchProducts = useCallback(async () => {
-        try {
-            setLoading(true);
-            const res = await getProducts();
-            setProducts(res.data);
-        } catch (error) {
-            console.error('Error fetching products:', error);
-        } finally {
-            setLoading(false);
-        }
-    }, []);
+  const fetchProducts = useCallback(() => {
+    setLoading(true);
+    api.get('/products').then((res) => {
+      setProducts(res.data.data || []);
+    }).finally(() => setLoading(false));
+  }, []);
 
-    useEffect(() => {
-        fetchProducts();
-    }, [fetchProducts]);
+  // eslint-disable-next-line react-hooks/set-state-in-effect
+  useEffect(() => { fetchProducts(); }, [fetchProducts]);
 
-    const handleLogout = async () => {
-        try {
-            await logout();
-            router.push('/dashboard/login');
-        } catch (error) {
-            console.error('Logout error:', error);
-        }
-    };
+  const handleLogout = async () => {
+    await api.post('/auth/logout');
+    router.push('/dashboard/login');
+  };
 
-    const handleEdit = (product: Product) => {
-        setEditingProduct(product);
-        setShowForm(true);
-    };
+  const handleEdit = (product: IProduct) => {
+    setEditProduct(product);
+    setFormOpen(true);
+  };
 
-    const handleSaved = () => {
-        setShowForm(false);
-        setEditingProduct(null);
-        fetchProducts();
-    };
+  const handleFormSuccess = () => {
+    setFormOpen(false);
+    setEditProduct(null);
+    fetchProducts();
+  };
 
-    const handleDeleted = () => {
-        setDeletingProduct(null);
-        fetchProducts();
-    };
+  const tabs: { key: Tab; label: string; icon: React.ReactNode }[] = [
+    { key: 'products',      label: 'Productos',    icon: <IoGrid size={18} aria-hidden="true" /> },
+    { key: 'categories',   label: 'Categorías',   icon: <IoPricetag size={18} aria-hidden="true" /> },
+    { key: 'featured',     label: 'Destacados',   icon: <IoStar size={18} aria-hidden="true" /> },
+    { key: 'testimonials', label: 'Testimonios',  icon: <IoChatbubbleEllipses size={18} aria-hidden="true" /> },
+    { key: 'account',      label: 'Mi cuenta',    icon: <IoSettings size={18} aria-hidden="true" /> },
+  ];
 
-    const availableCount = products.filter((p) => p.stockStatus === 'available').length;
-    const soldOutCount = products.filter((p) => p.stockStatus === 'soldout').length;
-
-    return (
-        <div className="min-h-screen bg-cream">
-            {/* ── Top Bar ── */}
-            <header className="bg-white border-b border-golden/15 sticky top-0 z-40">
-                <div className="max-w-7xl mx-auto px-6 lg:px-8 py-4 flex items-center justify-between">
-                    <div className="flex items-center gap-3">
-                        <div className="relative w-9 h-9">
-                            <Image
-                                src="/logo.png"
-                                alt="Equora"
-                                fill
-                                className="object-contain"
-                                priority
-                            />
-                        </div>
-                        <div>
-                            <h1 className="font-display text-lg text-cocoa tracking-wider">
-                                EQUORA
-                            </h1>
-                            <p className="text-[10px] text-olive/50 tracking-[0.2em] uppercase font-light">
-                                Dashboard
-                            </p>
-                        </div>
-                    </div>
-
-                    <button
-                        onClick={handleLogout}
-                        className="flex items-center gap-2 text-xs text-olive/60 hover:text-wine tracking-[0.15em] uppercase font-light transition-colors duration-300"
-                    >
-                        <FiLogOut className="text-sm" />
-                        Cerrar sesión
-                    </button>
-                </div>
-            </header>
-
-            {/* ── Main Content ── */}
-            <main className="max-w-7xl mx-auto px-6 lg:px-8 py-8">
-                {/* Stats */}
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
-                    <div className="bg-white rounded-lg border border-golden/15 p-5">
-                        <div className="flex items-center gap-3">
-                            <div className="w-10 h-10 rounded-full bg-golden/10 flex items-center justify-center">
-                                <FiPackage className="text-caramel" />
-                            </div>
-                            <div>
-                                <p className="text-2xl font-display text-cocoa">{products.length}</p>
-                                <p className="text-[10px] text-olive/50 tracking-[0.2em] uppercase font-light">
-                                    Total productos
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div className="bg-white rounded-lg border border-golden/15 p-5">
-                        <div className="flex items-center gap-3">
-                            <div className="w-10 h-10 rounded-full bg-olive/10 flex items-center justify-center">
-                                <div className="w-2.5 h-2.5 rounded-full bg-olive" />
-                            </div>
-                            <div>
-                                <p className="text-2xl font-display text-cocoa">{availableCount}</p>
-                                <p className="text-[10px] text-olive/50 tracking-[0.2em] uppercase font-light">
-                                    Disponibles
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div className="bg-white rounded-lg border border-golden/15 p-5">
-                        <div className="flex items-center gap-3">
-                            <div className="w-10 h-10 rounded-full bg-wine/10 flex items-center justify-center">
-                                <div className="w-2.5 h-2.5 rounded-full bg-wine" />
-                            </div>
-                            <div>
-                                <p className="text-2xl font-display text-cocoa">{soldOutCount}</p>
-                                <p className="text-[10px] text-olive/50 tracking-[0.2em] uppercase font-light">
-                                    Agotados
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                {/* Toolbar */}
-                <div className="flex items-center justify-between mb-6">
-                    <h2 className="font-display text-xl text-cocoa">
-                        Productos
-                    </h2>
-                    <button
-                        onClick={() => {
-                            setEditingProduct(null);
-                            setShowForm(true);
-                        }}
-                        className="flex items-center gap-2 px-5 py-2.5 bg-cocoa text-golden text-xs tracking-[0.2em] uppercase font-light rounded-sm hover:bg-caramel transition-all duration-300"
-                    >
-                        <FiPlus className="text-sm" />
-                        Nuevo Producto
-                    </button>
-                </div>
-
-                {/* Table */}
-                {loading ? (
-                    <div className="bg-white rounded-lg border border-golden/15 p-12 text-center">
-                        <div className="w-8 h-8 border-2 border-golden/30 border-t-golden rounded-full animate-spin mx-auto mb-4" />
-                        <p className="text-olive/50 text-xs tracking-[0.3em] uppercase font-light">
-                            Cargando productos...
-                        </p>
-                    </div>
-                ) : (
-                    <ProductTable
-                        products={products}
-                        onEdit={handleEdit}
-                        onDelete={setDeletingProduct}
-                        onRefresh={fetchProducts}
-                    />
-                )}
-            </main>
-
-            {/* ── Modals ── */}
-            {showForm && (
-                <ProductForm
-                    product={editingProduct}
-                    onClose={() => {
-                        setShowForm(false);
-                        setEditingProduct(null);
-                    }}
-                    onSaved={handleSaved}
-                />
-            )}
-
-            {deletingProduct && (
-                <DeleteModal
-                    product={deletingProduct}
-                    onClose={() => setDeletingProduct(null)}
-                    onDeleted={handleDeleted}
-                />
-            )}
+  return (
+    <div className="min-h-screen bg-[#F9F7F4]">
+      {/* Top bar */}
+      <header className="bg-equora-navy border-b border-white/10 px-8 py-4 flex items-center justify-between sticky top-0 z-40">
+        {/* Logo + brand */}
+        <div className="flex items-center gap-6">
+          <a href="/" className="flex items-center gap-2.5 group transition-transform duration-300 hover:scale-105">
+            <div className="relative h-9 w-9 rounded-full bg-equora-amber/10 border border-equora-amber/25 overflow-hidden transition-colors duration-300 group-hover:border-equora-amber/50 shrink-0">
+              <img src="/logo.svg" alt="EQUORA" className="w-full h-full object-contain p-1.5" />
+            </div>
+            <span className="font-display text-lg tracking-[5px] text-white group-hover:text-equora-amber transition-colors duration-300">
+              EQUORA
+            </span>
+          </a>
+          <div className="hidden sm:block w-px h-5 bg-white/10" />
+          <span className="hidden sm:block font-body text-xs text-[#F9F7F4]/40 tracking-widest uppercase">
+            Panel de administrador
+          </span>
         </div>
-    );
+
+        {/* Right side */}
+        <div className="flex items-center gap-4">
+          <button
+            onClick={handleLogout}
+            className="flex items-center gap-2 text-[#F9F7F4]/60 hover:text-equora-amber transition-colors cursor-pointer font-body text-sm"
+            aria-label="Cerrar sesión"
+          >
+            <IoLogOut size={18} aria-hidden="true" />
+            <span className="hidden sm:inline">Salir</span>
+          </button>
+        </div>
+      </header>
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8">
+        {/* Tabs */}
+        <div className="flex gap-1 bg-white rounded-2xl p-1 shadow-sm border border-gray-100 mb-8 w-full sm:w-fit">
+          {tabs.map((t) => (
+            <button
+              key={t.key}
+              onClick={() => setTab(t.key)}
+              className={`flex items-center gap-2 px-4 py-2.5 rounded-xl font-body text-sm font-medium transition-all cursor-pointer ${
+                tab === t.key
+                  ? 'bg-equora-navy text-white shadow-sm'
+                  : 'text-[#6B7280] hover:text-equora-dark'
+              }`}
+              aria-pressed={tab === t.key}
+            >
+              {t.icon}
+              {t.label}
+            </button>
+          ))}
+        </div>
+
+        {/* Products Tab */}
+        {tab === 'products' && (
+          <div>
+            <div className="flex items-center justify-between mb-6">
+              <div>
+                <h2 className="font-display text-2xl tracking-wider text-equora-dark">PRODUCTOS</h2>
+                <p className="font-body text-sm text-[#6B7280] mt-1">{products.length} producto{products.length !== 1 ? 's' : ''} registrado{products.length !== 1 ? 's' : ''}</p>
+              </div>
+              <Button onClick={() => { setEditProduct(null); setFormOpen(true); }} size="sm">
+                <IoAdd size={16} className="mr-1" aria-hidden="true" />
+                Nuevo producto
+              </Button>
+            </div>
+            <div className="mb-4">
+              <input
+                type="text"
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                placeholder="Buscar por nombre o código..."
+                className="w-full sm:w-80 px-4 py-2.5 rounded-xl border border-gray-200 bg-white font-body text-sm text-equora-dark placeholder-[#9CA3AF] focus:outline-none focus:ring-2 focus:ring-equora-amber/30 focus:border-equora-amber/50 transition"
+              />
+            </div>
+            <ProductTable
+              products={products.filter((p) =>
+                !search.trim() ||
+                p.name.toLowerCase().includes(search.toLowerCase()) ||
+                p.productCode.toLowerCase().includes(search.toLowerCase())
+              )}
+              loading={loading}
+              onEdit={handleEdit}
+              onRefresh={fetchProducts}
+            />
+          </div>
+        )}
+
+        {/* Featured Tab */}
+        {tab === 'featured' && <FeaturedManager />}
+
+        {/* Categories Tab */}
+        {tab === 'categories' && <CategoryManager />}
+
+        {/* Testimonials Tab */}
+        {tab === 'testimonials' && <TestimonialManager />}
+
+        {/* Account Tab */}
+        {tab === 'account' && (
+          <div className="max-w-lg space-y-8">
+            <h2 className="font-display text-2xl tracking-wider text-equora-dark">MI CUENTA</h2>
+            <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
+              <ChangeEmailForm />
+            </div>
+            <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
+              <ChangePasswordForm />
+            </div>
+          </div>
+        )}
+      </div>
+
+      {/* Product form modal */}
+      <Modal
+        isOpen={formOpen}
+        onClose={() => { setFormOpen(false); setEditProduct(null); }}
+        title={editProduct ? 'Editar producto' : 'Nuevo producto'}
+        size="lg"
+      >
+        <ProductForm
+          product={editProduct}
+          onSuccess={handleFormSuccess}
+          onCancel={() => { setFormOpen(false); setEditProduct(null); }}
+        />
+      </Modal>
+    </div>
+  );
 }
