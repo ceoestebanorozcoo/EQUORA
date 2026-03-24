@@ -35,7 +35,7 @@ export default function ProductCard({ product }: { product: IProduct }) {
 
         {/* Category tag */}
         {category?.name && (
-          <span className="absolute top-4 left-4 px-3 py-1 rounded-full bg-equora-amber text-white font-body text-[11px] font-semibold tracking-widest uppercase">
+          <span className="absolute top-4 left-4 px-3 py-1 rounded-full bg-equora-navy text-white font-body text-[11px] font-semibold tracking-widest uppercase">
             {category.name}
           </span>
         )}
