@@ -143,7 +143,7 @@ export default function LoginPage() {
                   required
                 />
               </div>
-              <Button type="submit" loading={loading} className="w-full mt-2 !bg-[#4a2e1f] hover:!bg-equora-amber !text-white">Ingresar</Button>
+              <Button type="submit" loading={loading} className="w-full mt-2 bg-[#4a2e1f]! hover:bg-equora-amber! text-white!">Ingresar</Button>
               <button
                 type="button"
                 onClick={() => { setStep('forgot-email'); setError(''); setSuccess(''); }}
@@ -171,7 +171,7 @@ export default function LoginPage() {
                   required
                 />
               </div>
-              <Button type="submit" loading={loading} className="w-full !bg-[#4a2e1f] hover:!bg-equora-amber !text-white">Enviar código</Button>
+              <Button type="submit" loading={loading} className="w-full bg-[#4a2e1f]! hover:bg-equora-amber! text-white!">Enviar código</Button>
               <div className="flex items-center gap-3">
                 <div className="flex-1 h-px bg-equora-dark/10" />
                 <button type="button" onClick={() => { setStep('login'); setError(''); }} className="flex items-center gap-1.5 font-body text-xs text-equora-dark/40 hover:text-equora-amber transition-colors cursor-pointer shrink-0 group">
@@ -189,7 +189,7 @@ export default function LoginPage() {
               <h2 className="font-display text-xl tracking-wider text-equora-dark mb-2">INGRESAR CÓDIGO</h2>
               <p className="font-body text-sm text-[#E7D6C2]/40">Código válido por 15 minutos.</p>
               <CodeInput value={code} onChange={setCode} disabled={loading} />
-              <Button type="submit" loading={loading} className="w-full !bg-[#4a2e1f] hover:!bg-equora-amber !text-white">Verificar código</Button>
+              <Button type="submit" loading={loading} className="w-full bg-[#4a2e1f]! hover:bg-equora-amber! text-white!">Verificar código</Button>
               <div className="flex items-center gap-3">
                 <div className="flex-1 h-px bg-equora-dark/10" />
                 <button type="button" onClick={() => { setStep('forgot-email'); setCode(''); setError(''); }} className="flex items-center gap-1.5 font-body text-xs text-equora-dark/40 hover:text-equora-amber transition-colors cursor-pointer shrink-0 group">
@@ -213,7 +213,7 @@ export default function LoginPage() {
                 <label htmlFor="confirm-pw" className="block text-sm font-medium text-equora-dark/60 mb-1.5 font-body">Confirmar contraseña</label>
                 <input id="confirm-pw" type="password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} minLength={8} className="w-full px-4 py-3 bg-white border border-equora-dark/15 rounded-xl font-body text-sm text-equora-dark focus:outline-none focus:ring-2 focus:ring-equora-amber/40 focus:border-equora-amber" required />
               </div>
-              <Button type="submit" loading={loading} className="w-full !bg-[#4a2e1f] hover:!bg-equora-amber !text-white">Guardar nueva contraseña</Button>
+              <Button type="submit" loading={loading} className="w-full bg-[#4a2e1f]! hover:bg-equora-amber! text-white!">Guardar nueva contraseña</Button>
             </form>
           )}
         </div>
