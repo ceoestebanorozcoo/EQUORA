@@ -74,7 +74,7 @@ export default function Categories() {
           <div className="text-center mt-12">
             <Link
               href="/categorias"
-              className="inline-flex items-center gap-3 px-10 py-4 bg-equora-amber hover:bg-[#8a5224] text-white rounded-full font-body font-medium text-sm tracking-widest uppercase transition-colors duration-300"
+              className="inline-flex items-center gap-3 px-10 py-4 bg-equora-amber hover:bg-[#0d1e30] text-white rounded-full font-body font-medium text-sm tracking-widest uppercase transition-colors duration-300"
             >
               Ver más categorías
             </Link>

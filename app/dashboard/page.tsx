@@ -61,7 +61,7 @@ export default function DashboardPage() {
   ];
 
   return (
-    <div className="min-h-screen bg-[#F9F7F4]">
+    <div className="min-h-screen bg-[#E7D6C2]">
       {/* Top bar */}
       <header className="bg-equora-navy border-b border-white/10 sticky top-0 z-40">
         <div className="px-4 sm:px-6 md:px-8 lg:px-10 py-3 sm:py-4 md:py-5 flex items-center justify-between">
@@ -84,7 +84,7 @@ export default function DashboardPage() {
           {/* Right side */}
           <button
             onClick={handleLogout}
-            className="flex items-center gap-2 text-[#F9F7F4]/60 hover:text-equora-amber transition-colors cursor-pointer font-body text-sm"
+            className="flex items-center gap-2 text-[#E7D6C2]/60 hover:text-equora-amber transition-colors cursor-pointer font-body text-sm"
             aria-label="Cerrar sesión"
           >
             <IoLogOut size={20} aria-hidden="true" />

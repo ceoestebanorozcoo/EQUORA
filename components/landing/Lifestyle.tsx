@@ -35,7 +35,7 @@ export default function Lifestyle() {
               />
               <div className="absolute inset-0 bg-linear-to-t from-equora-dark/60 to-transparent" />
               <div className="absolute bottom-8 left-8">
-                <p className="font-display text-[#F9F7F4] tracking-wider text-sm md:text-lg">
+                <p className="font-display text-[#E7D6C2] tracking-wider text-sm md:text-lg">
                   TRABAJO
                 </p>
               </div>
@@ -55,7 +55,7 @@ export default function Lifestyle() {
                 />
                 <div className="absolute inset-0 bg-linear-to-t from-equora-dark/60 to-transparent" />
                 <div className="absolute bottom-6 left-6">
-                  <p className="font-display text-[#F9F7F4] tracking-wider text-sm md:text-lg">
+                  <p className="font-display text-[#E7D6C2] tracking-wider text-sm md:text-lg">
                     ENTRENAMIENTO
                   </p>
                 </div>
@@ -73,7 +73,7 @@ export default function Lifestyle() {
                 />
                 <div className="absolute inset-0 bg-linear-to-t from-equora-dark/60 to-transparent" />
                 <div className="absolute bottom-6 left-6">
-                  <p className="font-display text-[#F9F7F4] tracking-wider text-sm md:text-lg">
+                  <p className="font-display text-[#E7D6C2] tracking-wider text-sm md:text-lg">
                     COMPETENCIA
                   </p>
                 </div>

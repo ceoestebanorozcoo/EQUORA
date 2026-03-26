@@ -134,7 +134,7 @@ export default function FeaturedProducts() {
           <div className="text-center mt-14">
             <Link
               href="/productos"
-              className="inline-flex items-center gap-3 px-10 py-4 bg-equora-amber hover:bg-[#8a5224] text-white rounded-full font-body font-medium text-sm tracking-widest uppercase transition-colors duration-300"
+              className="inline-flex items-center gap-3 px-10 py-4 bg-equora-amber hover:bg-[#0d1e30] text-white rounded-full font-body font-medium text-sm tracking-widest uppercase transition-colors duration-300"
             >
               Ver más productos
             </Link>

@@ -28,9 +28,9 @@ export default function CategoriesPage() {
         <div className="relative max-w-7xl mx-auto px-6 pt-36 pb-20 md:pt-44 md:pb-28">
           <button
             onClick={() => router.push('/')}
-            className="group inline-flex items-center gap-2.5 font-body text-sm text-[#F9F7F4]/80 hover:text-equora-amber transition-all duration-300 mb-10 cursor-pointer"
+            className="group inline-flex items-center gap-2.5 font-body text-sm text-[#E7D6C2]/80 hover:text-equora-amber transition-all duration-300 mb-10 cursor-pointer"
           >
-            <span className="flex items-center justify-center w-8 h-8 rounded-full border border-[#F9F7F4]/50 group-hover:border-equora-amber/60 group-hover:bg-equora-amber/10 transition-all duration-300">
+            <span className="flex items-center justify-center w-8 h-8 rounded-full border border-[#E7D6C2]/50 group-hover:border-equora-amber/60 group-hover:bg-equora-amber/10 transition-all duration-300">
               <ArrowLeft size={14} className="transition-transform duration-300 group-hover:-translate-x-0.5" />
             </span>
             <span className="tracking-wide uppercase text-xs font-medium">Volver al inicio</span>
@@ -39,7 +39,7 @@ export default function CategoriesPage() {
           <p className="font-editorial text-equora-amber italic text-lg md:text-xl mb-3">
             Búsqueda por secciones
           </p>
-          <h1 className="font-display text-3xl sm:text-4xl md:text-5xl lg:text-7xl text-[#F9F7F4] tracking-wider">
+          <h1 className="font-display text-3xl sm:text-4xl md:text-5xl lg:text-7xl text-[#E7D6C2] tracking-wider">
             TODAS LAS CATEGORÍAS
           </h1>
         </div>
@@ -81,10 +81,10 @@ export default function CategoriesPage() {
                 )}
                 <div className="absolute inset-0 bg-linear-to-t from-equora-dark/80 via-equora-dark/20 to-transparent" />
                 <div className="absolute bottom-0 left-0 p-8">
-                  <h2 className="font-display text-3xl text-[#F9F7F4] tracking-wider mb-1 group-hover:text-gray-300 group-hover:scale-105 inline-block origin-left transition-all duration-300">
+                  <h2 className="font-display text-3xl text-[#E7D6C2] tracking-wider mb-1 group-hover:text-gray-300 group-hover:scale-105 inline-block origin-left transition-all duration-300">
                     {cat.name.toUpperCase()}
                   </h2>
-                  <p className="font-body text-[#F9F7F4]/60 text-sm">
+                  <p className="font-body text-[#E7D6C2]/60 text-sm">
                     {cat.productCount ?? 0} {cat.productCount === 1 ? 'producto' : 'productos'}
                   </p>
                 </div>

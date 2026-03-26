@@ -75,7 +75,7 @@ export default function BrandStory() {
             </ScrollReveal>
 
             <ScrollReveal direction="right" delay={150}>
-              <p className="font-body text-[#F9F7F4]/65 text-[15px] leading-relaxed">
+              <p className="font-body text-[#E7D6C2]/65 text-[15px] leading-relaxed">
                 Mi amor por los caballos ha existido toda la vida. Crecí en una
                 finca rodeada de campo, ganadería y caballos — un privilegio que
                 marcó cada parte de quien soy. Pero si hay alguien de quien heredé
@@ -85,7 +85,7 @@ export default function BrandStory() {
             </ScrollReveal>
 
             <ScrollReveal direction="right" delay={250}>
-              <p className="font-body text-[#F9F7F4]/65 text-[15px] leading-relaxed">
+              <p className="font-body text-[#E7D6C2]/65 text-[15px] leading-relaxed">
                 Con los años, viviendo de cerca todo lo que rodea al mundo equino,
                 surgió una idea: crear productos pensados para quienes comparten
                 esta misma pasión. Detalles que acompañen cada momento, desde la
@@ -106,7 +106,7 @@ export default function BrandStory() {
 
             <ScrollReveal direction="right" delay={450}>
               <div className="h-px w-full bg-white/8" />
-              <p className="font-body text-[#F9F7F4]/65 text-[15px] leading-relaxed mt-5 text-center">
+              <p className="font-body text-[#E7D6C2]/65 text-[15px] leading-relaxed mt-5 text-center">
                 Así nació{' '}
                 <span className="text-white font-semibold">Equora</span>
                 , una marca inspirada en quienes viven esta pasión todos los días.

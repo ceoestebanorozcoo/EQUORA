@@ -29,7 +29,7 @@ export default function Button({
     ghost:
       'text-equora-amber hover:bg-equora-amber/10 focus-visible:ring-equora-amber',
     dark:
-      'bg-equora-dark text-white hover:bg-[#1E2A3A] focus-visible:ring-equora-dark',
+      'bg-equora-dark text-white hover:bg-[#142840] focus-visible:ring-equora-dark',
   };
 
   const sizes = {

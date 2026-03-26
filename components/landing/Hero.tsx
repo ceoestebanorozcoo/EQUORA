@@ -114,14 +114,14 @@ export default function Hero() {
 
           {/* Headline line 1 */}
           <div className={`overflow-hidden mb-1 ${anim(150, 'left').className}`} style={anim(150, 'left').style}>
-            <span className="block font-display text-4xl sm:text-5xl md:text-6xl lg:text-7xl leading-tight text-[#F9F7F4] tracking-wide">
+            <span className="block font-display text-4xl sm:text-5xl md:text-6xl lg:text-7xl leading-tight text-[#E7D6C2] tracking-wide">
               Cada decisión
             </span>
           </div>
 
           {/* Headline line 2 */}
           <div className={`overflow-hidden mb-2 ${anim(280, 'left').className}`} style={anim(280, 'left').style}>
-            <span className="block font-display text-4xl sm:text-5xl md:text-6xl lg:text-7xl leading-tight text-[#F9F7F4] tracking-wide">
+            <span className="block font-display text-4xl sm:text-5xl md:text-6xl lg:text-7xl leading-tight text-[#E7D6C2] tracking-wide">
               habla de ti…
             </span>
           </div>
@@ -136,7 +136,7 @@ export default function Hero() {
           {/* Description with vertical amber line */}
           <div className={`flex items-stretch gap-4 mb-10 ${anim(520, 'up').className}`} style={anim(520, 'up').style}>
             <div className="w-px bg-equora-amber/50 shrink-0" />
-            <p className="font-body text-sm text-[#F9F7F4]/50 leading-relaxed max-w-sm">
+            <p className="font-body text-sm text-[#E7D6C2]/50 leading-relaxed max-w-sm">
               Nosotros hacemos productos diseñados para acompañarte en cada momento, sin fallar cuando<br />más importa.
             </p>
           </div>
@@ -153,7 +153,7 @@ export default function Hero() {
               href={whatsappLink}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center justify-center gap-2.5 px-8 py-4 rounded-full bg-equora-amber text-white font-body font-semibold text-sm tracking-widest uppercase hover:bg-[#8a5224] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-equora-amber/30"
+              className="inline-flex items-center justify-center gap-2.5 px-8 py-4 rounded-full bg-equora-amber text-white font-body font-semibold text-sm tracking-widest uppercase hover:bg-[#0d1e30] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-equora-amber/30"
             >
               <IoLogoWhatsapp size={19} aria-hidden="true" />
               Comprar

@@ -150,7 +150,7 @@ export default function ProductDetail() {
         <Navbar />
         <div className="min-h-screen bg-equora-dark flex items-center justify-center px-6">
           <div className="text-center">
-            <p className="font-editorial italic text-2xl text-[#F9F7F4]/50 mb-6">
+            <p className="font-editorial italic text-2xl text-[#E7D6C2]/50 mb-6">
               {error || 'Producto no encontrado'}
             </p>
             <Link href="/productos" className="font-body text-sm text-equora-amber hover:underline cursor-pointer">
@@ -179,9 +179,9 @@ export default function ProductDetail() {
         <div className="relative max-w-5xl mx-auto px-6 pt-36 pb-20 md:pt-44 md:pb-24">
           <button
             onClick={() => router.back()}
-            className="group inline-flex items-center gap-2.5 font-body text-sm text-[#F9F7F4]/80 hover:text-equora-amber transition-all duration-300 mb-10 cursor-pointer"
+            className="group inline-flex items-center gap-2.5 font-body text-sm text-[#E7D6C2]/80 hover:text-equora-amber transition-all duration-300 mb-10 cursor-pointer"
           >
-            <span className="flex items-center justify-center w-8 h-8 rounded-full border border-[#F9F7F4]/50 group-hover:border-equora-amber/60 group-hover:bg-equora-amber/10 transition-all duration-300">
+            <span className="flex items-center justify-center w-8 h-8 rounded-full border border-[#E7D6C2]/50 group-hover:border-equora-amber/60 group-hover:bg-equora-amber/10 transition-all duration-300">
               <ArrowLeft size={14} className="transition-transform duration-300 group-hover:-translate-x-0.5" />
             </span>
             <span className="tracking-wide uppercase text-xs font-medium">Volver</span>
@@ -192,7 +192,7 @@ export default function ProductDetail() {
               {category.name}
             </p>
           )}
-          <h1 className="font-display text-3xl sm:text-4xl md:text-5xl lg:text-7xl text-[#F9F7F4] tracking-wider leading-tight">
+          <h1 className="font-display text-3xl sm:text-4xl md:text-5xl lg:text-7xl text-[#E7D6C2] tracking-wider leading-tight">
             DETALLE DEL PRODUCTO
           </h1>
         </div>
@@ -255,7 +255,7 @@ export default function ProductDetail() {
                     href={whatsappLink}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex-1 flex items-center justify-center gap-2.5 py-4 bg-equora-amber text-white rounded-full font-body font-medium tracking-wide hover:bg-[#8a5224] transition-colors duration-300 cursor-pointer"
+                    className="flex-1 flex items-center justify-center gap-2.5 py-4 bg-equora-amber text-white rounded-full font-body font-medium tracking-wide hover:bg-[#0d1e30] transition-colors duration-300 cursor-pointer"
                     aria-label={`Comprar ${product.name} por WhatsApp`}
                   >
                     <IoLogoWhatsapp size={21} aria-hidden="true" />
@@ -290,7 +290,7 @@ export default function ProductDetail() {
             ].map(({ icon: Icon, text, label }) => (
               <div
                 key={label}
-                className="group flex items-center gap-5 px-6 py-5 bg-[#F0EBE1] rounded-2xl border border-equora-dark/8 transition-all duration-300 hover:border-equora-amber/40 hover:shadow-lg hover:shadow-equora-amber/10 hover:-translate-y-0.5"
+                className="group flex items-center gap-5 px-6 py-5 bg-[#E7D6C2] rounded-2xl border border-equora-dark/8 transition-all duration-300 hover:border-equora-amber/40 hover:shadow-lg hover:shadow-equora-amber/10 hover:-translate-y-0.5"
               >
                 <span className="flex items-center justify-center w-10 h-10 rounded-full bg-equora-amber/15 shrink-0 transition-all duration-300 group-hover:bg-equora-amber/25 group-hover:scale-110">
                   <Icon className="w-5 h-5 text-equora-amber" />

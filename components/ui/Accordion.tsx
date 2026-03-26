@@ -25,7 +25,7 @@ function AccordionItemComponent({ item, index }: { item: AccordionItem; index: n
         aria-controls={`accordion-answer-${index}`}
         id={`accordion-question-${index}`}
       >
-        <span className="font-body font-medium text-[#F9F7F4] pr-8 group-hover:text-[#C4895A] transition-colors">
+        <span className="font-body font-medium text-[#E7D6C2] pr-8 group-hover:text-[#C4895A] transition-colors">
           {item.question}
         </span>
         <span className="shrink-0 text-equora-amber" aria-hidden="true">

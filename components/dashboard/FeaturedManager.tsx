@@ -107,7 +107,7 @@ function SelectionPanel<T extends { _id: string }>({
           className={`flex items-center gap-2 px-4 sm:px-5 py-2.5 rounded-xl font-body text-xs sm:text-sm font-medium transition-all duration-200 cursor-pointer shrink-0 ${
             saved
               ? 'bg-green-50 text-green-600 border border-green-200'
-              : 'bg-equora-amber text-white hover:bg-[#8a5224] shadow-sm hover:shadow-md'
+              : 'bg-equora-amber text-white hover:bg-[#0d1e30] shadow-sm hover:shadow-md'
           }`}
         >
           {saved ? <IoCheckmarkCircle size={15} /> : <IoSave size={15} />}
@@ -126,7 +126,7 @@ function SelectionPanel<T extends { _id: string }>({
             placeholder="Buscar..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="w-full pl-8 pr-3 py-2 rounded-xl border border-gray-100 bg-[#F9F7F4] font-body text-sm text-equora-dark placeholder:text-gray-300 focus:outline-none focus:border-equora-amber focus:bg-white transition-all"
+            className="w-full pl-8 pr-3 py-2 rounded-xl border border-gray-100 bg-[#E7D6C2] font-body text-sm text-equora-dark placeholder:text-gray-300 focus:outline-none focus:border-equora-amber focus:bg-white transition-all"
           />
         </div>
 

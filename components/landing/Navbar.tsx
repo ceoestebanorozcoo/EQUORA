@@ -115,7 +115,7 @@ export default function Navbar() {
             {/* CTA desktop */}
             <a
               href="/productos"
-              className="hidden md:flex items-center gap-2 bg-equora-amber hover:bg-[#8a5224] text-white font-body text-base font-medium px-6 py-3 rounded-full transition-colors duration-200"
+              className="hidden md:flex items-center gap-2 bg-equora-amber hover:bg-[#0d1e30] text-white font-body text-base font-medium px-6 py-3 rounded-full transition-colors duration-200"
             >
               <IoBagHandleOutline size={17} />
               Comprar

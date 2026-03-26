@@ -143,7 +143,7 @@ export default function ProductTable({ products, loading, onEdit, onRefresh }: P
       {/* ── Table layout (≥ md = 768px+) ── */}
       <div className="hidden md:block overflow-x-auto rounded-2xl border border-gray-100 shadow-sm">
         <table className="w-full min-w-150" role="table">
-          <thead className="bg-equora-navy text-[#F9F7F4]">
+          <thead className="bg-equora-navy text-[#E7D6C2]">
             <tr>
               <th className="text-left py-4 px-5 font-body text-xs font-medium tracking-wider uppercase" scope="col">Producto</th>
               <th className="text-left py-4 px-5 font-body text-xs font-medium tracking-wider uppercase" scope="col">Código</th>
@@ -156,7 +156,7 @@ export default function ProductTable({ products, loading, onEdit, onRefresh }: P
             {products.map((product) => {
               const category = product.category as ICategory;
               return (
-                <tr key={product._id} className="hover:bg-[#F9F7F4] transition-colors">
+                <tr key={product._id} className="hover:bg-[#E7D6C2] transition-colors">
                   <td className="py-4 px-5">
                     <div className="flex items-center gap-3">
                       <div className="w-12 h-12 rounded-xl overflow-hidden bg-equora-ivory shrink-0">

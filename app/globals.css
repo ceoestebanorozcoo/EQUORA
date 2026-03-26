@@ -2,17 +2,17 @@
 @import "tailwindcss";
 
 :root {
-  --color-bg-light: #F0E8D8;
+  --color-bg-light: #E7D6C2;
   --color-bg-white: #FFFFFF;
-  --color-dark-1: #090C12;
-  --color-dark-2: #111827;
-  --color-dark-3: #1E2A3A;
-  --color-amber: #A0622A;
-  --color-amber-light: #C4895A;
-  --color-amber-dark: #7A4820;
-  --color-text-dark: #0D0D0D;
-  --color-text-muted: #6B7280;
-  --color-text-light: #F9F7F4;
+  --color-dark-1: #142840;
+  --color-dark-2: #674635;
+  --color-dark-3: #674635;
+  --color-amber: #142840;
+  --color-amber-light: #674635;
+  --color-amber-dark: #0d1e30;
+  --color-text-dark: #142840;
+  --color-text-muted: #674635;
+  --color-text-light: #E7D6C2;
 
   --font-display: 'Bebas Neue', sans-serif;
   --font-editorial: 'Cormorant Garamond', serif;
@@ -20,11 +20,11 @@
 }
 
 @theme inline {
-  --color-equora-ivory: #F0E8D8;
-  --color-equora-cream: #FAF6F0;
-  --color-equora-dark: #090C12;
-  --color-equora-navy: #111827;
-  --color-equora-amber: #A0622A;
+  --color-equora-ivory: #E7D6C2;
+  --color-equora-cream: #E7D6C2;
+  --color-equora-dark: #142840;
+  --color-equora-navy: #674635;
+  --color-equora-amber: #142840;
 }
 
 * {

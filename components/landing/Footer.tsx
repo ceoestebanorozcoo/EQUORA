@@ -23,7 +23,7 @@ export default function Footer() {
 
   return (
     <>
-      <footer id="footer" className="bg-equora-dark border-t border-[#F9F7F4]/10">
+      <footer id="footer" className="bg-equora-dark border-t border-[#E7D6C2]/10">
         <div className="max-w-7xl mx-auto px-6 py-16">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12">
 
@@ -33,9 +33,9 @@ export default function Footer() {
                 <div className="w-11 h-11 md:w-14 md:h-14 rounded-full bg-equora-amber/10 border border-equora-amber/25 overflow-hidden flex items-center justify-center shrink-0 group-hover:border-equora-amber/50 transition-colors duration-300">
                   <Image src="/logo.svg" alt="EQUORA" width={48} height={48} className="object-contain p-2" />
                 </div>
-                <h2 className="font-display text-2xl md:text-4xl tracking-[6px] text-[#F9F7F4] group-hover:text-equora-amber transition-colors duration-300">EQUORA</h2>
+                <h2 className="font-display text-2xl md:text-4xl tracking-[6px] text-[#E7D6C2] group-hover:text-equora-amber transition-colors duration-300">EQUORA</h2>
               </Link>
-              <p className="font-editorial italic text-[#F9F7F4]/50 text-sm mb-6 pl-1">
+              <p className="font-editorial italic text-[#E7D6C2]/50 text-sm mb-6 pl-1">
                 Lujo que no necesita explicación.
               </p>
               <div className="flex gap-3">
@@ -43,7 +43,7 @@ export default function Footer() {
                   href={INSTAGRAM_URL}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-10 h-10 rounded-full border border-[#F9F7F4]/20 flex items-center justify-center text-[#F9F7F4]/60 hover:border-equora-amber hover:text-equora-amber transition-colors duration-300"
+                  className="w-10 h-10 rounded-full border border-[#E7D6C2]/20 flex items-center justify-center text-[#E7D6C2]/60 hover:border-equora-amber hover:text-equora-amber transition-colors duration-300"
                   aria-label="Instagram de EQUORA"
                 >
                   <IoLogoInstagram size={16} aria-hidden="true" />
@@ -52,14 +52,14 @@ export default function Footer() {
                   href={INSTAGRAM_URL}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-10 h-10 rounded-full border border-[#F9F7F4]/20 flex items-center justify-center text-[#F9F7F4]/60 hover:border-equora-amber hover:text-equora-amber transition-colors duration-300"
+                  className="w-10 h-10 rounded-full border border-[#E7D6C2]/20 flex items-center justify-center text-[#E7D6C2]/60 hover:border-equora-amber hover:text-equora-amber transition-colors duration-300"
                   aria-label="TikTok de EQUORA"
                 >
                   <Music2 className="w-4 h-4" aria-hidden="true" />
                 </a>
                 <a
                   href={`mailto:${EMAIL}`}
-                  className="w-10 h-10 rounded-full border border-[#F9F7F4]/20 flex items-center justify-center text-[#F9F7F4]/60 hover:border-equora-amber hover:text-equora-amber transition-colors duration-300"
+                  className="w-10 h-10 rounded-full border border-[#E7D6C2]/20 flex items-center justify-center text-[#E7D6C2]/60 hover:border-equora-amber hover:text-equora-amber transition-colors duration-300"
                   aria-label="Correo de EQUORA"
                 >
                   <IoMail size={16} aria-hidden="true" />
@@ -68,7 +68,7 @@ export default function Footer() {
                   href={`https://wa.me/${PHONE}?text=${encodeURIComponent('Hola, me gustaría obtener más información sobre los productos de EQUORA.')}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-10 h-10 rounded-full border border-[#F9F7F4]/20 flex items-center justify-center text-[#F9F7F4]/60 hover:border-equora-amber hover:text-equora-amber transition-colors duration-300"
+                  className="w-10 h-10 rounded-full border border-[#E7D6C2]/20 flex items-center justify-center text-[#E7D6C2]/60 hover:border-equora-amber hover:text-equora-amber transition-colors duration-300"
                   aria-label="WhatsApp de EQUORA"
                 >
                   <IoLogoWhatsapp size={16} aria-hidden="true" />
@@ -78,7 +78,7 @@ export default function Footer() {
 
             {/* Tienda */}
             <div>
-              <h4 className="font-display text-sm tracking-widest text-[#F9F7F4] mb-5 uppercase">
+              <h4 className="font-display text-sm tracking-widest text-[#E7D6C2] mb-5 uppercase">
                 Tienda
               </h4>
               <ul className="space-y-3">
@@ -92,7 +92,7 @@ export default function Footer() {
                   <li key={item.label}>
                     <Link
                       href={item.href}
-                      className="relative group inline-block font-body text-sm text-[#F9F7F4]/50 hover:text-equora-amber transition-colors duration-300 py-0.5"
+                      className="relative group inline-block font-body text-sm text-[#E7D6C2]/50 hover:text-equora-amber transition-colors duration-300 py-0.5"
                     >
                       {item.label}
                       <span className="absolute bottom-0 left-0 w-0 h-px bg-equora-amber group-hover:w-full transition-all duration-300" />
@@ -104,7 +104,7 @@ export default function Footer() {
 
             {/* Información Legal */}
             <div>
-              <h4 className="font-display text-sm tracking-widest text-[#F9F7F4] mb-5 uppercase">
+              <h4 className="font-display text-sm tracking-widest text-[#E7D6C2] mb-5 uppercase">
                 Información Legal
               </h4>
               <ul className="space-y-3">
@@ -112,7 +112,7 @@ export default function Footer() {
                   <li key={item}>
                     <button
                       onClick={() => item === 'Cookies' ? setCookiesOpen(true) : item === 'Política de privacidad' ? setPrivacyOpen(true) : item === 'Condiciones' ? setConditionsOpen(true) : setTermsOpen(true)}
-                      className="relative group font-body text-sm text-[#F9F7F4]/50 hover:text-equora-amber transition-colors duration-300 cursor-pointer text-left py-0.5"
+                      className="relative group font-body text-sm text-[#E7D6C2]/50 hover:text-equora-amber transition-colors duration-300 cursor-pointer text-left py-0.5"
                     >
                       {item}
                       <span className="absolute bottom-0 left-0 w-0 h-px bg-equora-amber group-hover:w-full transition-all duration-300" />
@@ -124,14 +124,14 @@ export default function Footer() {
 
             {/* Contacto */}
             <div>
-              <h4 className="font-display text-sm tracking-widest text-[#F9F7F4] mb-5 uppercase">
+              <h4 className="font-display text-sm tracking-widest text-[#E7D6C2] mb-5 uppercase">
                 Contacto
               </h4>
               <ul className="space-y-4">
                 <li>
                   <a
                     href={`mailto:${EMAIL}`}
-                    className="group flex items-center gap-3 font-body text-sm text-[#F9F7F4]/50 hover:text-equora-amber transition-colors duration-300"
+                    className="group flex items-center gap-3 font-body text-sm text-[#E7D6C2]/50 hover:text-equora-amber transition-colors duration-300"
                     aria-label="Enviar correo a EQUORA"
                   >
                     <Mail className="w-4 h-4 text-equora-amber shrink-0" aria-hidden="true" />
@@ -144,7 +144,7 @@ export default function Footer() {
                 <li>
                   <a
                     href={`tel:${PHONE}`}
-                    className="group flex items-center gap-3 font-body text-sm text-[#F9F7F4]/50 hover:text-equora-amber transition-colors duration-300"
+                    className="group flex items-center gap-3 font-body text-sm text-[#E7D6C2]/50 hover:text-equora-amber transition-colors duration-300"
                     aria-label="Llamar a EQUORA"
                   >
                     <Phone className="w-4 h-4 text-equora-amber shrink-0" aria-hidden="true" />
@@ -159,7 +159,7 @@ export default function Footer() {
                     href={MAPS_URL}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="group flex items-center gap-3 font-body text-sm text-[#F9F7F4]/50 hover:text-equora-amber transition-colors duration-300"
+                    className="group flex items-center gap-3 font-body text-sm text-[#E7D6C2]/50 hover:text-equora-amber transition-colors duration-300"
                     aria-label="Ver ubicación en Google Maps"
                   >
                     <MapPin className="w-4 h-4 text-equora-amber shrink-0" aria-hidden="true" />
@@ -174,8 +174,8 @@ export default function Footer() {
           </div>
 
           {/* Bottom bar */}
-          <div className="border-t border-[#F9F7F4]/10 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
-            <p className="font-body text-xs text-[#F9F7F4]/30">
+          <div className="border-t border-[#E7D6C2]/10 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
+            <p className="font-body text-xs text-[#E7D6C2]/30">
               © 2026 EQUORA. Todos los derechos reservados.
             </p>
             <div className="flex items-center gap-3">

@@ -78,7 +78,7 @@ function FAQItem({ item, index }: { item: FAQItem; index: number }) {
           aria-controls={`faq-answer-${index}`}
           id={`faq-question-${index}`}
         >
-          <span className={`font-body font-medium pr-8 transition-colors duration-300 ${open ? 'text-equora-amber' : 'text-[#F9F7F4]/80 group-hover:text-white'}`}>
+          <span className={`font-body font-medium pr-8 transition-colors duration-300 ${open ? 'text-equora-amber' : 'text-[#E7D6C2]/80 group-hover:text-white'}`}>
             {item.question}
           </span>
           <span className={`
@@ -86,7 +86,7 @@ function FAQItem({ item, index }: { item: FAQItem; index: number }) {
             transition-all duration-300
             ${open ? 'bg-equora-amber rotate-180' : 'bg-white/8 group-hover:bg-white/15'}
           `}>
-            <ChevronDown className={`w-4 h-4 transition-colors duration-300 ${open ? 'text-white' : 'text-[#F9F7F4]/50'}`} aria-hidden="true" />
+            <ChevronDown className={`w-4 h-4 transition-colors duration-300 ${open ? 'text-white' : 'text-[#E7D6C2]/50'}`} aria-hidden="true" />
           </span>
         </button>
 
@@ -102,7 +102,7 @@ function FAQItem({ item, index }: { item: FAQItem; index: number }) {
         >
           <div className="pb-5 flex gap-3">
             <div className="w-px bg-equora-amber/30 shrink-0 mt-0.5" />
-            <div className="font-body text-sm text-[#F9F7F4]/55 leading-relaxed space-y-2">
+            <div className="font-body text-sm text-[#E7D6C2]/55 leading-relaxed space-y-2">
               <p>{item.answer}</p>
               {item.list && (
                 item.ordered ? (

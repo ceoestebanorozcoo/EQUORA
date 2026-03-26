@@ -58,9 +58,9 @@ export default function ProductsPage() {
         <div className="relative max-w-7xl mx-auto px-6 pt-36 pb-20 md:pt-44 md:pb-28">
           <button
             onClick={() => router.push('/')}
-            className="group inline-flex items-center gap-2.5 font-body text-sm text-[#F9F7F4]/80 hover:text-equora-amber transition-all duration-300 mb-10 cursor-pointer"
+            className="group inline-flex items-center gap-2.5 font-body text-sm text-[#E7D6C2]/80 hover:text-equora-amber transition-all duration-300 mb-10 cursor-pointer"
           >
-            <span className="flex items-center justify-center w-8 h-8 rounded-full border border-[#F9F7F4]/50 group-hover:border-equora-amber/60 group-hover:bg-equora-amber/10 transition-all duration-300">
+            <span className="flex items-center justify-center w-8 h-8 rounded-full border border-[#E7D6C2]/50 group-hover:border-equora-amber/60 group-hover:bg-equora-amber/10 transition-all duration-300">
               <ArrowLeft size={14} className="transition-transform duration-300 group-hover:-translate-x-0.5" />
             </span>
             <span className="tracking-wide uppercase text-xs font-medium">Volver al inicio</span>
@@ -69,7 +69,7 @@ export default function ProductsPage() {
           <p className="font-editorial text-equora-amber italic text-lg md:text-xl mb-3">
             Catálogo completo
           </p>
-          <h1 className="font-display text-3xl sm:text-4xl md:text-5xl lg:text-7xl text-[#F9F7F4] tracking-wider">
+          <h1 className="font-display text-3xl sm:text-4xl md:text-5xl lg:text-7xl text-[#E7D6C2] tracking-wider">
             NUESTROS PRODUCTOS
           </h1>
           <p className="font-body text-equora-dark/50 text-base md:text-lg mt-4 max-w-xl">
