@@ -255,7 +255,7 @@ export default function ProductDetail() {
                     href={whatsappLink}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex-1 flex items-center justify-center gap-2.5 py-4 bg-equora-amber text-white rounded-full font-body font-medium tracking-wide hover:bg-[#0d1e30] transition-colors duration-300 cursor-pointer"
+                    className="flex-1 flex items-center justify-center gap-2.5 py-4 bg-equora-dark text-[#E7D6C2] rounded-full font-body font-medium tracking-wide hover:bg-[#0d1e30] transition-colors duration-300 cursor-pointer"
                     aria-label={`Comprar ${product.name} por WhatsApp`}
                   >
                     <IoLogoWhatsapp size={21} aria-hidden="true" />

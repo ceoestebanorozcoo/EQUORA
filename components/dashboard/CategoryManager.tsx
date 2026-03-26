@@ -47,9 +47,9 @@ export default function CategoryManager() {
   return (
     <div>
       {/* Header */}
-      <div className="flex items-center justify-between gap-4 mb-6 pb-5 border-b border-gray-100">
+      <div className="flex items-center justify-between gap-4 mb-6 pb-5 border-b border-white">
         <div>
-          <p className="font-body text-[10px] text-equora-amber tracking-widest uppercase mb-0.5">Gestión</p>
+          <p className="font-display text-xs text-equora-amber tracking-widest uppercase mb-0.5">Gestión</p>
           <h2 className="font-display text-xl sm:text-2xl tracking-wider text-equora-dark">CATEGORÍAS</h2>
           {!loading && (
             <p className="font-body text-xs text-gray-400 mt-0.5">
@@ -81,7 +81,7 @@ export default function CategoryManager() {
           {categories.map((cat, i) => (
             <div
               key={cat._id}
-              className="group bg-white rounded-2xl border border-gray-100 overflow-hidden hover:border-equora-amber/25 hover:shadow-md transition-all duration-250"
+              className="group bg-[#FAF6F1] rounded-2xl border border-[#E0D0BE] overflow-hidden hover:border-equora-amber/25 hover:shadow-md transition-all duration-250"
             >
               {/* Image strip */}
               <div className="relative h-28 bg-equora-ivory overflow-hidden">

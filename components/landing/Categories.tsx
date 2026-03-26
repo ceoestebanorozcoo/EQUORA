@@ -53,15 +53,15 @@ export default function Categories() {
                 )}
                 <div className="absolute inset-0 bg-linear-to-t from-equora-dark/80 via-equora-dark/20 to-transparent" />
                 <div className="absolute bottom-0 left-0 p-8">
-                  <h3 className="font-display text-3xl text-equora-ivory tracking-wider mb-1 group-hover:text-gray-300 group-hover:scale-105 inline-block origin-left transition-all duration-300">
+                  <h3 className="font-display text-3xl text-white tracking-wider mb-1 group-hover:scale-105 inline-block origin-left transition-all duration-300">
                     {cat.name.toUpperCase()}
                   </h3>
                   <p className="font-body text-equora-ivory/60 text-sm">
                     {cat.productCount ?? 0} {cat.productCount === 1 ? 'producto' : 'productos'}
                   </p>
                 </div>
-                <div className="absolute top-4 right-4 w-10 h-10 rounded-full bg-equora-navy/0 group-hover:bg-equora-navy flex items-center justify-center transition-all duration-300">
-                  <span className="text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300 text-lg font-bold">
+                <div className="absolute top-4 right-4 w-10 h-10 rounded-full bg-equora-navy md:bg-equora-navy/0 md:group-hover:bg-equora-navy flex items-center justify-center transition-all duration-300">
+                  <span className="text-white opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity duration-300 text-lg font-bold">
                     →
                   </span>
                 </div>
@@ -74,7 +74,7 @@ export default function Categories() {
           <div className="text-center mt-12">
             <Link
               href="/categorias"
-              className="inline-flex items-center gap-3 px-10 py-4 bg-equora-amber hover:bg-[#0d1e30] text-white rounded-full font-body font-medium text-sm tracking-widest uppercase transition-colors duration-300"
+              className="inline-flex items-center gap-3 px-10 py-4 bg-equora-amber hover:bg-[#4a2e1f] text-white rounded-full font-body font-medium text-sm tracking-widest uppercase transition-colors duration-300"
             >
               Ver más categorías
             </Link>

@@ -39,7 +39,7 @@ export default function CategoriesPage() {
           <p className="font-editorial text-equora-amber italic text-lg md:text-xl mb-3">
             Búsqueda por secciones
           </p>
-          <h1 className="font-display text-3xl sm:text-4xl md:text-5xl lg:text-7xl text-[#E7D6C2] tracking-wider">
+          <h1 className="font-display text-3xl sm:text-4xl md:text-5xl lg:text-7xl text-white tracking-wider">
             TODAS LAS CATEGORÍAS
           </h1>
         </div>

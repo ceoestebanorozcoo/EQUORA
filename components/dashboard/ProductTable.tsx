@@ -71,7 +71,7 @@ export default function ProductTable({ products, loading, onEdit, onRefresh }: P
         {products.map((product) => {
           const category = product.category as ICategory;
           return (
-            <div key={product._id} className="bg-white rounded-2xl border border-gray-100 shadow-sm p-4">
+            <div key={product._id} className="bg-[#FAF6F1] rounded-2xl border border-[#E0D0BE] shadow-sm p-4">
               <div className="flex items-start gap-3">
                 {/* Image */}
                 <div className="w-14 h-14 rounded-xl overflow-hidden bg-equora-ivory shrink-0">
@@ -121,14 +121,14 @@ export default function ProductTable({ products, loading, onEdit, onRefresh }: P
                 <div className="flex items-center gap-1.5">
                   <button
                     onClick={() => onEdit(product)}
-                    className="flex items-center justify-center w-7 h-7 bg-white border border-gray-200 hover:bg-equora-amber/10 hover:border-equora-amber/30 text-gray-400 hover:text-equora-amber rounded-lg transition-colors cursor-pointer shadow-sm"
+                    className="flex items-center justify-center w-7 h-7 bg-[#FAF6F1] border border-[#E0D0BE] hover:bg-equora-amber/20 hover:border-equora-amber/40 text-gray-500 hover:text-equora-amber rounded-lg transition-colors cursor-pointer shadow-sm"
                     aria-label={`Editar ${product.name}`}
                   >
                     <IoCreateOutline size={14} aria-hidden="true" />
                   </button>
                   <button
                     onClick={() => setDeleteId(product._id)}
-                    className="flex items-center justify-center w-7 h-7 bg-white border border-gray-200 hover:bg-red-50 hover:border-red-200 text-gray-400 hover:text-red-500 rounded-lg transition-colors cursor-pointer shadow-sm"
+                    className="flex items-center justify-center w-7 h-7 bg-[#FAF6F1] border border-[#E0D0BE] hover:bg-red-100 hover:border-red-300 text-gray-500 hover:text-red-500 rounded-lg transition-colors cursor-pointer shadow-sm"
                     aria-label={`Eliminar ${product.name}`}
                   >
                     <IoTrashOutline size={13} aria-hidden="true" />
@@ -143,7 +143,7 @@ export default function ProductTable({ products, loading, onEdit, onRefresh }: P
       {/* ── Table layout (≥ md = 768px+) ── */}
       <div className="hidden md:block overflow-x-auto rounded-2xl border border-gray-100 shadow-sm">
         <table className="w-full min-w-150" role="table">
-          <thead className="bg-equora-navy text-[#E7D6C2]">
+          <thead className="bg-equora-navy text-white">
             <tr>
               <th className="text-left py-4 px-5 font-body text-xs font-medium tracking-wider uppercase" scope="col">Producto</th>
               <th className="text-left py-4 px-5 font-body text-xs font-medium tracking-wider uppercase" scope="col">Código</th>
@@ -152,11 +152,11 @@ export default function ProductTable({ products, loading, onEdit, onRefresh }: P
               <th className="text-right py-4 px-5 font-body text-xs font-medium tracking-wider uppercase" scope="col">Acciones</th>
             </tr>
           </thead>
-          <tbody className="bg-white divide-y divide-gray-50">
+          <tbody className="bg-[#FAF6F1] divide-y divide-[#E0D0BE]">
             {products.map((product) => {
               const category = product.category as ICategory;
               return (
-                <tr key={product._id} className="hover:bg-[#E7D6C2] transition-colors">
+                <tr key={product._id} className="hover:bg-[#FAF6F1] transition-colors">
                   <td className="py-4 px-5">
                     <div className="flex items-center gap-3">
                       <div className="w-12 h-12 rounded-xl overflow-hidden bg-equora-ivory shrink-0">
@@ -207,14 +207,14 @@ export default function ProductTable({ products, loading, onEdit, onRefresh }: P
                     <div className="flex items-center justify-end gap-1.5">
                       <button
                         onClick={() => onEdit(product)}
-                        className="flex items-center justify-center w-7 h-7 bg-white border border-gray-200 hover:bg-equora-amber/10 hover:border-equora-amber/30 text-gray-400 hover:text-equora-amber rounded-lg transition-colors cursor-pointer shadow-sm"
+                        className="flex items-center justify-center w-7 h-7 bg-[#FAF6F1] border border-[#E0D0BE] hover:bg-equora-amber/20 hover:border-equora-amber/40 text-gray-500 hover:text-equora-amber rounded-lg transition-colors cursor-pointer shadow-sm"
                         aria-label={`Editar ${product.name}`}
                       >
                         <IoCreateOutline size={14} aria-hidden="true" />
                       </button>
                       <button
                         onClick={() => setDeleteId(product._id)}
-                        className="flex items-center justify-center w-7 h-7 bg-white border border-gray-200 hover:bg-red-50 hover:border-red-200 text-gray-400 hover:text-red-500 rounded-lg transition-colors cursor-pointer shadow-sm"
+                        className="flex items-center justify-center w-7 h-7 bg-[#FAF6F1] border border-[#E0D0BE] hover:bg-red-100 hover:border-red-300 text-gray-500 hover:text-red-500 rounded-lg transition-colors cursor-pointer shadow-sm"
                         aria-label={`Eliminar ${product.name}`}
                       >
                         <IoTrashOutline size={13} aria-hidden="true" />

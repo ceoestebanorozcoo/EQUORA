@@ -23,13 +23,13 @@ export default function Button({
 
   const variants = {
     amber:
-      'bg-equora-amber text-white hover:bg-[#7A4820] focus-visible:ring-equora-amber btn-amber',
+      'bg-equora-dark text-white hover:bg-[#0d1e30] focus-visible:ring-equora-dark btn-amber',
     outline:
-      'border border-equora-amber text-equora-amber hover:bg-equora-amber hover:text-white focus-visible:ring-equora-amber',
+      'border border-equora-dark text-equora-dark hover:bg-equora-dark hover:text-[#E7D6C2] focus-visible:ring-equora-dark',
     ghost:
-      'text-equora-amber hover:bg-equora-amber/10 focus-visible:ring-equora-amber',
+      'text-equora-dark hover:bg-equora-dark/10 focus-visible:ring-equora-dark',
     dark:
-      'bg-equora-dark text-white hover:bg-[#142840] focus-visible:ring-equora-dark',
+      'bg-equora-dark text-white hover:bg-[#0d1e30] focus-visible:ring-equora-dark',
   };
 
   const sizes = {

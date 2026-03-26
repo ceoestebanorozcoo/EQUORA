@@ -28,7 +28,7 @@ function MiniCard({
       className={`w-full flex items-center gap-3 p-3 rounded-xl border transition-all cursor-pointer text-left group ${
         isSelected
           ? 'border-equora-amber bg-equora-amber/5 hover:bg-red-50 hover:border-red-200'
-          : 'border-gray-100 bg-white hover:border-equora-amber hover:bg-equora-amber/5'
+          : 'border-[#E0D0BE] bg-[#FAF6F1] hover:border-equora-amber hover:bg-equora-amber/10'
       }`}
     >
       <div className="relative w-14 h-14 rounded-lg overflow-hidden shrink-0 bg-equora-ivory">
@@ -89,7 +89,7 @@ function SelectionPanel<T extends { _id: string }>({
         <div className="flex items-center gap-3 min-w-0">
           <button
             onClick={onBack}
-            className="flex items-center justify-center w-9 h-9 rounded-xl bg-white border border-gray-200 text-gray-500 hover:border-equora-amber hover:text-equora-amber transition-all duration-200 cursor-pointer shrink-0 shadow-sm"
+            className="flex items-center justify-center w-9 h-9 rounded-xl bg-[#FAF6F1] border border-[#E0D0BE] text-gray-500 hover:border-equora-amber hover:text-equora-amber transition-all duration-200 cursor-pointer shrink-0 shadow-sm"
             aria-label="Volver"
           >
             <IoArrowBack size={16} />
@@ -107,7 +107,7 @@ function SelectionPanel<T extends { _id: string }>({
           className={`flex items-center gap-2 px-4 sm:px-5 py-2.5 rounded-xl font-body text-xs sm:text-sm font-medium transition-all duration-200 cursor-pointer shrink-0 ${
             saved
               ? 'bg-green-50 text-green-600 border border-green-200'
-              : 'bg-equora-amber text-white hover:bg-[#0d1e30] shadow-sm hover:shadow-md'
+              : 'bg-equora-dark text-[#FAF6F1] hover:bg-[#0d1e30] shadow-sm hover:shadow-md'
           }`}
         >
           {saved ? <IoCheckmarkCircle size={15} /> : <IoSave size={15} />}
@@ -117,7 +117,7 @@ function SelectionPanel<T extends { _id: string }>({
       </div>
 
       {/* ── Stats + Search bar ── */}
-      <div className="flex flex-col sm:flex-row sm:items-center gap-3 mb-5 p-3.5 bg-white rounded-2xl border border-gray-100">
+      <div className="flex flex-col sm:flex-row sm:items-center gap-3 mb-5 p-3.5 bg-[#FAF6F1] rounded-2xl border border-[#E0D0BE]">
         {/* Search — LEFT */}
         <div className="relative sm:w-52">
           <IoSearch size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-300" />
@@ -126,7 +126,7 @@ function SelectionPanel<T extends { _id: string }>({
             placeholder="Buscar..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="w-full pl-8 pr-3 py-2 rounded-xl border border-gray-100 bg-[#E7D6C2] font-body text-sm text-equora-dark placeholder:text-gray-300 focus:outline-none focus:border-equora-amber focus:bg-white transition-all"
+            className="w-full pl-8 pr-3 py-2 rounded-xl border border-[#E0D0BE] bg-white font-body text-sm text-equora-dark placeholder:text-gray-300 focus:outline-none focus:border-equora-amber transition-all"
           />
         </div>
 
@@ -144,7 +144,7 @@ function SelectionPanel<T extends { _id: string }>({
             <p className="font-display text-lg tracking-wider text-gray-300 leading-none">{max}</p>
             <p className="font-body text-[10px] text-gray-400 mt-0.5 uppercase tracking-wider">Máx.</p>
           </div>
-          <div className="flex-1 h-1.5 bg-gray-100 rounded-full overflow-hidden">
+          <div className="flex-1 h-1.5 bg-equora-amber/20 rounded-full overflow-hidden">
             <div
               className="h-full bg-equora-amber rounded-full transition-all duration-500"
               style={{ width: `${Math.min((selected.length / max) * 100, 100)}%` }}
@@ -160,7 +160,7 @@ function SelectionPanel<T extends { _id: string }>({
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
 
         {/* Available */}
-        <div className="bg-white rounded-2xl border border-gray-100 overflow-hidden">
+        <div className="bg-[#FAF6F1] rounded-2xl border border-[#E0D0BE] overflow-hidden">
           <div className="flex items-center justify-between px-4 py-3 border-b border-gray-50">
             <div className="flex items-center gap-2">
               <span className="w-1.5 h-1.5 rounded-full bg-gray-300" />
@@ -189,7 +189,7 @@ function SelectionPanel<T extends { _id: string }>({
         </div>
 
         {/* Selected */}
-        <div className="bg-white rounded-2xl border border-equora-amber/20 overflow-hidden">
+        <div className="bg-[#FAF6F1] rounded-2xl border border-equora-amber/20 overflow-hidden">
           <div className="flex items-center justify-between px-4 py-3 border-b border-equora-amber/10 bg-equora-amber/3">
             <div className="flex items-center gap-2">
               <span className="w-1.5 h-1.5 rounded-full bg-equora-amber" />
@@ -322,7 +322,7 @@ export default function FeaturedManager() {
           {/* Products card */}
           <button
             onClick={() => { loadProducts(); setView('products'); }}
-            className="group relative flex items-center gap-5 p-5 bg-white rounded-2xl border border-gray-100 hover:border-equora-amber/40 hover:shadow-lg transition-all duration-300 cursor-pointer text-left overflow-hidden"
+            className="group relative flex items-center gap-5 p-5 bg-[#FAF6F1] rounded-2xl border border-[#E0D0BE] hover:border-equora-amber/40 hover:shadow-lg transition-all duration-300 cursor-pointer text-left overflow-hidden"
           >
             {/* Subtle amber accent on hover */}
             <div className="absolute left-0 top-0 h-full w-0.5 bg-equora-amber scale-y-0 group-hover:scale-y-100 transition-transform duration-300 origin-center" />
@@ -346,7 +346,7 @@ export default function FeaturedManager() {
           {/* Categories card */}
           <button
             onClick={() => { loadCategories(); setView('categories'); }}
-            className="group relative flex items-center gap-5 p-5 bg-white rounded-2xl border border-gray-100 hover:border-equora-amber/40 hover:shadow-lg transition-all duration-300 cursor-pointer text-left overflow-hidden"
+            className="group relative flex items-center gap-5 p-5 bg-[#FAF6F1] rounded-2xl border border-[#E0D0BE] hover:border-equora-amber/40 hover:shadow-lg transition-all duration-300 cursor-pointer text-left overflow-hidden"
           >
             <div className="absolute left-0 top-0 h-full w-0.5 bg-equora-amber scale-y-0 group-hover:scale-y-100 transition-transform duration-300 origin-center" />
 

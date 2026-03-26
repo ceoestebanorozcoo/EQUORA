@@ -61,7 +61,7 @@ export default function DashboardPage() {
   ];
 
   return (
-    <div className="min-h-screen bg-[#E7D6C2]">
+    <div className="min-h-screen bg-white">
       {/* Top bar */}
       <header className="bg-equora-navy border-b border-white/10 sticky top-0 z-40">
         <div className="px-4 sm:px-6 md:px-8 lg:px-10 py-3 sm:py-4 md:py-5 flex items-center justify-between">
@@ -76,7 +76,7 @@ export default function DashboardPage() {
               </span>
             </a>
             <div className="hidden sm:block w-px h-8 bg-white/10" />
-            <span className="hidden sm:block font-body text-xs md:text-sm text-white/70 md:text-white/80 tracking-widest uppercase">
+            <span className="hidden sm:block font-display text-sm md:text-base text-white tracking-widest uppercase">
               Panel de administradora Estefanía
             </span>
           </div>
@@ -84,7 +84,7 @@ export default function DashboardPage() {
           {/* Right side */}
           <button
             onClick={handleLogout}
-            className="flex items-center gap-2 text-[#E7D6C2]/60 hover:text-equora-amber transition-colors cursor-pointer font-body text-sm"
+            className="flex items-center gap-2 text-white hover:text-equora-amber transition-colors cursor-pointer font-body text-sm"
             aria-label="Cerrar sesión"
           >
             <IoLogOut size={20} aria-hidden="true" />
@@ -94,7 +94,7 @@ export default function DashboardPage() {
 
         {/* Mobile subtitle — visible only on very small screens */}
         <div className="sm:hidden px-4 pb-2.5">
-          <p className="font-body text-[10px] text-white/45 tracking-widest uppercase">
+          <p className="font-display text-xs text-white/45 tracking-widest uppercase">
             Panel de administradora Estefanía
           </p>
         </div>
@@ -102,20 +102,20 @@ export default function DashboardPage() {
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 lg:px-10 py-5 sm:py-6 md:py-8">
         {/* Tabs */}
-        <div className="grid grid-cols-5 sm:flex gap-1 bg-white rounded-2xl p-1.5 shadow-sm border border-gray-100 mb-6 md:mb-8 w-full sm:w-auto md:w-fit">
+        <div className="grid grid-cols-5 sm:flex gap-1 bg-[#FAF6F1] rounded-2xl p-1.5 shadow-sm border border-[#E0D0BE] mb-6 md:mb-8 w-full sm:w-auto md:w-fit">
           {tabs.map((t) => (
             <button
               key={t.key}
               onClick={() => setTab(t.key)}
-              className={`flex flex-col sm:flex-row items-center justify-center gap-1 sm:gap-1.5 md:gap-2 px-1 sm:px-3 md:px-4 py-2 sm:py-2 md:py-2.5 rounded-xl font-body font-medium transition-all cursor-pointer ${
+              className={`flex flex-col sm:flex-row items-center justify-center gap-1 sm:gap-1.5 md:gap-2 px-1 sm:px-3 md:px-4 py-2 sm:py-2 md:py-2.5 rounded-xl font-display transition-all cursor-pointer ${
                 tab === t.key
-                  ? 'bg-equora-navy text-white shadow-sm'
+                  ? 'bg-equora-navy text-[#FAF6F1] shadow-sm'
                   : 'text-[#6B7280] hover:text-equora-navy'
               }`}
               aria-pressed={tab === t.key}
             >
               {t.icon}
-              <span className="text-[8px] sm:text-xs md:text-sm leading-tight text-center">{t.label}</span>
+              <span className="text-[9px] sm:text-sm md:text-base leading-tight text-center tracking-wider">{t.label}</span>
             </button>
           ))}
         </div>
@@ -124,9 +124,9 @@ export default function DashboardPage() {
         {tab === 'products' && (
           <div>
             {/* Header */}
-            <div className="flex items-center justify-between gap-4 mb-6 pb-5 border-b border-gray-100">
+            <div className="flex items-center justify-between gap-4 mb-6 pb-5 border-b border-white">
               <div>
-                <p className="font-body text-[10px] text-equora-amber tracking-widest uppercase mb-0.5">Gestión</p>
+                <p className="font-display text-xs text-equora-amber tracking-widest uppercase mb-0.5">Gestión</p>
                 <h2 className="font-display text-xl sm:text-2xl tracking-wider text-equora-dark">PRODUCTOS</h2>
                 {!loading && (
                   <p className="font-body text-xs text-gray-400 mt-0.5">
@@ -146,7 +146,7 @@ export default function DashboardPage() {
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
                 placeholder="Buscar por nombre o código..."
-                className="w-full sm:w-72 px-4 py-2.5 rounded-xl border border-gray-200 bg-white font-body text-sm text-equora-dark placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-equora-amber/30 focus:border-equora-amber/50 transition"
+                className="w-full sm:w-72 px-4 py-2.5 rounded-xl border border-[#E0D0BE] bg-white font-body text-sm text-equora-dark placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-equora-amber/30 focus:border-equora-amber/50 transition"
               />
             </div>
             <ProductTable
@@ -175,17 +175,17 @@ export default function DashboardPage() {
         {tab === 'account' && (
           <div className="space-y-6 md:space-y-8">
             {/* Header */}
-            <div className="flex items-center justify-between gap-4 pb-5 border-b border-gray-100">
+            <div className="flex items-center justify-between gap-4 pb-5 border-b border-white">
               <div>
-                <p className="font-body text-[10px] text-equora-amber tracking-widest uppercase mb-0.5">Configuración</p>
+                <p className="font-display text-xs text-equora-amber tracking-widest uppercase mb-0.5">Configuración</p>
                 <h2 className="font-display text-xl sm:text-2xl tracking-wider text-equora-dark">MI CUENTA</h2>
               </div>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-5">
-              <div className="bg-white rounded-2xl p-5 sm:p-6 shadow-sm border border-gray-100">
+              <div className="bg-[#FAF6F1] rounded-2xl p-5 sm:p-6 shadow-sm border border-[#E0D0BE]">
                 <ChangeEmailForm />
               </div>
-              <div className="bg-white rounded-2xl p-5 sm:p-6 shadow-sm border border-gray-100">
+              <div className="bg-[#FAF6F1] rounded-2xl p-5 sm:p-6 shadow-sm border border-[#E0D0BE]">
                 <ChangePasswordForm />
               </div>
             </div>

@@ -69,12 +69,9 @@ export default function ProductsPage() {
           <p className="font-editorial text-equora-amber italic text-lg md:text-xl mb-3">
             Catálogo completo
           </p>
-          <h1 className="font-display text-3xl sm:text-4xl md:text-5xl lg:text-7xl text-[#E7D6C2] tracking-wider">
+          <h1 className="font-display text-3xl sm:text-4xl md:text-5xl lg:text-7xl text-white tracking-wider">
             NUESTROS PRODUCTOS
           </h1>
-          <p className="font-body text-equora-dark/50 text-base md:text-lg mt-4 max-w-xl">
-            Cada pieza diseñada con precisión artesanal para quienes montan con criterio.
-          </p>
         </div>
       </div>
 

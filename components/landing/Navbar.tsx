@@ -115,7 +115,7 @@ export default function Navbar() {
             {/* CTA desktop */}
             <a
               href="/productos"
-              className="hidden md:flex items-center gap-2 bg-equora-amber hover:bg-[#0d1e30] text-white font-body text-base font-medium px-6 py-3 rounded-full transition-colors duration-200"
+              className="hidden md:flex items-center gap-2 bg-white hover:bg-equora-ivory text-equora-dark font-body text-base font-medium px-6 py-3 rounded-full transition-colors duration-200"
             >
               <IoBagHandleOutline size={17} />
               Comprar
@@ -175,7 +175,7 @@ export default function Navbar() {
           <li className="pt-8">
             <a
               href="/productos"
-              className="inline-flex items-center gap-2.5 bg-equora-amber text-white font-body font-medium px-7 py-3.5 rounded-full text-base"
+              className="inline-flex items-center gap-2.5 bg-[#E7D6C2] text-equora-dark font-body font-medium px-7 py-3.5 rounded-full text-base"
               onClick={() => setMenuOpen(false)}
             >
               <IoBagHandleOutline size={19} />

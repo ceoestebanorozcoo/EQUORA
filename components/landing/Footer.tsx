@@ -33,11 +33,8 @@ export default function Footer() {
                 <div className="w-11 h-11 md:w-14 md:h-14 rounded-full bg-equora-amber/10 border border-equora-amber/25 overflow-hidden flex items-center justify-center shrink-0 group-hover:border-equora-amber/50 transition-colors duration-300">
                   <Image src="/logo.svg" alt="EQUORA" width={48} height={48} className="object-contain p-2" />
                 </div>
-                <h2 className="font-display text-2xl md:text-4xl tracking-[6px] text-[#E7D6C2] group-hover:text-equora-amber transition-colors duration-300">EQUORA</h2>
+                <h2 className="font-display text-2xl md:text-4xl tracking-[6px] text-white group-hover:text-equora-amber transition-colors duration-300">EQUORA</h2>
               </Link>
-              <p className="font-editorial italic text-[#E7D6C2]/50 text-sm mb-6 pl-1">
-                Lujo que no necesita explicación.
-              </p>
               <div className="flex gap-3">
                 <a
                   href={INSTAGRAM_URL}
@@ -78,7 +75,7 @@ export default function Footer() {
 
             {/* Tienda */}
             <div>
-              <h4 className="font-display text-sm tracking-widest text-[#E7D6C2] mb-5 uppercase">
+              <h4 className="font-display text-sm tracking-widest text-equora-amber mb-5 uppercase">
                 Tienda
               </h4>
               <ul className="space-y-3">
@@ -104,7 +101,7 @@ export default function Footer() {
 
             {/* Información Legal */}
             <div>
-              <h4 className="font-display text-sm tracking-widest text-[#E7D6C2] mb-5 uppercase">
+              <h4 className="font-display text-sm tracking-widest text-equora-amber mb-5 uppercase">
                 Información Legal
               </h4>
               <ul className="space-y-3">
@@ -124,7 +121,7 @@ export default function Footer() {
 
             {/* Contacto */}
             <div>
-              <h4 className="font-display text-sm tracking-widest text-[#E7D6C2] mb-5 uppercase">
+              <h4 className="font-display text-sm tracking-widest text-equora-amber mb-5 uppercase">
                 Contacto
               </h4>
               <ul className="space-y-4">
