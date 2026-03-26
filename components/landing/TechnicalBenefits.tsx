@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { ScrollReveal } from '@/components/ScrollReveal';
+import { ScrollReveal } from '@/components/ui/ScrollReveal';
 import { Check, X } from 'lucide-react';
 
 const pillars = [

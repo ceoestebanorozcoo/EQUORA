@@ -6,7 +6,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import api from '@/lib/axios';
 import { ICategory } from '@/types';
-import { ScrollReveal } from '@/components/ScrollReveal';
+import { ScrollReveal } from '@/components/ui/ScrollReveal';
 
 export default function Categories() {
   const router = useRouter();

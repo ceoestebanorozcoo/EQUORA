@@ -1,7 +1,7 @@
 'use client';
 
 import Image from 'next/image';
-import { ScrollReveal } from '@/components/ScrollReveal';
+import { ScrollReveal } from '@/components/ui/ScrollReveal';
 
 const MAIN_IMAGE = 'https://res.cloudinary.com/dybweubbo/image/upload/v1774135099/lifestyle-equora_ymtlu0.jpg';
 const TRAINING_IMAGE = 'https://res.cloudinary.com/dybweubbo/image/upload/v1774135099/lifestyle-training_rbrqck.jpg';

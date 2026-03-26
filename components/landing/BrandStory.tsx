@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import Image from 'next/image';
-import { ScrollReveal } from '@/components/ScrollReveal';
+import { ScrollReveal } from '@/components/ui/ScrollReveal';
 
 const STORY_IMAGE = 'https://res.cloudinary.com/dybweubbo/image/upload/v1774331974/Gemini_Generated_Image_inzrghinzrghinzr_bbmiuk.png';
 

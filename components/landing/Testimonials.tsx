@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect, useRef, useCallback } from 'react';
-import { ScrollReveal } from '@/components/ScrollReveal';
+import { ScrollReveal } from '@/components/ui/ScrollReveal';
 import { ChevronLeft, ChevronRight, Star } from 'lucide-react';
 import api from '@/lib/axios';
 

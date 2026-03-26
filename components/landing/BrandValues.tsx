@@ -1,6 +1,6 @@
 'use client';
 
-import { ScrollReveal } from '@/components/ScrollReveal';
+import { ScrollReveal } from '@/components/ui/ScrollReveal';
 import { Gem, Flame, Crown } from 'lucide-react';
 
 const values = [

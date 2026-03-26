@@ -13,7 +13,7 @@ import Testimonials from '@/components/landing/Testimonials';
 import CTASection from '@/components/landing/CTASection';
 import FAQ from '@/components/landing/FAQ';
 import Footer from '@/components/landing/Footer';
-import HashScroller from '@/components/HashScroller';
+import HashScroller from '@/components/ui/HashScroller';
 
 export default function LandingPage() {
   return (

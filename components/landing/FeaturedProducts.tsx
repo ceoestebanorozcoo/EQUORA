@@ -5,7 +5,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import api from '@/lib/axios';
 import { IProduct, ICategory } from '@/types';
-import { ScrollReveal } from '@/components/ScrollReveal';
+import { ScrollReveal } from '@/components/ui/ScrollReveal';
 import { formatPrice } from '@/utils/formatPrice';
 
 function FeaturedProductCard({ product, index }: { product: IProduct; index: number }) {

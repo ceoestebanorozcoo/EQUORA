@@ -1,6 +1,6 @@
 'use client';
 
-import { ScrollReveal } from '@/components/ScrollReveal';
+import { ScrollReveal } from '@/components/ui/ScrollReveal';
 import { Award, Palette, Heart, Shield } from 'lucide-react';
 
 const pillars = [

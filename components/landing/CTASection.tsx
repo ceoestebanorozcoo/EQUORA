@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { ScrollReveal } from '@/components/ScrollReveal';
+import { ScrollReveal } from '@/components/ui/ScrollReveal';
 
 const WHATSAPP_NUMBER = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || '573043844516';
 const WHATSAPP_MSG = encodeURIComponent('Hola, quiero conocer más sobre los productos de Equora');
