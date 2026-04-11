@@ -7,7 +7,6 @@ const WHATSAPP = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || '573043844516';
 
 export default function Hero() {
   const bgRef = useRef<HTMLDivElement>(null);
-  const videoRef = useRef<HTMLVideoElement>(null);
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
@@ -31,23 +30,6 @@ export default function Hero() {
     };
   }, []);
 
-  // Force video play on mobile — browsers pause it when switching apps or locking screen
-  useEffect(() => {
-    const video = videoRef.current;
-    if (!video) return;
-
-    const tryPlay = () => {
-      video.play().catch(() => { /* autoplay blocked — silently ignore */ });
-    };
-
-    tryPlay();
-
-    const handleVisibility = () => {
-      if (document.visibilityState === 'visible') tryPlay();
-    };
-    document.addEventListener('visibilitychange', handleVisibility);
-    return () => document.removeEventListener('visibilitychange', handleVisibility);
-  }, []);
 
   const whatsappLink = `https://wa.me/${WHATSAPP}?text=${encodeURIComponent('Hola, quiero conocer más sobre los productos de Equora')}`;
 
@@ -68,20 +50,13 @@ export default function Hero() {
       className="relative min-h-screen flex items-center overflow-hidden"
       aria-label="Hero"
     >
-      {/* Background video */}
+      {/* Background image */}
       <div ref={bgRef} className="absolute inset-0 overflow-hidden" aria-hidden="true">
-        <video
-          ref={videoRef}
-          autoPlay
-          muted
-          loop
-          playsInline
-          preload="auto"
+        <img
+          src="https://res.cloudinary.com/dybweubbo/image/upload/v1775884700/IMG_1129_dktmcz.jpg"
+          alt=""
           className="absolute inset-0 w-full h-full object-cover scale-110"
-          src="https://res.cloudinary.com/dybweubbo/video/upload/v1774337689/Prompt_para_Video_Profesional_EQUORA_soc68h.mp4"
         />
-        {/* Cover bottom-left watermark */}
-        <div className="absolute bottom-0 left-0 w-36 h-14 bg-equora-dark z-10" />
       </div>
 
       {/* Overlay */}

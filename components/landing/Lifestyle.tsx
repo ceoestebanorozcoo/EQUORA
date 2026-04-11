@@ -3,9 +3,9 @@
 import Image from 'next/image';
 import { ScrollReveal } from '@/components/ui/ScrollReveal';
 
-const MAIN_IMAGE = 'https://res.cloudinary.com/dybweubbo/image/upload/v1774135099/lifestyle-equora_ymtlu0.jpg';
-const TRAINING_IMAGE = 'https://res.cloudinary.com/dybweubbo/image/upload/v1774135099/lifestyle-training_rbrqck.jpg';
-const COMPETITION_IMAGE = 'https://res.cloudinary.com/dybweubbo/image/upload/v1774135099/lifestyle-competition_m3e6rq.jpg';
+const MAIN_IMAGE = 'https://res.cloudinary.com/dybweubbo/image/upload/v1775885641/IMG_1132_hsfj9g.jpg';
+const TRAINING_IMAGE = 'https://res.cloudinary.com/dybweubbo/image/upload/v1775885641/IMG_1131_nvoean.jpg';
+const COMPETITION_IMAGE = 'https://res.cloudinary.com/dybweubbo/image/upload/v1775885641/IMG_1130_d8mc9j.jpg';
 
 export default function Lifestyle() {
   return (
@@ -30,12 +30,12 @@ export default function Lifestyle() {
                 src={MAIN_IMAGE}
                 alt="EQUORA Lifestyle"
                 fill
-                className="object-cover transition-transform duration-700 group-hover:scale-105"
+                className="object-cover object-[center_18%] transition-transform duration-700 group-hover:scale-105"
                 sizes="(max-width: 768px) 100vw, 58vw"
               />
               <div className="absolute inset-0 bg-linear-to-t from-equora-dark/60 to-transparent" />
               <div className="absolute bottom-8 left-8">
-                <p className="font-display text-[#E7D6C2] tracking-wider text-sm md:text-lg">
+                <p className="font-display text-white tracking-wider text-sm md:text-lg">
                   TRABAJO
                 </p>
               </div>
@@ -55,7 +55,7 @@ export default function Lifestyle() {
                 />
                 <div className="absolute inset-0 bg-linear-to-t from-equora-dark/60 to-transparent" />
                 <div className="absolute bottom-6 left-6">
-                  <p className="font-display text-[#E7D6C2] tracking-wider text-sm md:text-lg">
+                  <p className="font-display text-white tracking-wider text-sm md:text-lg">
                     ENTRENAMIENTO
                   </p>
                 </div>
@@ -73,7 +73,7 @@ export default function Lifestyle() {
                 />
                 <div className="absolute inset-0 bg-linear-to-t from-equora-dark/60 to-transparent" />
                 <div className="absolute bottom-6 left-6">
-                  <p className="font-display text-[#E7D6C2] tracking-wider text-sm md:text-lg">
+                  <p className="font-display text-white tracking-wider text-sm md:text-lg">
                     COMPETENCIA
                   </p>
                 </div>

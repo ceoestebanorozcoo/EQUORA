@@ -10,8 +10,9 @@ import CookiesModal from './CookiesModal';
 import PrivacyModal from './PrivacyModal';
 import ConditionsModal from './ConditionsModal';
 
-const INSTAGRAM_URL = 'https://www.instagram.com/equora_tiendaequina?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==';
-const EMAIL = 'sas.equora@gmail.com';
+const INSTAGRAM_URL = 'https://www.instagram.com/equora___?igsh=MTZucTQxaW1najh2';
+const TIKTOK_URL = 'https://www.tiktok.com/@equora___?_r=1&_t=ZS-95RQe30OBOv';
+const EMAIL = 'equipo@equora.com.co';
 const PHONE = '+573043844516';
 const MAPS_URL = 'https://maps.google.com/?q=Medellín,Colombia';
 
@@ -46,7 +47,7 @@ export default function Footer() {
                   <IoLogoInstagram size={16} aria-hidden="true" />
                 </a>
                 <a
-                  href={INSTAGRAM_URL}
+                  href={TIKTOK_URL}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="w-10 h-10 rounded-full border border-[#E7D6C2]/20 flex items-center justify-center text-[#E7D6C2]/60 hover:border-equora-amber hover:text-equora-amber transition-colors duration-300"

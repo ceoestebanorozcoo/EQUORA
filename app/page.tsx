@@ -14,8 +14,25 @@ import CTASection from '@/components/landing/CTASection';
 import FAQ from '@/components/landing/FAQ';
 import Footer from '@/components/landing/Footer';
 import HashScroller from '@/components/ui/HashScroller';
+import { connectDB } from '@/lib/mongodb';
+import Product from '@/models/Product';
 
-export default function LandingPage() {
+async function getFeaturedProducts() {
+  try {
+    await connectDB();
+    const products = await Product.find({ isFeatured: true })
+      .populate('category')
+      .sort({ createdAt: -1 })
+      .lean();
+    return JSON.parse(JSON.stringify(products));
+  } catch {
+    return [];
+  }
+}
+
+export default async function LandingPage() {
+  const featuredProducts = await getFeaturedProducts();
+
   return (
     <>
       <SplashScreen />
@@ -24,7 +41,7 @@ export default function LandingPage() {
       <main>
         <Hero />
         <ValueProposition />
-        <FeaturedProducts />
+        <FeaturedProducts products={featuredProducts} />
         <Categories />
         <TechnicalBenefits />
         <Lifestyle />
