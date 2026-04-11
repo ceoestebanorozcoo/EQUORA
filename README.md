@@ -39,30 +39,6 @@ npm install
 Crea el archivo `.env.local` en la raíz con las siguientes variables:
 
 ```env
-# MongoDB
-MONGODB_URI=mongodb+srv://<usuario>:<contraseña>@cluster.mongodb.net/<db>
-
-# Cloudinary
-CLOUDINARY_CLOUD_NAME=
-CLOUDINARY_API_KEY=
-CLOUDINARY_API_SECRET=
-
-# JWT
-JWT_SECRET=
-
-# Correo SMTP
-EMAIL_HOST=smtp.gmail.com
-EMAIL_PORT=587
-EMAIL_USER=equipo@equora.com.co
-EMAIL_PASS=
-EMAIL_FROM="EQUORA <equipo@equora.com.co>"
-
-# WhatsApp
-NEXT_PUBLIC_WHATSAPP_NUMBER=57XXXXXXXXXX
-
-# Admin
-ADMIN_EMAIL=equipo@equora.com.co
-ADMIN_PASSWORD=
 ```
 
 ---
