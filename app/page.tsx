@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic';
+
 import Navbar from '@/components/landing/Navbar';
 import SplashScreen from '@/components/landing/SplashScreen';
 import Hero from '@/components/landing/Hero';

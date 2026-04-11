@@ -2,30 +2,21 @@
 
 import { useState, useEffect, useRef } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import api from '@/lib/axios';
 import { IProduct, ICategory } from '@/types';
 import ProductCard from '@/components/landing/ProductCard';
 import { Search, ArrowLeft, ChevronDown, Check, X } from 'lucide-react';
 import { ProductCardSkeleton } from '@/components/ui/Skeleton';
 
-export default function ProductsPage() {
+export default function ProductsPage({ initialProducts = [], initialCategories = [] }: { initialProducts: IProduct[]; initialCategories: ICategory[] }) {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const [products, setProducts] = useState<IProduct[]>([]);
-  const [categories, setCategories] = useState<ICategory[]>([]);
+  const [products] = useState<IProduct[]>(initialProducts);
+  const [categories] = useState<ICategory[]>(initialCategories);
   const [search, setSearch] = useState('');
   const [selectedCategory, setSelectedCategory] = useState(() => searchParams.get('categoria') || '');
-  const [loading, setLoading] = useState(true);
+  const [loading] = useState(false);
   const [catOpen, setCatOpen] = useState(false);
   const catRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    Promise.all([api.get('/products'), api.get('/categories')]).then(([pRes, cRes]) => {
-      setProducts(pRes.data.data || []);
-      setCategories(cRes.data.data || []);
-      setLoading(false);
-    }).catch(() => setLoading(false));
-  }, []);
 
   // Close dropdown when clicking outside
   useEffect(() => {
