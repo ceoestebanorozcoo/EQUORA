@@ -1,7 +1,9 @@
 'use client';
 
+import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
+import api from '@/lib/axios';
 import { IProduct, ICategory } from '@/types';
 import { ScrollReveal } from '@/components/ui/ScrollReveal';
 import { formatPrice } from '@/utils/formatPrice';
@@ -86,8 +88,16 @@ function FeaturedProductCard({ product, index }: { product: IProduct; index: num
   );
 }
 
-export default function FeaturedProducts({ products = [] }: { products: IProduct[] }) {
-  const loading = false;
+export default function FeaturedProducts({ products: initialProducts = [] }: { products: IProduct[] }) {
+  const [products, setProducts] = useState<IProduct[]>(initialProducts);
+  const [loading, setLoading] = useState(initialProducts.length === 0);
+
+  useEffect(() => {
+    if (initialProducts.length > 0) return;
+    api.get('/products?featured=true')
+      .then((res) => { setProducts(res.data.data || []); setLoading(false); })
+      .catch(() => setLoading(false));
+  }, [initialProducts.length]);
 
   return (
     <section id="destacados" className="bg-equora-dark py-24 px-6" aria-label="Productos destacados">

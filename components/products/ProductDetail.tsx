@@ -1,9 +1,9 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useParams, useRouter } from 'next/navigation';
+import { useRouter, useParams } from 'next/navigation';
 import api from '@/lib/axios';
 import { IProduct, ICategory } from '@/types';
 import { formatPrice } from '@/utils/formatPrice';
@@ -18,6 +18,7 @@ const WHATSAPP = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || '573043844516';
 
 function ImageCarousel({ images, name }: { images: string[]; name: string }) {
   const [current, setCurrent] = useState(0);
+  const touchStartX = useRef<number | null>(null);
 
   if (!images.length) {
     return (
@@ -30,9 +31,24 @@ function ImageCarousel({ images, name }: { images: string[]; name: string }) {
   const prev = () => setCurrent((c) => (c - 1 + images.length) % images.length);
   const next = () => setCurrent((c) => (c + 1) % images.length);
 
+  const handleTouchStart = (e: React.TouchEvent) => {
+    touchStartX.current = e.touches[0].clientX;
+  };
+
+  const handleTouchEnd = (e: React.TouchEvent) => {
+    if (touchStartX.current === null) return;
+    const diff = touchStartX.current - e.changedTouches[0].clientX;
+    if (Math.abs(diff) > 40) diff > 0 ? next() : prev();
+    touchStartX.current = null;
+  };
+
   return (
     <div className="space-y-3">
-      <div className="relative aspect-square rounded-2xl overflow-hidden bg-white shadow-sm group">
+      <div
+        className="relative aspect-square rounded-2xl overflow-hidden bg-white shadow-sm group"
+        onTouchStart={handleTouchStart}
+        onTouchEnd={handleTouchEnd}
+      >
         <Image
           src={images[current]}
           alt={`${name} — imagen ${current + 1}`}
@@ -45,14 +61,14 @@ function ImageCarousel({ images, name }: { images: string[]; name: string }) {
           <>
             <button
               onClick={prev}
-              className="absolute left-3 top-1/2 -translate-y-1/2 w-9 h-9 bg-white/90 rounded-full flex items-center justify-center shadow-md opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer hover:bg-white"
+              className="absolute left-3 top-1/2 -translate-y-1/2 w-9 h-9 bg-white/90 rounded-full flex items-center justify-center shadow-md opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity cursor-pointer hover:bg-white"
               aria-label="Imagen anterior"
             >
               <IoChevronBack size={18} className="text-equora-dark" aria-hidden="true" />
             </button>
             <button
               onClick={next}
-              className="absolute right-3 top-1/2 -translate-y-1/2 w-9 h-9 bg-white/90 rounded-full flex items-center justify-center shadow-md opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer hover:bg-white"
+              className="absolute right-3 top-1/2 -translate-y-1/2 w-9 h-9 bg-white/90 rounded-full flex items-center justify-center shadow-md opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity cursor-pointer hover:bg-white"
               aria-label="Siguiente imagen"
             >
               <IoChevronForward size={18} className="text-equora-dark" aria-hidden="true" />
@@ -93,20 +109,20 @@ function ImageCarousel({ images, name }: { images: string[]; name: string }) {
   );
 }
 
-export default function ProductDetail() {
-  const { id } = useParams();
+export default function ProductDetail({ initialProduct }: { initialProduct: IProduct }) {
   const router = useRouter();
-  const [product, setProduct] = useState<IProduct | null>(null);
-  const [loading, setLoading] = useState(true);
+  const { id } = useParams();
+  const [product, setProduct] = useState<IProduct | null>(initialProduct);
+  const [loading, setLoading] = useState(!initialProduct);
   const [error, setError] = useState('');
 
   useEffect(() => {
+    if (initialProduct) return;
     if (!id) return;
     api.get(`/products/${id}`)
-      .then((res) => setProduct(res.data.data))
-      .catch(() => setError('Producto no encontrado'))
-      .finally(() => setLoading(false));
-  }, [id]);
+      .then((res) => { setProduct(res.data.data); setLoading(false); })
+      .catch(() => { setError('Producto no encontrado'); setLoading(false); });
+  }, [id, initialProduct]);
 
   if (loading) {
     return (

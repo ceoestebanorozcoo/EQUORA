@@ -77,52 +77,41 @@ export default function Hero() {
       <div className="relative z-10 w-full px-5 sm:px-8 md:px-16 lg:px-24 pt-28 sm:pt-32 pb-16 sm:pb-20">
         <div className="max-w-2xl">
 
-          {/* Badge */}
-          <div
-            className={`mb-8 ${anim(0, 'left').className}`}
-            style={anim(0, 'left').style}
-          >
-            <span className="inline-flex items-center px-4 py-1.5 rounded-full border border-white/30 bg-white/20 font-body text-[10px] tracking-widest text-[#4a2e1f] uppercase backdrop-blur-sm">
-              Está en lo que haces… Y en lo que eliges.
+          {/* Main headline — big */}
+          <div className={`overflow-hidden mb-1 ${anim(0, 'left').className}`} style={anim(0, 'left').style}>
+            <span className="block font-display text-5xl sm:text-6xl md:text-7xl lg:text-8xl leading-none text-white tracking-wide">
+              Equipamiento
+            </span>
+          </div>
+          <div className={`overflow-hidden mb-1 ${anim(80, 'left').className}`} style={anim(80, 'left').style}>
+            <span className="block font-display text-5xl sm:text-6xl md:text-7xl lg:text-8xl leading-none text-white tracking-wide">
+              y productos
+            </span>
+          </div>
+          <div className={`overflow-hidden mb-12 ${anim(160, 'left').className}`} style={anim(160, 'left').style}>
+            <span className="block font-display text-5xl sm:text-6xl md:text-7xl lg:text-8xl leading-none text-white tracking-wide">
+              equinos.
             </span>
           </div>
 
-          {/* Headline line 1 */}
-          <div className={`overflow-hidden mb-1 ${anim(150, 'left').className}`} style={anim(150, 'left').style}>
-            <span className="block font-display text-4xl sm:text-5xl md:text-6xl lg:text-7xl leading-tight text-white tracking-wide">
-              Cada decisión
-            </span>
-          </div>
-
-          {/* Headline line 2 */}
-          <div className={`overflow-hidden mb-2 ${anim(280, 'left').className}`} style={anim(280, 'left').style}>
-            <span className="block font-display text-4xl sm:text-5xl md:text-6xl lg:text-7xl leading-tight text-white tracking-wide">
-              habla de ti…
-            </span>
-          </div>
-
-          {/* Headline line 3 — italic */}
-          <div className={`overflow-hidden mb-10 ${anim(400, 'left').className}`} style={anim(400, 'left').style}>
-            <span
-              className="block font-editorial italic text-2xl sm:text-3xl md:text-4xl lg:text-5xl leading-tight text-[#a67c52]"
-            >
-              incluso lo que usas todos los días.
-            </span>
-          </div>
-
-          {/* Description with vertical amber line */}
-          <div className={`flex items-stretch gap-4 mb-10 ${anim(520, 'up').className}`} style={anim(520, 'up').style}>
-            <div className="w-px bg-equora-amber/50 shrink-0" />
-            <p className="font-body text-sm text-white/70 leading-relaxed max-w-sm">
-              Nosotros hacemos productos diseñados para acompañarte en cada momento, sin fallar cuando<br />más importa.
-            </p>
+          {/* Subheading — smaller with vertical line */}
+          <div className={`flex items-stretch gap-4 mb-10 ${anim(320, 'up').className}`} style={anim(320, 'up').style}>
+            <div className="w-0.5 bg-white shrink-0 rounded-full" />
+            <div>
+              <span className="block font-display text-xl sm:text-2xl md:text-3xl leading-tight text-white/90 tracking-wide">
+                En Equora diseñamos productos resistentes y funcionales,
+              </span>
+              <span className="block font-display text-xl sm:text-2xl md:text-3xl leading-tight text-white/90 tracking-wide">
+                hechos para usarse todos los días sin fallar.
+              </span>
+            </div>
           </div>
 
           {/* CTAs */}
-          <div className={`flex flex-wrap gap-4 ${anim(640, 'up').className}`} style={anim(640, 'up').style}>
+          <div className={`flex flex-col sm:flex-row gap-4 ${anim(640, 'up').className}`} style={anim(640, 'up').style}>
             <a
               href="/productos"
-              className="inline-flex items-center justify-center px-8 py-4 rounded-full bg-white text-equora-dark font-body font-semibold text-sm tracking-widest uppercase hover:bg-equora-ivory transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg"
+              className="flex items-center justify-center w-full sm:w-52 px-8 py-4 rounded-full bg-white text-equora-dark font-body font-semibold text-sm tracking-widest uppercase hover:bg-equora-ivory transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg"
             >
               Ver productos
             </a>
@@ -130,7 +119,7 @@ export default function Hero() {
               href={whatsappLink}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center justify-center gap-2.5 px-8 py-4 rounded-full bg-equora-dark text-white font-body font-semibold text-sm tracking-widest uppercase hover:bg-[#0d1e30] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-equora-dark/30"
+              className="flex items-center justify-center gap-2.5 w-full sm:w-52 px-8 py-4 rounded-full bg-equora-dark text-white font-body font-semibold text-sm tracking-widest uppercase hover:bg-[#0d1e30] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-equora-dark/30"
             >
               <IoLogoWhatsapp size={19} aria-hidden="true" />
               Comprar
