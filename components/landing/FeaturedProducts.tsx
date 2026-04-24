@@ -65,7 +65,10 @@ function FeaturedProductCard({ product, index }: { product: IProduct; index: num
             {product.name}
           </h3>
           {product.description && (
-            <p className="font-body text-xs text-equora-dark/50 leading-relaxed mb-3 line-clamp-2">
+            <p
+              className="font-body text-xs text-equora-dark/50 leading-relaxed mb-3 overflow-hidden"
+              style={{ display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}
+            >
               {product.description}
             </p>
           )}
@@ -77,7 +80,7 @@ function FeaturedProductCard({ product, index }: { product: IProduct; index: num
             </div>
             <Link
               href={`/producto/${product._id}`}
-              className="relative z-20 block w-full text-center py-2.5 bg-equora-dark hover:bg-[#4a2e1f] text-[#E7D6C2] rounded-full text-sm font-body font-medium tracking-widest uppercase transition-colors duration-300"
+              className="relative z-20 block w-full text-center py-2 md:py-2.5 bg-equora-dark hover:bg-[#4a2e1f] text-[#E7D6C2] rounded-full text-xs md:text-sm font-body font-medium uppercase transition-colors duration-300 tracking-wide md:tracking-widest"
             >
               Ver producto
             </Link>
@@ -90,9 +93,15 @@ function FeaturedProductCard({ product, index }: { product: IProduct; index: num
 
 export default function FeaturedProducts({ products: initialProducts = [] }: { products: IProduct[] }) {
   const [products, setProducts] = useState<IProduct[]>(initialProducts);
+  const [totalProducts, setTotalProducts] = useState(0);
   const [loading, setLoading] = useState(initialProducts.length === 0);
 
   useEffect(() => {
+    // Always fetch total count to decide whether to show "Ver más"
+    api.get('/products').then((res) => {
+      const all = res.data.data || [];
+      setTotalProducts(all.length);
+    });
     if (initialProducts.length > 0) return;
     api.get('/products?featured=true')
       .then((res) => { setProducts(res.data.data || []); setLoading(false); })
@@ -131,23 +140,27 @@ export default function FeaturedProducts({ products: initialProducts = [] }: { p
             <p className="font-editorial italic text-2xl text-white/40">Próximamente nuevos productos</p>
           </div>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="flex flex-wrap justify-center gap-3 md:gap-6">
             {products.map((product, i) => (
-              <FeaturedProductCard key={product._id} product={product} index={i} />
+              <div key={product._id} className="w-[calc(50%-6px)] sm:w-[calc(33.333%-12px)] xl:w-[calc(25%-18px)]">
+                <FeaturedProductCard product={product} index={i} />
+              </div>
             ))}
           </div>
         )}
 
-        <ScrollReveal direction="up" delay={400}>
-          <div className="text-center mt-14">
-            <Link
-              href="/productos"
-              className="inline-flex items-center gap-3 px-10 py-4 bg-equora-amber hover:bg-[#4a2e1f] text-white rounded-full font-body font-medium text-sm tracking-widest uppercase transition-colors duration-300"
-            >
-              Ver más productos
-            </Link>
-          </div>
-        </ScrollReveal>
+        {totalProducts > 20 && (
+          <ScrollReveal direction="up" delay={400}>
+            <div className="text-center mt-14">
+              <Link
+                href="/productos"
+                className="inline-flex items-center gap-3 px-10 py-4 bg-equora-amber hover:bg-[#4a2e1f] text-white rounded-full font-body font-medium text-sm tracking-widest uppercase transition-colors duration-300"
+              >
+                Ver más productos
+              </Link>
+            </div>
+          </ScrollReveal>
+        )}
       </div>
     </section>
   );

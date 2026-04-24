@@ -55,7 +55,7 @@ export default function Hero() {
         <img
           src="https://res.cloudinary.com/dybweubbo/image/upload/v1775884700/IMG_1129_dktmcz.jpg"
           alt=""
-          className="absolute inset-0 w-full h-full object-cover scale-110"
+          className="absolute inset-0 w-full h-full object-cover object-[center_15%] scale-110"
         />
       </div>
 
@@ -80,17 +80,17 @@ export default function Hero() {
           {/* Main headline — big */}
           <div className={`overflow-hidden mb-1 ${anim(0, 'left').className}`} style={anim(0, 'left').style}>
             <span className="block font-display text-5xl sm:text-6xl md:text-7xl lg:text-8xl leading-none text-white tracking-wide">
-              Equipamiento
+              Para los que
             </span>
           </div>
           <div className={`overflow-hidden mb-1 ${anim(80, 'left').className}`} style={anim(80, 'left').style}>
             <span className="block font-display text-5xl sm:text-6xl md:text-7xl lg:text-8xl leading-none text-white tracking-wide">
-              y productos
+              llevan el campo
             </span>
           </div>
           <div className={`overflow-hidden mb-12 ${anim(160, 'left').className}`} style={anim(160, 'left').style}>
             <span className="block font-display text-5xl sm:text-6xl md:text-7xl lg:text-8xl leading-none text-white tracking-wide">
-              equinos.
+              en el alma.
             </span>
           </div>
 
@@ -98,11 +98,8 @@ export default function Hero() {
           <div className={`flex items-stretch gap-4 mb-10 ${anim(320, 'up').className}`} style={anim(320, 'up').style}>
             <div className="w-0.5 bg-white shrink-0 rounded-full" />
             <div>
-              <span className="block font-display text-xl sm:text-2xl md:text-3xl leading-tight text-white/90 tracking-wide">
-                En Equora diseñamos productos resistentes y funcionales,
-              </span>
-              <span className="block font-display text-xl sm:text-2xl md:text-3xl leading-tight text-white/90 tracking-wide">
-                hechos para usarse todos los días sin fallar.
+              <span className="block font-body text-xl sm:text-2xl md:text-3xl leading-tight text-white/90 tracking-normal font-normal">
+                Cada producto refleja la distinción, el carácter y la nobleza que estos ejemplares nos enseñan.
               </span>
             </div>
           </div>

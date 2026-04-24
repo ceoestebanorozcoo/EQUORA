@@ -21,6 +21,39 @@ export default function MultiImageUpload({
   const [uploading, setUploading] = useState(false);
   const [error, setError] = useState('');
 
+  const compressImage = (file: File): Promise<File> =>
+    new Promise((resolve, reject) => {
+      const img = new window.Image();
+      const url = URL.createObjectURL(file);
+      img.onload = () => {
+        URL.revokeObjectURL(url);
+        const MAX_PX = 2048;
+        let { width, height } = img;
+        if (width > MAX_PX || height > MAX_PX) {
+          if (width > height) { height = Math.round(height * MAX_PX / width); width = MAX_PX; }
+          else { width = Math.round(width * MAX_PX / height); height = MAX_PX; }
+        }
+        const canvas = document.createElement('canvas');
+        canvas.width = width;
+        canvas.height = height;
+        canvas.getContext('2d')!.drawImage(img, 0, 0, width, height);
+        // Step down quality until under 5MB
+        const tryQuality = (q: number) => {
+          canvas.toBlob((blob) => {
+            if (!blob) return reject();
+            if (blob.size <= 5 * 1024 * 1024 || q <= 0.1) {
+              resolve(new File([blob], file.name.replace(/\.[^.]+$/, '.jpg'), { type: 'image/jpeg' }));
+            } else {
+              tryQuality(Math.max(q - 0.1, 0.1));
+            }
+          }, 'image/jpeg', q);
+        };
+        tryQuality(0.85);
+      };
+      img.onerror = () => { URL.revokeObjectURL(url); reject(); };
+      img.src = url;
+    });
+
   const handleFiles = async (files: FileList) => {
     const remaining = max - values.length;
     if (remaining <= 0) { setError(`Máximo ${max} imágenes`); return; }
@@ -29,25 +62,34 @@ export default function MultiImageUpload({
     setError('');
     setUploading(true);
 
-    const uploaded: string[] = [];
-    for (const file of toUpload) {
-      if (!file.type.startsWith('image/')) continue;
-      if (file.size > 5 * 1024 * 1024) { setError('Cada imagen debe ser menor a 5MB'); continue; }
+    const validFiles = toUpload.filter((file) => file.type.startsWith('image/'));
 
-      const formData = new FormData();
-      formData.append('file', file);
-      formData.append('folder', folder);
+    const preparedFiles = await Promise.all(
+      validFiles.map(async (file) => {
+        if (file.size > 5 * 1024 * 1024) {
+          try { return await compressImage(file); } catch { return null; }
+        }
+        return file;
+      })
+    );
+    const filesToUpload = preparedFiles.filter((f): f is File => f !== null);
 
-      try {
-        const res = await fetch('/api/upload', { method: 'POST', body: formData, credentials: 'include' });
-        const data = await res.json();
-        if (data.url) uploaded.push(data.url);
-        else setError(data.error || 'Error subiendo imagen');
-      } catch {
-        setError('Error subiendo imagen');
-      }
-    }
+    const results = await Promise.allSettled(
+      filesToUpload.map((file) => {
+        const formData = new FormData();
+        formData.append('file', file);
+        formData.append('folder', folder);
+        return fetch('/api/upload', { method: 'POST', body: formData, credentials: 'include' })
+          .then((res) => res.json())
+          .then((data) => data.url as string);
+      })
+    );
 
+    const uploaded = results
+      .filter((r): r is PromiseFulfilledResult<string> => r.status === 'fulfilled' && !!r.value)
+      .map((r) => r.value);
+
+    if (results.some((r) => r.status === 'rejected')) setError('Algunas imágenes no se pudieron subir');
     if (uploaded.length) onChange([...values, ...uploaded]);
     setUploading(false);
   };
@@ -109,7 +151,7 @@ export default function MultiImageUpload({
               <p className="font-body text-xs text-[#6B7280] text-center">
                 Arrastra imágenes o <span className="text-equora-amber font-medium">haz clic</span>
               </p>
-              <p className="font-body text-xs text-[#6B7280]">PNG, JPG, WebP — máx. 5MB c/u</p>
+              <p className="font-body text-xs text-[#6B7280]">PNG, JPG, WebP — se comprimen automáticamente</p>
             </>
           )}
         </div>
