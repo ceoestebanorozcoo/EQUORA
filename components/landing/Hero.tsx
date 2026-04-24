@@ -1,12 +1,11 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { IoLogoWhatsapp } from 'react-icons/io5';
 
 const WHATSAPP = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || '573043844516';
 
 export default function Hero() {
-  const bgRef = useRef<HTMLDivElement>(null);
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
@@ -14,21 +13,9 @@ export default function Hero() {
     window.addEventListener('splashDone', handleSplashDone);
     const fallback = setTimeout(() => setMounted(true), 2200);
 
-    const applyParallax = () => {
-      if (bgRef.current) {
-        bgRef.current.style.transform = `translateY(${window.scrollY * 1}px)`;
-      }
-    };
-
-    // scroll fires on desktop + Android; touchmove covers iOS mid-swipe
-    window.addEventListener('scroll', applyParallax, { passive: true });
-    window.addEventListener('touchmove', applyParallax, { passive: true });
-
     return () => {
       clearTimeout(fallback);
       window.removeEventListener('splashDone', handleSplashDone);
-      window.removeEventListener('scroll', applyParallax);
-      window.removeEventListener('touchmove', applyParallax);
     };
   }, []);
 
@@ -53,7 +40,7 @@ export default function Hero() {
       aria-label="Hero"
     >
       {/* Background image */}
-      <div ref={bgRef} className="absolute inset-0" aria-hidden="true">
+      <div className="absolute inset-0" aria-hidden="true">
         <img
           src="https://res.cloudinary.com/dybweubbo/image/upload/v1775884700/IMG_1129_dktmcz.jpg"
           alt=""
