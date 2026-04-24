@@ -22,6 +22,7 @@ export interface IProduct {
   category: ICategory | string;
   price: number;
   images: string[];
+  video?: string;
   description: string;
   productCode: string;
   stockStatus: 'available' | 'soldout';

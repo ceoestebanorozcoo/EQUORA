@@ -8,7 +8,9 @@ export async function GET(req: NextRequest) {
   try {
     await connectDB();
     const featured = req.nextUrl.searchParams.get('featured');
-    const filter = featured === 'true' ? { isFeatured: true } : {};
+    const search = req.nextUrl.searchParams.get('search');
+    const filter: Record<string, unknown> = featured === 'true' ? { isFeatured: true } : {};
+    if (search) filter.name = { $regex: search, $options: 'i' };
     const products = await Product.find(filter).populate('category').sort({ createdAt: -1 });
     return NextResponse.json({ success: true, data: products });
   } catch {
@@ -23,7 +25,7 @@ export async function POST(req: NextRequest) {
 
     await connectDB();
     const body = await req.json();
-    const { name, category, price, images, description, stockStatus } = body;
+    const { name, category, price, images, video, description, stockStatus } = body;
 
     if (!name || !category || !price) {
       return NextResponse.json({ error: 'Nombre, categoría y precio son requeridos' }, { status: 400 });
@@ -36,6 +38,7 @@ export async function POST(req: NextRequest) {
       category,
       price: Number(price),
       images: images || [],
+      video: video || '',
       description: description || '',
       productCode,
       stockStatus: stockStatus || 'available',

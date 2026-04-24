@@ -3,6 +3,7 @@ import { connectDB } from '@/lib/mongodb';
 import Category from '@/models/Category';
 import Product from '@/models/Product';
 import { getAuthUser } from '@/lib/auth';
+import { deleteImage } from '@/lib/cloudinary';
 
 export async function PUT(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
@@ -49,6 +50,10 @@ export async function DELETE(req: NextRequest, { params }: { params: Promise<{ i
       );
     }
 
+    const category = await Category.findById(id);
+    if (category?.image) {
+      await deleteImage(category.image).catch(() => {});
+    }
     await Category.findByIdAndDelete(id);
     return NextResponse.json({ success: true, message: 'Categoría eliminada' });
   } catch {

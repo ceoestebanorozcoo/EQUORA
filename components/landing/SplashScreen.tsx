@@ -19,7 +19,7 @@ export default function SplashScreen() {
 
   return (
     <div
-      className={`fixed inset-0 z-9999 bg-equora-amber flex flex-col items-center justify-center transition-transform duration-700 ease-in-out ${
+      className={`fixed inset-0 z-9999 bg-equora-dark flex flex-col items-center justify-center transition-transform duration-700 ease-in-out ${
         phase === 'sliding' ? '-translate-y-full' : 'translate-y-0'
       }`}
     >

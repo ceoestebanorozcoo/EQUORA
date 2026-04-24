@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect, useRef, useCallback } from 'react';
-import { ScrollReveal } from '@/components/ScrollReveal';
+import { ScrollReveal } from '@/components/ui/ScrollReveal';
 import { ChevronLeft, ChevronRight, Star } from 'lucide-react';
 import api from '@/lib/axios';
 
@@ -78,7 +78,7 @@ export default function Testimonials() {
           </div>
 
           {/* Quote */}
-          <blockquote className="font-editorial text-xl md:text-2xl italic text-[#F9F7F4]/80 leading-relaxed mb-8">
+          <blockquote className="font-editorial text-xl md:text-2xl italic text-[#E7D6C2]/80 leading-relaxed mb-8">
             &ldquo;{t.text}&rdquo;
           </blockquote>
 
@@ -86,7 +86,7 @@ export default function Testimonials() {
           <p className="font-display text-lg tracking-wider text-white">
             {t.name}
           </p>
-          <p className="font-body text-sm text-[#F9F7F4]/50 mt-1">
+          <p className="font-body text-sm text-[#E7D6C2]/50 mt-1">
             {t.role}
           </p>
 
@@ -94,7 +94,7 @@ export default function Testimonials() {
           <div className="flex justify-center items-center gap-4 mt-10">
             <button
               onClick={prev}
-              className="w-12 h-12 rounded-full border border-[#F9F7F4]/20 text-[#F9F7F4]/60 flex items-center justify-center hover:border-equora-amber hover:text-equora-amber transition-colors duration-300 cursor-pointer"
+              className="w-12 h-12 rounded-full border border-[#E7D6C2]/20 text-[#E7D6C2]/60 flex items-center justify-center hover:border-equora-amber hover:text-equora-amber transition-colors duration-300 cursor-pointer"
               aria-label="Testimonio anterior"
             >
               <ChevronLeft className="w-5 h-5" aria-hidden="true" />
@@ -109,7 +109,7 @@ export default function Testimonials() {
                   aria-selected={i === current}
                   aria-label={`Testimonio ${i + 1}`}
                   className={`h-2 rounded-full transition-all duration-300 cursor-pointer ${
-                    i === current ? 'bg-equora-amber w-6' : 'bg-[#F9F7F4]/30 w-2'
+                    i === current ? 'bg-equora-amber w-6' : 'bg-[#E7D6C2]/30 w-2'
                   }`}
                 />
               ))}
@@ -117,7 +117,7 @@ export default function Testimonials() {
 
             <button
               onClick={next}
-              className="w-12 h-12 rounded-full border border-[#F9F7F4]/20 text-[#F9F7F4]/60 flex items-center justify-center hover:border-equora-amber hover:text-equora-amber transition-colors duration-300 cursor-pointer"
+              className="w-12 h-12 rounded-full border border-[#E7D6C2]/20 text-[#E7D6C2]/60 flex items-center justify-center hover:border-equora-amber hover:text-equora-amber transition-colors duration-300 cursor-pointer"
               aria-label="Testimonio siguiente"
             >
               <ChevronRight className="w-5 h-5" aria-hidden="true" />

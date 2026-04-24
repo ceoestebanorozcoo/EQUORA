@@ -1,15 +1,16 @@
 'use client';
 
-import { useEffect, useRef, ReactNode } from 'react';
+import { useEffect, useRef, ReactNode, CSSProperties } from 'react';
 
 interface ScrollRevealProps {
   children: ReactNode;
   direction?: 'up' | 'down' | 'left' | 'right';
   delay?: number;
   className?: string;
+  style?: CSSProperties;
 }
 
-export function ScrollReveal({ children, direction = 'up', delay = 0, className = '' }: ScrollRevealProps) {
+export function ScrollReveal({ children, direction = 'up', delay = 0, className = '', style }: ScrollRevealProps) {
   const ref = useRef<HTMLDivElement>(null);
 
   const translateMap = {
@@ -48,6 +49,7 @@ export function ScrollReveal({ children, direction = 'up', delay = 0, className 
         opacity: 0,
         transform: translateMap[direction],
         transition: 'opacity 0.6s ease, transform 0.6s ease',
+        ...style,
       }}
     >
       {children}

@@ -1,17 +1,24 @@
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
-import { usePathname } from 'next/navigation';
+import { useState, useEffect, useRef, useCallback } from 'react';
+import { usePathname, useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { IoMenu, IoClose, IoBagHandleOutline } from 'react-icons/io5';
+import { IoSearchOutline } from 'react-icons/io5';
 
 const navLinks = [
   { label: 'Inicio', href: '/' },
   { label: 'Productos', href: '/productos' },
   { label: 'Categorías', href: '/categorias' },
-  { label: 'Nosotros', href: '/#historia' },
-  { label: 'FAQ', href: '/#faq' },
+  { label: 'Nosotros', href: '/nosotros' },
 ];
+
+interface Product {
+  _id: string;
+  name: string;
+  price: number;
+  images: string[];
+}
 
 function EquoraLogo() {
   return (
@@ -29,12 +36,20 @@ function EquoraLogo() {
 
 export default function Navbar() {
   const pathname = usePathname();
+  const router = useRouter();
   const isLanding = pathname === '/';
 
   const [atTop, setAtTop] = useState(true);
   const [visible, setVisible] = useState(true);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [searchOpen, setSearchOpen] = useState(false);
+  const [query, setQuery] = useState('');
+  const [results, setResults] = useState<Product[]>([]);
+  const [loading, setLoading] = useState(false);
   const lastScrollY = useRef(0);
+  const searchRef = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
+  const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -47,6 +62,7 @@ export default function Navbar() {
       } else if (currentY > lastScrollY.current + 4) {
         setVisible(false);
         setMenuOpen(false);
+        setSearchOpen(false);
       }
       lastScrollY.current = currentY;
     };
@@ -54,6 +70,61 @@ export default function Navbar() {
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  // Close search on click outside
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (searchRef.current && !searchRef.current.contains(e.target as Node)) {
+        setSearchOpen(false);
+        setQuery('');
+        setResults([]);
+      }
+    };
+    if (searchOpen) document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, [searchOpen]);
+
+  // Focus input when search opens
+  useEffect(() => {
+    if (searchOpen) setTimeout(() => inputRef.current?.focus(), 50);
+  }, [searchOpen]);
+
+  const fetchResults = useCallback(async (q: string) => {
+    if (!q.trim()) { setResults([]); return; }
+    setLoading(true);
+    try {
+      const res = await fetch(`/api/products?search=${encodeURIComponent(q)}`);
+      const json = await res.json();
+      setResults((json.data || []).slice(0, 6));
+    } catch {
+      setResults([]);
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  const handleQueryChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const val = e.target.value;
+    setQuery(val);
+    if (debounceRef.current) clearTimeout(debounceRef.current);
+    debounceRef.current = setTimeout(() => fetchResults(val), 300);
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!query.trim()) return;
+    setSearchOpen(false);
+    setResults([]);
+    router.push(`/productos?search=${encodeURIComponent(query.trim())}`);
+    setQuery('');
+  };
+
+  const handleProductClick = (id: string) => {
+    setSearchOpen(false);
+    setQuery('');
+    setResults([]);
+    router.push(`/producto/${id}`);
+  };
 
   const transparent = isLanding && atTop;
 
@@ -80,12 +151,12 @@ export default function Navbar() {
         role="navigation"
         aria-label="Navegación principal"
       >
-        <div className="max-w-screen-2xl mx-auto w-full px-4 sm:px-8 md:px-12 flex items-center justify-between">
+        <div className="max-w-screen-2xl mx-auto w-full px-4 sm:px-8 md:px-12 flex items-center justify-between gap-4">
 
-          {/* Logo */}
+          {/* Logo — hidden when search open on mobile */}
           <a
             href="/"
-            className="flex items-center gap-2.5 group transition-transform duration-300 hover:scale-105"
+            className={`flex items-center gap-2.5 group transition-all duration-300 hover:scale-105 shrink-0 ${searchOpen ? 'hidden md:flex' : 'flex'}`}
             aria-label="EQUORA — Inicio"
           >
             <EquoraLogo />
@@ -94,10 +165,86 @@ export default function Navbar() {
             </span>
           </a>
 
-          {/* Links + CTA + burger */}
-          <div className="flex items-center gap-6">
-            {/* Desktop links */}
-            <ul className="hidden md:flex items-center gap-10" role="list">
+          {/* Search bar (expands, hides links) */}
+          <div
+            ref={searchRef}
+            className={`transition-all duration-400 flex items-center gap-3 ${searchOpen ? 'flex-1 max-w-2xl' : 'w-0 overflow-hidden'}`}
+          >
+            {searchOpen && (
+              <form onSubmit={handleSubmit} className="relative w-full">
+                <input
+                  ref={inputRef}
+                  type="text"
+                  value={query}
+                  onChange={handleQueryChange}
+                  placeholder="Buscar productos..."
+                  className="w-full bg-white/10 border border-white/20 rounded-full px-5 py-2.5 text-white placeholder-white/40 font-body text-sm outline-none focus:border-equora-amber/60 transition-colors duration-200"
+                />
+                <button
+                  type="submit"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-white/60 hover:text-white transition-colors"
+                  aria-label="Buscar"
+                >
+                  <IoSearchOutline size={18} />
+                </button>
+
+                {/* Results dropdown */}
+                {(results.length > 0 || (loading && query)) && (
+                  <div className="absolute top-full left-0 right-0 mt-2 bg-equora-dark/95 border border-white/10 rounded-2xl overflow-hidden shadow-2xl z-50 backdrop-blur-sm">
+                    {loading && results.length === 0 ? (
+                      <p className="px-5 py-4 text-white/40 font-body text-sm">Buscando...</p>
+                    ) : results.length === 0 ? (
+                      <p className="px-5 py-4 text-white/40 font-body text-sm">Sin resultados</p>
+                    ) : (
+                      results.map((p) => (
+                        <button
+                          key={p._id}
+                          type="button"
+                          onClick={() => handleProductClick(p._id)}
+                          className="w-full flex items-center gap-4 px-5 py-3 hover:bg-white/5 transition-colors duration-150 text-left border-b border-white/5 last:border-0"
+                        >
+                          {p.images?.[0] && (
+                            <div className="relative w-10 h-10 rounded-lg overflow-hidden shrink-0 bg-white/5">
+                              <Image src={p.images[0]} alt={p.name} fill className="object-cover" />
+                            </div>
+                          )}
+                          <div className="flex-1 min-w-0">
+                            <p className="font-body text-white text-sm truncate">{p.name}</p>
+                            <p className="font-body text-equora-amber text-xs mt-0.5">
+                              ${p.price.toLocaleString('es-CO')}
+                            </p>
+                          </div>
+                        </button>
+                      ))
+                    )}
+                    {results.length > 0 && (
+                      <button
+                        type="button"
+                        onClick={() => handleSubmit({ preventDefault: () => {} } as React.FormEvent)}
+                        className="w-full px-5 py-3 text-center font-body text-equora-amber/80 hover:text-equora-amber text-sm transition-colors duration-150 hover:bg-white/5"
+                      >
+                        Ver todos los resultados para &ldquo;{query}&rdquo;
+                      </button>
+                    )}
+                  </div>
+                )}
+              </form>
+            )}
+            {searchOpen && (
+              <button
+                onClick={() => { setSearchOpen(false); setQuery(''); setResults([]); }}
+                className="flex items-center justify-center w-9 h-9 shrink-0 rounded-full bg-white/10 hover:bg-equora-amber/20 border border-white/20 hover:border-equora-amber/50 text-white/80 hover:text-white transition-all duration-200 cursor-pointer"
+                aria-label="Cerrar búsqueda"
+              >
+                <IoClose size={18} />
+              </button>
+            )}
+          </div>
+
+          {/* Links + CTA + icons */}
+          <div className={`flex items-center gap-6 transition-all duration-300 ${searchOpen ? 'hidden md:flex' : 'flex'}`}>
+            {/* Desktop links — hidden when search open */}
+            <ul className={`hidden md:flex items-center gap-10 transition-all duration-300 ${searchOpen ? 'md:hidden' : ''}`} role="list">
               {navLinks.map((link) => (
                 <li key={link.href}>
                   <a
@@ -106,30 +253,46 @@ export default function Navbar() {
                     className="font-body text-base text-white/80 hover:text-white transition-colors duration-200 relative group py-1"
                   >
                     {link.label}
-                    <span className="absolute bottom-0 left-0 w-0 h-px bg-equora-amber group-hover:w-full transition-all duration-300" />
+                    <span className="absolute bottom-0 left-0 w-0 h-px bg-white group-hover:w-full transition-all duration-300" />
                   </a>
                 </li>
               ))}
             </ul>
 
-            {/* CTA desktop */}
-            <a
-              href="/productos"
-              className="hidden md:flex items-center gap-2 bg-equora-amber hover:bg-[#8a5224] text-white font-body text-base font-medium px-6 py-3 rounded-full transition-colors duration-200"
-            >
-              <IoBagHandleOutline size={17} />
-              Comprar
-            </a>
+            {/* Search icon */}
+            {!searchOpen && (
+              <button
+                onClick={() => setSearchOpen(true)}
+                className="flex items-center gap-2 px-4 h-9 rounded-full bg-white/10 hover:bg-equora-amber/20 border border-white/20 hover:border-equora-amber/50 text-white/80 hover:text-white transition-all duration-200 cursor-pointer font-body text-sm"
+                aria-label="Buscar"
+              >
+                <IoSearchOutline size={18} />
+                Buscar
+              </button>
+            )}
+
+            {/* CTA desktop — hidden when search open */}
+            {!searchOpen && (
+              <a
+                href="/productos"
+                className="hidden md:flex items-center gap-2 px-4 h-9 rounded-full bg-white/10 hover:bg-equora-amber/20 border border-white/20 hover:border-equora-amber/50 text-white/80 hover:text-white transition-all duration-200 font-body text-sm"
+              >
+                <IoBagHandleOutline size={17} />
+                Comprar
+              </a>
+            )}
 
             {/* Mobile burger */}
-            <button
-              className="md:hidden text-white cursor-pointer p-1 z-60 relative"
-              onClick={() => setMenuOpen(!menuOpen)}
-              aria-label={menuOpen ? 'Cerrar menú' : 'Abrir menú'}
-              aria-expanded={menuOpen}
-            >
-              {menuOpen ? <IoClose size={26} /> : <IoMenu size={26} />}
-            </button>
+            {!searchOpen && (
+              <button
+                className="md:hidden text-white cursor-pointer p-1 z-60 relative"
+                onClick={() => setMenuOpen(!menuOpen)}
+                aria-label={menuOpen ? 'Cerrar menú' : 'Abrir menú'}
+                aria-expanded={menuOpen}
+              >
+                {menuOpen ? <IoClose size={26} /> : <IoMenu size={26} />}
+              </button>
+            )}
           </div>
         </div>
       </nav>
@@ -141,7 +304,6 @@ export default function Navbar() {
         }`}
         aria-hidden={!menuOpen}
       >
-        {/* Top bar inside overlay */}
         <div className="flex items-center justify-between px-5 py-5 border-b border-white/10">
           <a href="/" className="flex items-center gap-2.5 group" onClick={() => setMenuOpen(false)}>
             <EquoraLogo />
@@ -156,7 +318,6 @@ export default function Navbar() {
           </button>
         </div>
 
-        {/* Links */}
         <ul className="flex flex-col px-6 pt-6 gap-1 flex-1" role="list">
           {navLinks.map((link, i) => (
             <li key={link.href}>
@@ -175,7 +336,7 @@ export default function Navbar() {
           <li className="pt-8">
             <a
               href="/productos"
-              className="inline-flex items-center gap-2.5 bg-equora-amber text-white font-body font-medium px-7 py-3.5 rounded-full text-base"
+              className="inline-flex items-center gap-2 px-4 h-9 rounded-full bg-white/10 hover:bg-equora-amber/20 border border-white/20 hover:border-equora-amber/50 text-white/80 hover:text-white transition-all duration-200 font-body text-sm"
               onClick={() => setMenuOpen(false)}
             >
               <IoBagHandleOutline size={19} />
@@ -184,7 +345,6 @@ export default function Navbar() {
           </li>
         </ul>
 
-        {/* Bottom brand */}
         <div className="px-6 pb-10">
           <p className="font-editorial italic text-white/20 text-sm">
             Equipamiento equino de alta calidad.
