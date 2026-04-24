@@ -22,13 +22,20 @@ if (!global.mongoose) {
 }
 
 export async function connectDB(): Promise<typeof mongoose> {
-  if (cached.conn) return cached.conn;
+  // If already connected and healthy, reuse
+  if (cached.conn && mongoose.connection.readyState === 1) return cached.conn;
+
+  // Reset stale connection
+  if (cached.conn && mongoose.connection.readyState !== 1) {
+    cached.conn = null;
+    cached.promise = null;
+  }
 
   if (!cached.promise) {
     cached.promise = mongoose.connect(MONGODB_URI, {
-      serverSelectionTimeoutMS: 15000,
-      socketTimeoutMS: 45000,
-      connectTimeoutMS: 15000,
+      serverSelectionTimeoutMS: 10000,
+      socketTimeoutMS: 30000,
+      connectTimeoutMS: 10000,
       maxPoolSize: 10,
     });
   }
@@ -37,7 +44,6 @@ export async function connectDB(): Promise<typeof mongoose> {
     cached.conn = await cached.promise;
     return cached.conn;
   } catch (e) {
-    // Reset so next request retries the connection
     cached.promise = null;
     cached.conn = null;
     throw e;

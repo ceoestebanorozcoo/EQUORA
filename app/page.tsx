@@ -1,4 +1,4 @@
-export const dynamic = 'force-dynamic';
+export const revalidate = 60; // ISR: refresca cada 60 segundos en background
 
 import Navbar from '@/components/landing/Navbar';
 import SplashScreen from '@/components/landing/SplashScreen';
@@ -17,23 +17,30 @@ import { connectDB } from '@/lib/mongodb';
 import Product from '@/models/Product';
 
 async function getFeaturedProducts() {
-  try {
-    await connectDB();
-    const featured = await Product.find({ isFeatured: true })
-      .populate('category')
-      .sort({ createdAt: -1 })
-      .lean();
-    if (featured.length >= 20) return JSON.parse(JSON.stringify(featured.slice(0, 20)));
-    const featuredIds = featured.map((p) => p._id);
-    const rest = await Product.find({ _id: { $nin: featuredIds } })
-      .populate('category')
-      .sort({ createdAt: -1 })
-      .limit(20 - featured.length)
-      .lean();
-    return JSON.parse(JSON.stringify([...featured, ...rest]));
-  } catch {
-    return [];
+  for (let attempt = 1; attempt <= 3; attempt++) {
+    try {
+      await connectDB();
+      const featured = await Product.find({ isFeatured: true })
+        .populate('category')
+        .sort({ createdAt: -1 })
+        .lean();
+      if (featured.length >= 20) return JSON.parse(JSON.stringify(featured.slice(0, 20)));
+      const featuredIds = featured.map((p) => p._id);
+      const rest = await Product.find({ _id: { $nin: featuredIds } })
+        .populate('category')
+        .sort({ createdAt: -1 })
+        .limit(20 - featured.length)
+        .lean();
+      return JSON.parse(JSON.stringify([...featured, ...rest]));
+    } catch (err) {
+      if (attempt === 3) {
+        console.error('[getFeaturedProducts] failed after 3 attempts:', err);
+        return [];
+      }
+      await new Promise((r) => setTimeout(r, 500 * attempt));
+    }
   }
+  return [];
 }
 
 export default async function LandingPage() {
