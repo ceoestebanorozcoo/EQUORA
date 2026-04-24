@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef, forwardRef, useImperativeHandle } from 'react';
 import Image from 'next/image';
 import api from '@/lib/axios';
 import { ICategory } from '@/types';
@@ -14,6 +14,7 @@ export default function CategoryManager() {
   const [categories, setCategories] = useState<ICategory[]>([]);
   const [loading, setLoading] = useState(true);
   const [createOpen, setCreateOpen] = useState(false);
+  const createFormRef = useRef<CategoryFormHandle>(null);
   const [editItem, setEditItem] = useState<ICategory | null>(null);
   const [deleteId, setDeleteId] = useState<string | null>(null);
   const [deleting, setDeleting] = useState(false);
@@ -47,9 +48,9 @@ export default function CategoryManager() {
   return (
     <div>
       {/* Header */}
-      <div className="flex items-center justify-between gap-4 mb-6 pb-5 border-b border-gray-100">
+      <div className="flex items-center justify-between gap-4 mb-6 pb-5 border-b border-white">
         <div>
-          <p className="font-body text-[10px] text-equora-amber tracking-widest uppercase mb-0.5">Gestión</p>
+          <p className="font-display text-xs text-equora-amber tracking-widest uppercase mb-0.5">Gestión</p>
           <h2 className="font-display text-xl sm:text-2xl tracking-wider text-equora-dark">CATEGORÍAS</h2>
           {!loading && (
             <p className="font-body text-xs text-gray-400 mt-0.5">
@@ -81,7 +82,7 @@ export default function CategoryManager() {
           {categories.map((cat, i) => (
             <div
               key={cat._id}
-              className="group bg-white rounded-2xl border border-gray-100 overflow-hidden hover:border-equora-amber/25 hover:shadow-md transition-all duration-250"
+              className="group bg-[#FAF6F1] rounded-2xl border border-[#E0D0BE] overflow-hidden hover:border-equora-amber/25 hover:shadow-md transition-all duration-250"
             >
               {/* Image strip */}
               <div className="relative h-28 bg-equora-ivory overflow-hidden">
@@ -143,8 +144,16 @@ export default function CategoryManager() {
       )}
 
       {/* Create Modal */}
-      <Modal isOpen={createOpen} onClose={() => setCreateOpen(false)} title="Nueva categoría">
-        <CategoryForm onSuccess={() => { setCreateOpen(false); fetchCategories(); }} onCancel={() => setCreateOpen(false)} />
+      <Modal
+        isOpen={createOpen}
+        onClose={() => { createFormRef.current?.cleanup(); setCreateOpen(false); }}
+        title="Nueva categoría"
+      >
+        <CategoryForm
+          ref={createFormRef}
+          onSuccess={() => { setCreateOpen(false); fetchCategories(); }}
+          onCancel={() => setCreateOpen(false)}
+        />
       </Modal>
 
       {/* Edit Modal */}
@@ -183,11 +192,56 @@ export default function CategoryManager() {
   );
 }
 
-function CategoryForm({ category, onSuccess, onCancel }: { category?: ICategory; onSuccess: () => void; onCancel: () => void }) {
+async function deleteAsset(url: string) {
+  if (!url) return;
+  try {
+    await fetch('/api/upload', {
+      method: 'DELETE',
+      headers: { 'Content-Type': 'application/json' },
+      credentials: 'include',
+      body: JSON.stringify({ url }),
+    });
+  } catch {}
+}
+
+export interface CategoryFormHandle {
+  cleanup: () => void;
+}
+
+const CategoryForm = forwardRef<CategoryFormHandle, { category?: ICategory; onSuccess: () => void; onCancel: () => void }>(
+function CategoryForm({ category, onSuccess, onCancel }, ref) {
   const [name, setName] = useState(category?.name || '');
   const [image, setImage] = useState(category?.image || '');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const pendingImage = useRef('');
+
+  useImperativeHandle(ref, () => ({
+    cleanup: () => {
+      if (pendingImage.current) {
+        deleteAsset(pendingImage.current);
+        pendingImage.current = '';
+      }
+    },
+  }));
+
+  const handleImageChange = (newUrl: string) => {
+    if (newUrl) pendingImage.current = newUrl;
+    setImage(newUrl);
+  };
+
+  const handleImageRemove = (url: string) => {
+    pendingImage.current = '';
+    deleteAsset(url);
+  };
+
+  const handleCancel = () => {
+    if (pendingImage.current) {
+      deleteAsset(pendingImage.current);
+      pendingImage.current = '';
+    }
+    onCancel();
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -200,6 +254,7 @@ function CategoryForm({ category, onSuccess, onCancel }: { category?: ICategory;
       } else {
         await api.post('/categories', { name, image });
       }
+      pendingImage.current = '';
       onSuccess();
     } catch (err: unknown) {
       const msg = (err as { response?: { data?: { error?: string } } })?.response?.data?.error || 'Error guardando categoría';
@@ -228,13 +283,19 @@ function CategoryForm({ category, onSuccess, onCancel }: { category?: ICategory;
           required
         />
       </div>
-      <ImageUpload value={image} onChange={setImage} folder="equora/categories" label="Imagen de la categoría (opcional)" />
+      <ImageUpload
+        value={image}
+        onChange={handleImageChange}
+        onRemove={handleImageRemove}
+        folder="equora/categories"
+        label="Imagen de la categoría (opcional)"
+      />
       <div className="flex gap-3">
         <Button type="submit" loading={loading} className="flex-1">
           {category ? 'Guardar cambios' : 'Crear categoría'}
         </Button>
-        <Button type="button" variant="outline" onClick={onCancel}>Cancelar</Button>
+        <Button type="button" variant="outline" onClick={handleCancel}>Cancelar</Button>
       </div>
     </form>
   );
-}
+});

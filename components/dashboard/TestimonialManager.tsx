@@ -85,9 +85,9 @@ export default function TestimonialManager() {
   return (
     <div>
       {/* Header */}
-      <div className="flex items-center justify-between gap-4 mb-6 pb-5 border-b border-gray-100">
+      <div className="flex items-center justify-between gap-4 mb-6 pb-5 border-b border-white">
         <div>
-          <p className="font-body text-[10px] text-equora-amber tracking-widest uppercase mb-0.5">Gestión</p>
+          <p className="font-display text-xs text-equora-amber tracking-widest uppercase mb-0.5">Gestión</p>
           <h2 className="font-display text-xl sm:text-2xl tracking-wider text-equora-dark">TESTIMONIOS</h2>
           {!loading && (
             <p className="font-body text-xs text-gray-400 mt-0.5">
@@ -121,8 +121,8 @@ export default function TestimonialManager() {
           {testimonials.map((t) => (
             <div
               key={t._id}
-              className={`group bg-white rounded-2xl border overflow-hidden transition-all duration-200 hover:shadow-md ${
-                t.active ? 'border-gray-100' : 'border-gray-100 opacity-60'
+              className={`group bg-[#FAF6F1] rounded-2xl border overflow-hidden transition-all duration-200 hover:shadow-md ${
+                t.active ? 'border-[#E0D0BE]' : 'border-[#E0D0BE] opacity-60'
               }`}
             >
               {/* Top: name + stars */}
@@ -150,17 +150,17 @@ export default function TestimonialManager() {
               </div>
 
               {/* Footer actions */}
-              <div className="flex items-center justify-end gap-1.5 px-4 py-2.5 border-t border-gray-50 bg-gray-50/50">
+              <div className="flex items-center justify-end gap-1.5 px-4 py-2.5 border-t border-[#E0D0BE] bg-[#eedece]/40">
                 <button
                   onClick={() => openEdit(t)}
-                  className="flex items-center justify-center w-7 h-7 bg-white border border-gray-200 hover:bg-equora-amber/10 hover:border-equora-amber/30 text-gray-400 hover:text-equora-amber rounded-lg transition-colors cursor-pointer shadow-sm"
+                  className="flex items-center justify-center w-7 h-7 bg-[#FAF6F1] border border-[#E0D0BE] hover:bg-equora-amber/20 hover:border-equora-amber/40 text-gray-500 hover:text-equora-amber rounded-lg transition-colors cursor-pointer shadow-sm"
                   aria-label={`Editar testimonio de ${t.name}`}
                 >
                   <IoCreateOutline size={14} aria-hidden="true" />
                 </button>
                 <button
                   onClick={() => setDeleteId(t._id)}
-                  className="flex items-center justify-center w-7 h-7 bg-white border border-gray-200 hover:bg-red-50 hover:border-red-200 text-gray-400 hover:text-red-500 rounded-lg transition-colors cursor-pointer shadow-sm"
+                  className="flex items-center justify-center w-7 h-7 bg-[#FAF6F1] border border-[#E0D0BE] hover:bg-red-100 hover:border-red-300 text-gray-500 hover:text-red-500 rounded-lg transition-colors cursor-pointer shadow-sm"
                   aria-label={`Eliminar testimonio de ${t.name}`}
                 >
                   <IoTrashOutline size={13} aria-hidden="true" />

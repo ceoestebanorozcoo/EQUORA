@@ -75,12 +75,12 @@ export default function ChangeEmailForm() {
   return (
     <div className="space-y-5">
       {/* Header */}
-      <div className="flex items-start gap-3.5 pb-4 border-b border-gray-100">
+      <div className="flex items-start gap-3.5 pb-4 border-b border-white">
         <div className="w-9 h-9 rounded-xl bg-equora-amber/10 flex items-center justify-center shrink-0 mt-0.5">
           <IoMailOutline size={18} className="text-equora-amber" />
         </div>
         <div>
-          <p className="font-body text-[10px] text-equora-amber tracking-widest uppercase mb-0.5">Seguridad</p>
+          <p className="font-display text-xs text-equora-amber tracking-widest uppercase mb-0.5">Seguridad</p>
           <h3 className="font-display text-lg tracking-wider text-equora-dark">CAMBIAR EMAIL</h3>
         </div>
       </div>

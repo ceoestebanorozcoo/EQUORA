@@ -10,7 +10,7 @@ interface CookiesModalProps {
 export default function CookiesModal({ isOpen, onClose }: CookiesModalProps) {
   return (
     <Modal isOpen={isOpen} onClose={onClose} title="Política de Cookies" size="xl">
-      <div className="font-body text-[#0D0D0D] space-y-6">
+      <div className="font-body text-[#142840] space-y-6">
         <p className="text-[#6B7280] text-xs">Última actualización: marzo 2026</p>
 
         <div>

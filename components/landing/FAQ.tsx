@@ -1,45 +1,64 @@
 'use client';
 
 import { useState } from 'react';
-import { ScrollReveal } from '@/components/ScrollReveal';
+import { ScrollReveal } from '@/components/ui/ScrollReveal';
 import { ChevronDown } from 'lucide-react';
 
-const faqItems = [
+type FAQItem = {
+  question: string;
+  answer: string;
+  list?: string[];
+  ordered?: boolean;
+};
+
+const faqItems: FAQItem[] = [
   {
-    question: '¿Cuánto tarda en fabricarse mi pedido?',
-    answer: '3 a 4 días hábiles. Los tiempos pueden variar en temporadas de alta demanda.',
+    question: '¿Qué tipo de productos ofrece Equora?',
+    answer: 'En Equora ofrecemos productos relacionados con el mundo equino que brindan funcionalidad y una excelente experiencia para nuestros clientes.',
   },
   {
-    question: '¿A qué lugares hacen envíos?',
-    answer: 'A todo el territorio colombiano, a través de Interrapidísimo.',
+    question: '¿Los productos son de buena calidad?',
+    answer: 'Sí. En Equora trabajamos con estándares de calidad y seleccionamos cada producto pensando en la durabilidad, comodidad y seguridad para el cliente y el entorno equino.',
   },
   {
-    question: '¿Cuánto cuesta el envío?',
-    answer: 'El costo del envío es asumido por el cliente.',
+    question: '¿Hacen envíos a todo el país?',
+    answer: 'Sí, realizamos envíos a todo el país.',
   },
   {
-    question: '¿Cuánto tarda en llegar mi pedido?',
-    answer: '3 a 5 días hábiles después del despacho.',
+    question: '¿Cuánto tiempo tarda el envío?',
+    answer: 'El envío normalmente tarda entre 3 y 5 días hábiles, dependiendo de la ciudad y la disponibilidad del producto.',
   },
   {
-    question: '¿Cómo pago?',
-    answer: 'Transferencia bancaria. El pedido se confirma una vez verificado el pago.',
+    question: '¿Qué métodos de pago aceptan?',
+    answer: 'Aceptamos diferentes métodos de pago como:',
+    list: ['Transferencias', 'Pagos digitales'],
   },
   {
-    question: '¿Tienen garantía los productos?',
-    answer: 'Sí, 15 días calendario desde la entrega. Cubre defectos de fabricación y fallas estructurales por uso normal.',
+    question: '¿Puedo hacer cambios o devoluciones?',
+    answer: 'Sí, puedes solicitar cambios en caso de que el producto llegue con algún defecto o problema. Nuestro equipo te acompañará en todo el proceso para darte una solución rápida.',
   },
   {
-    question: '¿Hacen cambios o devoluciones?',
-    answer: 'No se realizan devoluciones por cambio de opinión. Los productos personalizados no tienen cambio salvo por defecto de fabricación. Tienes 2 días calendario desde la recepción para reportar inconformidades.',
+    question: '¿Cómo puedo hacer un pedido?',
+    answer: 'Puedes hacer tu pedido de forma sencilla:',
+    list: ['Elige el producto', 'Escríbenos por WhatsApp', 'Confirmamos disponibilidad', 'Realizas el pago', 'Recibes tu pedido'],
+    ordered: true,
   },
   {
-    question: '¿Qué hago si mi producto llegó dañado?',
-    answer: 'Repórtalo dentro de los 2 días calendario siguientes a la entrega con fotos o video del daño.',
+    question: '¿Equora ofrece asesoría antes de comprar?',
+    answer: 'Sí. En Equora te asesoramos para que elijas el producto que mejor se adapte a tus necesidades.',
+  },
+  {
+    question: '¿Cómo puedo contactar a Equora?',
+    answer: 'Puedes contactarnos a través de:',
+    list: ['WhatsApp', 'TikTok', 'Instagram'],
+  },
+  {
+    question: '¿Equora trabaja con caballistas principiantes?',
+    answer: 'Sí. Equora está pensada tanto para personas que ya hacen parte del gremio equino como para quienes están empezando y quieren aprender y adquirir productos confiables.',
   },
 ];
 
-function FAQItem({ item, index }: { item: typeof faqItems[0]; index: number }) {
+function FAQItem({ item, index }: { item: FAQItem; index: number }) {
   const [open, setOpen] = useState(false);
 
   return (
@@ -59,7 +78,7 @@ function FAQItem({ item, index }: { item: typeof faqItems[0]; index: number }) {
           aria-controls={`faq-answer-${index}`}
           id={`faq-question-${index}`}
         >
-          <span className={`font-body font-medium pr-8 transition-colors duration-300 ${open ? 'text-equora-amber' : 'text-[#F9F7F4]/80 group-hover:text-white'}`}>
+          <span className={`font-body font-medium pr-8 transition-colors duration-300 ${open ? 'text-equora-amber' : 'text-[#E7D6C2]/80 group-hover:text-white'}`}>
             {item.question}
           </span>
           <span className={`
@@ -67,7 +86,7 @@ function FAQItem({ item, index }: { item: typeof faqItems[0]; index: number }) {
             transition-all duration-300
             ${open ? 'bg-equora-amber rotate-180' : 'bg-white/8 group-hover:bg-white/15'}
           `}>
-            <ChevronDown className={`w-4 h-4 transition-colors duration-300 ${open ? 'text-white' : 'text-[#F9F7F4]/50'}`} aria-hidden="true" />
+            <ChevronDown className={`w-4 h-4 transition-colors duration-300 ${open ? 'text-white' : 'text-[#E7D6C2]/50'}`} aria-hidden="true" />
           </span>
         </button>
 
@@ -83,9 +102,20 @@ function FAQItem({ item, index }: { item: typeof faqItems[0]; index: number }) {
         >
           <div className="pb-5 flex gap-3">
             <div className="w-px bg-equora-amber/30 shrink-0 mt-0.5" />
-            <p className="font-body text-sm text-[#F9F7F4]/55 leading-relaxed">
-              {item.answer}
-            </p>
+            <div className="font-body text-sm text-[#E7D6C2]/55 leading-relaxed space-y-2">
+              <p>{item.answer}</p>
+              {item.list && (
+                item.ordered ? (
+                  <ol className="list-decimal list-inside space-y-1 pl-1">
+                    {item.list.map((li, i) => <li key={i}>{li}</li>)}
+                  </ol>
+                ) : (
+                  <ul className="list-disc list-inside space-y-1 pl-1">
+                    {item.list.map((li, i) => <li key={i}>{li}</li>)}
+                  </ul>
+                )
+              )}
+            </div>
           </div>
         </div>
       </div>

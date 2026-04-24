@@ -2,9 +2,9 @@
 
 import { useState } from 'react';
 import Image from 'next/image';
-import { ScrollReveal } from '@/components/ScrollReveal';
+import { ScrollReveal } from '@/components/ui/ScrollReveal';
 
-const STORY_IMAGE = 'https://res.cloudinary.com/dybweubbo/image/upload/v1774331974/Gemini_Generated_Image_inzrghinzrghinzr_bbmiuk.png';
+const STORY_IMAGE = 'https://res.cloudinary.com/dybweubbo/image/upload/v1776994971/IMG_0738_t2ekez.jpg';
 
 export default function BrandStory() {
   const [imgHovered, setImgHovered] = useState(false);
@@ -27,7 +27,7 @@ export default function BrandStory() {
               {/* Offset amber border, animates on hover */}
               <div className={`
                 absolute -bottom-3 -right-3 w-full h-full rounded-3xl border transition-all duration-500
-                ${imgHovered ? 'border-equora-amber/50 -bottom-5 -right-5' : 'border-equora-amber/15'}
+                ${imgHovered ? 'border-white/60 -bottom-5 -right-5' : 'border-white/20'}
               `} />
 
               <div className="rounded-3xl overflow-hidden shadow-2xl relative z-10">
@@ -38,7 +38,7 @@ export default function BrandStory() {
                     alt="Fundadora de Equora junto a su caballo en una finca colombiana"
                     width={800}
                     height={650}
-                    className="w-full h-72 sm:h-96 md:h-125 lg:h-162 object-cover"
+                    className="w-full h-72 sm:h-96 md:h-125 lg:h-162 object-cover object-top lg:object-center"
                   />
                 </div>
 
@@ -55,7 +55,7 @@ export default function BrandStory() {
                   ${imgHovered ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-3'}
                 `}>
                   <p className="font-display text-white/90 tracking-widest text-xs uppercase mb-1">Fundadora</p>
-                  <p className="font-editorial text-equora-amber italic text-base">Con pasión desde el primer día</p>
+                  <p className="font-editorial text-white italic text-base">Con pasión desde el primer día</p>
                 </div>
               </div>
             </div>
@@ -75,9 +75,9 @@ export default function BrandStory() {
             </ScrollReveal>
 
             <ScrollReveal direction="right" delay={150}>
-              <p className="font-body text-[#F9F7F4]/65 text-[15px] leading-relaxed">
+              <p className="font-body text-white/75 text-[15px] leading-relaxed">
                 Mi amor por los caballos ha existido toda la vida. Crecí en una
-                finca rodeada de campo, ganadería y caballos — un privilegio que
+                finca rodeada de campo, ganadería y caballos, un privilegio que
                 marcó cada parte de quien soy. Pero si hay alguien de quien heredé
                 profundamente esta pasión, fue de mi abuelo. De él aprendí a
                 admirar su nobleza y esa conexión única entre una persona y su caballo.
@@ -85,7 +85,7 @@ export default function BrandStory() {
             </ScrollReveal>
 
             <ScrollReveal direction="right" delay={250}>
-              <p className="font-body text-[#F9F7F4]/65 text-[15px] leading-relaxed">
+              <p className="font-body text-white/75 text-[15px] leading-relaxed">
                 Con los años, viviendo de cerca todo lo que rodea al mundo equino,
                 surgió una idea: crear productos pensados para quienes comparten
                 esta misma pasión. Detalles que acompañen cada momento, desde la
@@ -96,7 +96,7 @@ export default function BrandStory() {
 
             <ScrollReveal direction="right" delay={350}>
               <div className="border-l border-equora-amber/60 pl-5 py-1">
-                <p className="font-editorial text-equora-amber/85 italic text-lg leading-relaxed">
+                <p className="font-editorial text-[#E7D6C2]/85 italic text-lg leading-relaxed">
                   &ldquo;En el gremio caballista los detalles hablan. Una rienda bien
                   elegida, un apero con personalidad o un espacio cuidado dicen mucho
                   de quien está detrás del caballo.&rdquo;
@@ -106,7 +106,7 @@ export default function BrandStory() {
 
             <ScrollReveal direction="right" delay={450}>
               <div className="h-px w-full bg-white/8" />
-              <p className="font-body text-[#F9F7F4]/65 text-[15px] leading-relaxed mt-5 text-center">
+              <p className="font-body text-white/75 text-[15px] leading-relaxed mt-5 text-center">
                 Así nació{' '}
                 <span className="text-white font-semibold">Equora</span>
                 , una marca inspirada en quienes viven esta pasión todos los días.

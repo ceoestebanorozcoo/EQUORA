@@ -2,30 +2,35 @@
 
 import { useState, useEffect, useRef } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import api from '@/lib/axios';
 import { IProduct, ICategory } from '@/types';
 import ProductCard from '@/components/landing/ProductCard';
 import { Search, ArrowLeft, ChevronDown, Check, X } from 'lucide-react';
 import { ProductCardSkeleton } from '@/components/ui/Skeleton';
 
-export default function ProductsPage() {
+export default function ProductsPage({ initialProducts = [], initialCategories = [] }: { initialProducts: IProduct[]; initialCategories: ICategory[] }) {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const [products, setProducts] = useState<IProduct[]>([]);
-  const [categories, setCategories] = useState<ICategory[]>([]);
-  const [search, setSearch] = useState('');
+  const [products] = useState<IProduct[]>(initialProducts);
+  const [categories] = useState<ICategory[]>(initialCategories);
+  const [search, setSearch] = useState(() => searchParams.get('search') || '');
   const [selectedCategory, setSelectedCategory] = useState(() => searchParams.get('categoria') || '');
-  const [loading, setLoading] = useState(true);
+  const [loading] = useState(false);
   const [catOpen, setCatOpen] = useState(false);
+  const [filterHighlight, setFilterHighlight] = useState(false);
   const catRef = useRef<HTMLDivElement>(null);
+  const filterBarRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    Promise.all([api.get('/products'), api.get('/categories')]).then(([pRes, cRes]) => {
-      setProducts(pRes.data.data || []);
-      setCategories(cRes.data.data || []);
-      setLoading(false);
-    }).catch(() => setLoading(false));
-  }, []);
+    const q = searchParams.get('search') || '';
+    setSearch(q);
+    if (q) {
+      setTimeout(() => {
+        filterBarRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        setFilterHighlight(true);
+        setTimeout(() => setFilterHighlight(false), 2500);
+      }, 400);
+    }
+  }, [searchParams]);
 
   // Close dropdown when clicking outside
   useEffect(() => {
@@ -58,9 +63,9 @@ export default function ProductsPage() {
         <div className="relative max-w-7xl mx-auto px-6 pt-36 pb-20 md:pt-44 md:pb-28">
           <button
             onClick={() => router.push('/')}
-            className="group inline-flex items-center gap-2.5 font-body text-sm text-[#F9F7F4]/80 hover:text-equora-amber transition-all duration-300 mb-10 cursor-pointer"
+            className="group inline-flex items-center gap-2.5 font-body text-sm text-[#E7D6C2]/80 hover:text-equora-amber transition-all duration-300 mb-10 cursor-pointer"
           >
-            <span className="flex items-center justify-center w-8 h-8 rounded-full border border-[#F9F7F4]/50 group-hover:border-equora-amber/60 group-hover:bg-equora-amber/10 transition-all duration-300">
+            <span className="flex items-center justify-center w-8 h-8 rounded-full border border-[#E7D6C2]/50 group-hover:border-equora-amber/60 group-hover:bg-equora-amber/10 transition-all duration-300">
               <ArrowLeft size={14} className="transition-transform duration-300 group-hover:-translate-x-0.5" />
             </span>
             <span className="tracking-wide uppercase text-xs font-medium">Volver al inicio</span>
@@ -69,17 +74,14 @@ export default function ProductsPage() {
           <p className="font-editorial text-equora-amber italic text-lg md:text-xl mb-3">
             Catálogo completo
           </p>
-          <h1 className="font-display text-3xl sm:text-4xl md:text-5xl lg:text-7xl text-[#F9F7F4] tracking-wider">
+          <h1 className="font-display text-3xl sm:text-4xl md:text-5xl lg:text-7xl text-white tracking-wider">
             NUESTROS PRODUCTOS
           </h1>
-          <p className="font-body text-equora-dark/50 text-base md:text-lg mt-4 max-w-xl">
-            Cada pieza diseñada con precisión artesanal para quienes montan con criterio.
-          </p>
         </div>
       </div>
 
       {/* Sticky filter bar */}
-      <div className="bg-white border-b border-equora-dark/10">
+      <div ref={filterBarRef} className={`border-b transition-all duration-500 ${filterHighlight ? 'bg-equora-amber/8 border-equora-amber' : 'bg-white border-equora-dark/10'}`}>
         <div className="max-w-7xl mx-auto px-6 py-4">
           <div className="flex flex-wrap items-center gap-2 sm:gap-3">
 
@@ -91,7 +93,7 @@ export default function ProductsPage() {
                 placeholder="Buscar producto..."
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
-                className="w-full pl-9 pr-4 py-2.5 rounded-full border border-equora-dark/15 bg-white font-body text-sm text-equora-dark placeholder-equora-dark/30 focus:outline-none focus:ring-2 focus:ring-equora-amber/30 focus:border-equora-amber/50 transition-all"
+                className={`w-full pl-9 pr-4 py-2.5 rounded-full border font-body text-sm text-equora-dark placeholder-equora-dark/30 focus:outline-none transition-all duration-500 ${filterHighlight ? 'border-equora-amber bg-white ring-4 ring-equora-amber/40 shadow-[0_0_20px_rgba(103,70,53,0.35)] scale-[1.02]' : 'border-equora-dark/15 bg-white focus:ring-2 focus:ring-equora-amber/30 focus:border-equora-amber/50'}`}
                 aria-label="Buscar producto"
               />
             </div>
@@ -194,9 +196,11 @@ export default function ProductsPage() {
             )}
           </div>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 md:gap-6">
+          <div className="flex flex-wrap justify-center gap-3 md:gap-6">
             {filtered.map((product) => (
-              <ProductCard key={product._id} product={product} />
+              <div key={product._id} className="w-[calc(50%-6px)] sm:w-[calc(33.333%-10px)] xl:w-[calc(25%-18px)]">
+                <ProductCard product={product} />
+              </div>
             ))}
           </div>
         )}

@@ -1,14 +1,14 @@
 'use client';
 
 import { useState } from 'react';
-import { ScrollReveal } from '@/components/ScrollReveal';
+import { ScrollReveal } from '@/components/ui/ScrollReveal';
 import { Check, X } from 'lucide-react';
 
 const pillars = [
-  { title: 'Materiales que resisten' },
-  { title: 'Diseño que funciona' },
-  { title: 'Construcción precisa' },
-  { title: 'Confiabilidad constante' },
+  { title: 'Orden y armonía para su pescebrera' },
+  { title: 'Distinción en cada detalle' },
+  { title: 'Hecho con las manos, pensado con el corazón' },
+  { title: 'Para el caballo, para la pescebrera, para usted' },
 ];
 
 const comparisons = [
@@ -37,7 +37,7 @@ export default function TechnicalBenefits() {
             La diferencia EQUORA
           </p>
           <h2 className="font-display text-2xl sm:text-4xl md:text-5xl lg:text-6xl text-white tracking-wider leading-tight mb-3">
-            CALIDAD QUE SE NOTA.<br />RENDIMIENTO QUE RESPONDE.
+            LO QUE NOS DISTINGUE
           </h2>
           <div className="w-12 h-px bg-equora-amber mb-16" />
         </ScrollReveal>
@@ -48,26 +48,11 @@ export default function TechnicalBenefits() {
           {/* LEFT */}
           <div className="flex flex-col justify-center gap-8">
             <ScrollReveal direction="left" delay={0}>
-              <div className="space-y-5 font-body text-[#F9F7F4]/55 leading-relaxed text-base sm:text-xl md:text-2xl lg:text-3xl">
-                <p>
-                  No hacemos productos para verse bien.<br />
-                  Los hacemos para{' '}
-                  <span className="text-[#F9F7F4]/85 font-medium">durar, adaptarse y rendir sin fallar.</span>
-                </p>
-                <p>
-                  Diseñados para uso real: exigencia diaria,<br />
-                  jornadas largas y cero margen de error.
-                </p>
-              </div>
-            </ScrollReveal>
-
-            <ScrollReveal direction="left" delay={180}>
-              <div className="flex items-stretch gap-4">
-                <div className="w-px bg-equora-amber/40 shrink-0" />
-                <p className="font-editorial italic text-white/55 text-base sm:text-xl md:text-2xl lg:text-3xl">
-                  Porque lo genérico no aguanta.
-                </p>
-              </div>
+              <p className="font-body text-white/70 leading-relaxed text-base sm:text-xl md:text-2xl lg:text-3xl">
+                No hace falta decir mucho.<br />
+                Quien ha tenido una rienda Equora en las manos, quien ha visto su pescebrera con un perchero nuestro, quien ha cargado un accesorio con nuestro sello…{' '}
+                <span className="text-white font-medium">vuelve.</span>
+              </p>
             </ScrollReveal>
           </div>
 
@@ -77,8 +62,8 @@ export default function TechnicalBenefits() {
 
               {/* Header */}
               <div className="grid grid-cols-3 px-4 sm:px-8 pt-6 sm:pt-8 pb-4 sm:pb-5 bg-white/3">
-                <span className="font-display text-xs sm:text-sm tracking-widest text-[#F9F7F4]/20 uppercase" />
-                <span className="font-display text-xs sm:text-sm tracking-widest text-[#F9F7F4]/30 uppercase">Otros</span>
+                <span className="font-display text-xs sm:text-sm tracking-widest text-[#E7D6C2]/20 uppercase" />
+                <span className="font-display text-xs sm:text-sm tracking-widest text-white/60 uppercase">Otros</span>
                 <span className="font-display text-xs sm:text-sm tracking-widest text-equora-amber uppercase">EQUORA</span>
               </div>
               <div className="h-px bg-white/8 mx-4 sm:mx-8" />
@@ -100,16 +85,16 @@ export default function TechnicalBenefits() {
                     onMouseEnter={() => setHoveredRow(item.label)}
                     onMouseLeave={() => setHoveredRow(null)}
                   >
-                    <span className={`font-display text-xs sm:text-sm tracking-wider sm:tracking-widest uppercase transition-colors duration-300 ${hoveredRow === item.label ? 'text-[#F9F7F4]/70' : 'text-[#F9F7F4]/30'}`}>
+                    <span className={`font-display text-xs sm:text-sm tracking-wider sm:tracking-widest uppercase transition-colors duration-300 ${hoveredRow === item.label ? 'text-white' : 'text-white/60'}`}>
                       {item.label}
                     </span>
                     <div className="flex items-center gap-1.5 sm:gap-3">
                       <X className={`w-3 h-3 sm:w-4 sm:h-4 shrink-0 transition-colors duration-300 ${hoveredRow === item.label ? 'text-red-400/70' : 'text-red-400/25'}`} />
-                      <span className={`font-body text-xs sm:text-base line-through transition-colors duration-300 ${hoveredRow === item.label ? 'text-[#F9F7F4]/35' : 'text-[#F9F7F4]/20'}`}>{item.generic}</span>
+                      <span className={`font-body text-xs sm:text-base line-through transition-colors duration-300 ${hoveredRow === item.label ? 'text-white/50' : 'text-white/35'}`}>{item.generic}</span>
                     </div>
                     <div className="flex items-center gap-1.5 sm:gap-3">
                       <Check className={`w-3 h-3 sm:w-4 sm:h-4 shrink-0 transition-all duration-300 ${hoveredRow === item.label ? 'text-equora-amber scale-110' : 'text-equora-amber/50'}`} />
-                      <span className={`font-body text-xs sm:text-base font-medium transition-colors duration-300 ${hoveredRow === item.label ? 'text-white' : 'text-[#F9F7F4]/65'}`}>
+                      <span className={`font-body text-xs sm:text-base font-medium transition-colors duration-300 ${hoveredRow === item.label ? 'text-white' : 'text-white/80'}`}>
                         {item.equora}
                       </span>
                     </div>
@@ -121,7 +106,7 @@ export default function TechnicalBenefits() {
               <div className="h-px bg-white/8 mx-4 sm:mx-8" />
               <div className="text-center px-4 sm:px-8 py-5 sm:py-6">
                 <p className="font-display text-xs tracking-widest text-equora-amber uppercase mb-1">EQUORA</p>
-                <p className="font-body text-[#F9F7F4]/50 text-sm">Bien hecho desde el principio.</p>
+                <p className="font-body text-[#E7D6C2]/50 text-sm">Bien hecho desde el principio.</p>
               </div>
             </div>
           </ScrollReveal>
@@ -138,20 +123,19 @@ export default function TechnicalBenefits() {
 
         {/* ── Quote ── */}
         <ScrollReveal direction="up" delay={0}>
-          <p className="font-display text-[#F9F7F4]/80 text-2xl md:text-3xl leading-snug tracking-wider text-center mb-12 max-w-3xl mx-auto uppercase">
-            No vendemos cosas.<br />
-            Resolvemos problemas.<br />
-            Los que vives cada día con tu caballo.
+          <p className="font-display text-white text-2xl md:text-3xl leading-snug tracking-wider text-center mb-12 max-w-3xl mx-auto uppercase">
+            EL CABALLO CRIOLLO SE MERECE LO MEJOR.<br />
+            Y usted también.
           </p>
         </ScrollReveal>
 
         {/* ── Pillars ── */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div className="grid grid-cols-2 gap-3 md:gap-4">
           {pillars.map((p, i) => (
-            <ScrollReveal key={p.title} direction="up" delay={i * 100}>
+            <ScrollReveal key={p.title} direction="up" delay={i * 100} className="h-full">
               <div
                 className={`
-                  flex items-center gap-5 p-8 rounded-xl border cursor-default
+                  flex items-center gap-3 md:gap-5 p-4 md:p-8 rounded-xl border cursor-default h-full min-h-24 md:min-h-0
                   transition-all duration-400 ease-out
                   ${hoveredPillar === p.title
                     ? 'bg-equora-amber/8 border-equora-amber/25 -translate-y-1 shadow-[0_8px_30px_rgba(0,0,0,0.3)]'
@@ -162,16 +146,16 @@ export default function TechnicalBenefits() {
                 onMouseLeave={() => setHoveredPillar(null)}
               >
                 <span className={`
-                  w-9 h-9 shrink-0 rounded-full flex items-center justify-center
+                  w-7 h-7 md:w-9 md:h-9 shrink-0 rounded-full flex items-center justify-center
                   transition-all duration-400
                   ${hoveredPillar === p.title
                     ? 'bg-equora-amber/25 scale-110'
                     : 'bg-equora-amber/12'
                   }
                 `}>
-                  <Check className={`w-5 h-5 transition-colors duration-400 ${hoveredPillar === p.title ? 'text-equora-amber' : 'text-equora-amber/70'}`} />
+                  <Check className={`w-3.5 h-3.5 md:w-5 md:h-5 transition-colors duration-400 ${hoveredPillar === p.title ? 'text-equora-amber' : 'text-equora-amber/70'}`} />
                 </span>
-                <p className={`font-body font-medium text-lg transition-colors duration-400 ${hoveredPillar === p.title ? 'text-[#F9F7F4]/90' : 'text-[#F9F7F4]/60'}`}>
+                <p className={`font-body font-medium text-xs md:text-lg leading-snug transition-colors duration-400 ${hoveredPillar === p.title ? 'text-white' : 'text-white'}`}>
                   {p.title}
                 </p>
               </div>
