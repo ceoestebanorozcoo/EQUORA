@@ -15,6 +15,7 @@ import Footer from '@/components/landing/Footer';
 import HashScroller from '@/components/ui/HashScroller';
 import { connectDB } from '@/lib/mongodb';
 import Product from '@/models/Product';
+import '@/models/Category';
 
 async function getFeaturedProducts() {
   for (let attempt = 1; attempt <= 3; attempt++) {
