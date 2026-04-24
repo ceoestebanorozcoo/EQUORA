@@ -11,8 +11,8 @@ export async function GET(req: NextRequest) {
     const search = req.nextUrl.searchParams.get('search');
     const filter: Record<string, unknown> = featured === 'true' ? { isFeatured: true } : {};
     if (search) filter.name = { $regex: search, $options: 'i' };
-    const products = await Product.find(filter).populate('category').sort({ createdAt: -1 });
-    return NextResponse.json({ success: true, data: products });
+    const products = await Product.find(filter).populate('category').sort({ createdAt: -1 }).lean();
+    return NextResponse.json({ success: true, data: JSON.parse(JSON.stringify(products)) });
   } catch {
     return NextResponse.json({ error: 'Error obteniendo productos' }, { status: 500 });
   }

@@ -1,4 +1,4 @@
-export const revalidate = 60; // ISR: refresca cada 60 segundos en background
+export const dynamic = 'force-dynamic';
 
 import Navbar from '@/components/landing/Navbar';
 import SplashScreen from '@/components/landing/SplashScreen';

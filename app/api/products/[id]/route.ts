@@ -8,9 +8,9 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ id: 
   try {
     await connectDB();
     const { id } = await params;
-    const product = await Product.findById(id).populate('category');
+    const product = await Product.findById(id).populate('category').lean();
     if (!product) return NextResponse.json({ error: 'Producto no encontrado' }, { status: 404 });
-    return NextResponse.json({ success: true, data: product });
+    return NextResponse.json({ success: true, data: JSON.parse(JSON.stringify(product)) });
   } catch {
     return NextResponse.json({ error: 'Error obteniendo producto' }, { status: 500 });
   }
