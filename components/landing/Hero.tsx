@@ -16,7 +16,7 @@ export default function Hero() {
 
     const applyParallax = () => {
       if (bgRef.current) {
-        bgRef.current.style.transform = `translateY(${window.scrollY * 0.4}px)`;
+        bgRef.current.style.transform = `translateY(${window.scrollY * 1}px)`;
       }
     };
 
