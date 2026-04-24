@@ -50,10 +50,7 @@ export default function BrandStory() {
                 `} />
 
                 {/* Hover label */}
-                <div className={`
-                  absolute bottom-7 left-7 transition-all duration-500
-                  ${imgHovered ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-3'}
-                `}>
+                <div className="absolute bottom-7 left-7">
                   <p className="font-display text-white/90 tracking-widest text-xs uppercase mb-1">Fundadora</p>
                   <p className="font-editorial text-white italic text-base">Con pasión desde el primer día</p>
                 </div>
