@@ -179,6 +179,7 @@ export default function Navbar() {
                   onChange={handleQueryChange}
                   placeholder="Buscar productos..."
                   className="w-full bg-white/10 border border-white/20 rounded-full px-5 py-2.5 text-white placeholder-white/40 font-body text-sm outline-none focus:border-equora-amber/60 transition-colors duration-200"
+                  style={{ fontSize: '16px' }}
                 />
                 <button
                   type="submit"
@@ -190,26 +191,26 @@ export default function Navbar() {
 
                 {/* Results dropdown */}
                 {(results.length > 0 || (loading && query)) && (
-                  <div className="absolute top-full left-0 right-0 mt-2 bg-equora-dark/95 border border-white/10 rounded-2xl overflow-hidden shadow-2xl z-50 backdrop-blur-sm">
+                  <div className="absolute top-full left-0 right-0 mt-2 bg-white/80 backdrop-blur-md border border-white/40 rounded-2xl overflow-hidden shadow-2xl z-50">
                     {loading && results.length === 0 ? (
-                      <p className="px-5 py-4 text-white/40 font-body text-sm">Buscando...</p>
+                      <p className="px-5 py-4 text-gray-400 font-body text-sm">Buscando...</p>
                     ) : results.length === 0 ? (
-                      <p className="px-5 py-4 text-white/40 font-body text-sm">Sin resultados</p>
+                      <p className="px-5 py-4 text-gray-400 font-body text-sm">Sin resultados</p>
                     ) : (
                       results.map((p) => (
                         <button
                           key={p._id}
                           type="button"
                           onClick={() => handleProductClick(p._id)}
-                          className="w-full flex items-center gap-4 px-5 py-3 hover:bg-white/5 transition-colors duration-150 text-left border-b border-white/5 last:border-0"
+                          className="w-full flex items-center gap-4 px-5 py-3 hover:bg-gray-50 transition-colors duration-150 text-left border-b border-gray-100 last:border-0"
                         >
                           {p.images?.[0] && (
-                            <div className="relative w-10 h-10 rounded-lg overflow-hidden shrink-0 bg-white/5">
+                            <div className="relative w-10 h-10 rounded-lg overflow-hidden shrink-0 bg-gray-100">
                               <Image src={p.images[0]} alt={p.name} fill className="object-cover" />
                             </div>
                           )}
                           <div className="flex-1 min-w-0">
-                            <p className="font-body text-white text-sm truncate">{p.name}</p>
+                            <p className="font-body text-gray-900 text-sm truncate">{p.name}</p>
                             <p className="font-body text-equora-amber text-xs mt-0.5">
                               ${p.price.toLocaleString('es-CO')}
                             </p>
@@ -221,7 +222,7 @@ export default function Navbar() {
                       <button
                         type="button"
                         onClick={() => handleSubmit({ preventDefault: () => {} } as React.FormEvent)}
-                        className="w-full px-5 py-3 text-center font-body text-equora-amber/80 hover:text-equora-amber text-sm transition-colors duration-150 hover:bg-white/5"
+                        className="w-full px-5 py-3 text-center font-body text-gray-800 font-semibold text-sm transition-colors duration-150 hover:bg-white/60 hover:text-gray-900 border-t border-white/40"
                       >
                         Ver todos los resultados para &ldquo;{query}&rdquo;
                       </button>

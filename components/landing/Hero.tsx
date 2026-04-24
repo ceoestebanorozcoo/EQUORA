@@ -10,23 +10,25 @@ export default function Hero() {
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    // Start hero animations only after splash is done
     const handleSplashDone = () => setTimeout(() => setMounted(true), 80);
     window.addEventListener('splashDone', handleSplashDone);
-
-    // Fallback: if splash already fired or page reloaded mid-session
     const fallback = setTimeout(() => setMounted(true), 2200);
 
-    const handleScroll = () => {
+    const applyParallax = () => {
       if (bgRef.current) {
         bgRef.current.style.transform = `translateY(${window.scrollY * 0.4}px)`;
       }
     };
-    window.addEventListener('scroll', handleScroll, { passive: true });
+
+    // scroll fires on desktop + Android; touchmove covers iOS mid-swipe
+    window.addEventListener('scroll', applyParallax, { passive: true });
+    window.addEventListener('touchmove', applyParallax, { passive: true });
+
     return () => {
       clearTimeout(fallback);
       window.removeEventListener('splashDone', handleSplashDone);
-      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('scroll', applyParallax);
+      window.removeEventListener('touchmove', applyParallax);
     };
   }, []);
 
@@ -51,7 +53,7 @@ export default function Hero() {
       aria-label="Hero"
     >
       {/* Background image */}
-      <div ref={bgRef} className="absolute inset-0 overflow-hidden" aria-hidden="true">
+      <div ref={bgRef} className="absolute inset-0" aria-hidden="true">
         <img
           src="https://res.cloudinary.com/dybweubbo/image/upload/v1775884700/IMG_1129_dktmcz.jpg"
           alt=""
