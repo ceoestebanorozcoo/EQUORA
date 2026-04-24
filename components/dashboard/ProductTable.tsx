@@ -22,18 +22,6 @@ export default function ProductTable({ products, loading, onEdit, onRefresh }: P
   const [deleting, setDeleting] = useState(false);
   const [togglingId, setTogglingId] = useState<string | null>(null);
 
-  const handleDelete = async () => {
-    if (!deleteId) return;
-    setDeleting(true);
-    try {
-      await api.delete(`/products/${deleteId}`);
-      onRefresh();
-    } finally {
-      setDeleting(false);
-      setDeleteId(null);
-    }
-  };
-
   const toggleStock = async (product: IProduct) => {
     setTogglingId(product._id);
     try {
@@ -43,6 +31,18 @@ export default function ProductTable({ products, loading, onEdit, onRefresh }: P
       onRefresh();
     } finally {
       setTogglingId(null);
+    }
+  };
+
+  const handleDelete = async () => {
+    if (!deleteId) return;
+    setDeleting(true);
+    try {
+      await api.delete(`/products/${deleteId}`);
+      onRefresh();
+    } finally {
+      setDeleting(false);
+      setDeleteId(null);
     }
   };
 

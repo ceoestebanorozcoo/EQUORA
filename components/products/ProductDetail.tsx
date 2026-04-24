@@ -9,18 +9,119 @@ import { IProduct, ICategory } from '@/types';
 import { formatPrice } from '@/utils/formatPrice';
 import Badge from '@/components/ui/Badge';
 import { Skeleton } from '@/components/ui/Skeleton';
-import { IoLogoWhatsapp, IoChevronBack, IoChevronForward } from 'react-icons/io5';
+import { IoLogoWhatsapp, IoChevronBack, IoChevronForward, IoClose, IoPlayCircle } from 'react-icons/io5';
+import { Maximize2 } from 'lucide-react';
 import { ArrowLeft, Clock, Truck, CreditCard, ShieldCheck } from 'lucide-react';
 import Navbar from '@/components/landing/Navbar';
 import Footer from '@/components/landing/Footer';
 
 const WHATSAPP = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || '573043844516';
 
-function ImageCarousel({ images, name }: { images: string[]; name: string }) {
+// Lightbox modal for full-screen view
+function Lightbox({ items, current, onClose, onPrev, onNext }: {
+  items: { type: 'image' | 'video'; url: string }[];
+  current: number;
+  onClose: () => void;
+  onPrev: () => void;
+  onNext: () => void;
+}) {
+  const item = items[current];
+
+  useEffect(() => {
+    const handleKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') onClose();
+      if (e.key === 'ArrowLeft') onPrev();
+      if (e.key === 'ArrowRight') onNext();
+    };
+    window.addEventListener('keydown', handleKey);
+    document.body.style.overflow = 'hidden';
+    return () => {
+      window.removeEventListener('keydown', handleKey);
+      document.body.style.overflow = '';
+    };
+  }, [onClose, onPrev, onNext]);
+
+  return (
+    <div
+      className="fixed inset-0 z-100 bg-black/95 flex items-center justify-center"
+      onClick={onClose}
+    >
+      {/* Close */}
+      <button
+        onClick={onClose}
+        className="absolute top-4 right-4 text-white/70 hover:text-white transition-colors cursor-pointer z-10"
+        aria-label="Cerrar"
+      >
+        <IoClose size={32} />
+      </button>
+
+      {/* Counter */}
+      <p className="absolute top-5 left-1/2 -translate-x-1/2 font-body text-xs text-white/40 tracking-widest">
+        {current + 1} / {items.length}
+      </p>
+
+      {/* Prev */}
+      {items.length > 1 && (
+        <button
+          onClick={(e) => { e.stopPropagation(); onPrev(); }}
+          className="absolute left-4 top-1/2 -translate-y-1/2 w-11 h-11 bg-white/10 hover:bg-white/20 rounded-full flex items-center justify-center cursor-pointer transition-colors"
+          aria-label="Anterior"
+        >
+          <IoChevronBack size={22} className="text-white" />
+        </button>
+      )}
+
+      {/* Content */}
+      <div
+        className="max-w-5xl max-h-[85vh] w-full mx-16 flex items-center justify-center"
+        onClick={(e) => e.stopPropagation()}
+      >
+        {item.type === 'video' ? (
+          <video
+            src={item.url}
+            controls
+            autoPlay
+            className="max-h-[85vh] max-w-full rounded-xl"
+          />
+        ) : (
+          <div className="relative w-full h-[85vh]">
+            <Image
+              src={item.url}
+              alt="Vista ampliada"
+              fill
+              className="object-contain"
+              sizes="100vw"
+            />
+          </div>
+        )}
+      </div>
+
+      {/* Next */}
+      {items.length > 1 && (
+        <button
+          onClick={(e) => { e.stopPropagation(); onNext(); }}
+          className="absolute right-4 top-1/2 -translate-y-1/2 w-11 h-11 bg-white/10 hover:bg-white/20 rounded-full flex items-center justify-center cursor-pointer transition-colors"
+          aria-label="Siguiente"
+        >
+          <IoChevronForward size={22} className="text-white" />
+        </button>
+      )}
+    </div>
+  );
+}
+
+function ImageCarousel({ images, video, name }: { images: string[]; video?: string; name: string }) {
   const [current, setCurrent] = useState(0);
+  const [lightboxOpen, setLightboxOpen] = useState(false);
   const touchStartX = useRef<number | null>(null);
 
-  if (!images.length) {
+  // Build unified media items: images first, then video at end
+  const mediaItems: { type: 'image' | 'video'; url: string }[] = [
+    ...images.map((url) => ({ type: 'image' as const, url })),
+    ...(video ? [{ type: 'video' as const, url: video }] : []),
+  ];
+
+  if (!mediaItems.length) {
     return (
       <div className="relative aspect-square rounded-2xl overflow-hidden bg-equora-navy flex items-center justify-center">
         <span className="font-display text-6xl text-equora-amber/20">EQUORA</span>
@@ -28,13 +129,12 @@ function ImageCarousel({ images, name }: { images: string[]; name: string }) {
     );
   }
 
-  const prev = () => setCurrent((c) => (c - 1 + images.length) % images.length);
-  const next = () => setCurrent((c) => (c + 1) % images.length);
+  const total = mediaItems.length;
+  const prev = () => setCurrent((c) => (c - 1 + total) % total);
+  const next = () => setCurrent((c) => (c + 1) % total);
+  const currentItem = mediaItems[current];
 
-  const handleTouchStart = (e: React.TouchEvent) => {
-    touchStartX.current = e.touches[0].clientX;
-  };
-
+  const handleTouchStart = (e: React.TouchEvent) => { touchStartX.current = e.touches[0].clientX; };
   const handleTouchEnd = (e: React.TouchEvent) => {
     if (touchStartX.current === null) return;
     const diff = touchStartX.current - e.changedTouches[0].clientX;
@@ -43,69 +143,110 @@ function ImageCarousel({ images, name }: { images: string[]; name: string }) {
   };
 
   return (
-    <div className="space-y-3">
-      <div
-        className="relative aspect-square rounded-2xl overflow-hidden bg-white shadow-sm group"
-        onTouchStart={handleTouchStart}
-        onTouchEnd={handleTouchEnd}
-      >
-        <Image
-          src={images[current]}
-          alt={`${name} — imagen ${current + 1}`}
-          fill
-          className="object-cover transition-opacity duration-300"
-          sizes="(max-width: 768px) 100vw, 50vw"
-          priority={current === 0}
+    <>
+      {lightboxOpen && (
+        <Lightbox
+          items={mediaItems}
+          current={current}
+          onClose={() => setLightboxOpen(false)}
+          onPrev={prev}
+          onNext={next}
         />
-        {images.length > 1 && (
-          <>
-            <button
-              onClick={prev}
-              className="absolute left-3 top-1/2 -translate-y-1/2 w-9 h-9 bg-white/90 rounded-full flex items-center justify-center shadow-md opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity cursor-pointer hover:bg-white"
-              aria-label="Imagen anterior"
-            >
-              <IoChevronBack size={18} className="text-equora-dark" aria-hidden="true" />
-            </button>
-            <button
-              onClick={next}
-              className="absolute right-3 top-1/2 -translate-y-1/2 w-9 h-9 bg-white/90 rounded-full flex items-center justify-center shadow-md opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity cursor-pointer hover:bg-white"
-              aria-label="Siguiente imagen"
-            >
-              <IoChevronForward size={18} className="text-equora-dark" aria-hidden="true" />
-            </button>
-            <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-1.5">
-              {images.map((_, i) => (
-                <button
-                  key={i}
-                  onClick={() => setCurrent(i)}
-                  className={`h-2 rounded-full transition-all cursor-pointer ${
-                    i === current ? 'bg-white w-5' : 'bg-white/50 w-2'
-                  }`}
-                  aria-label={`Ir a imagen ${i + 1}`}
-                />
-              ))}
-            </div>
-          </>
+      )}
+
+      <div className="space-y-3">
+        {/* Main display */}
+        <div
+          className="relative aspect-square rounded-2xl overflow-hidden bg-white shadow-sm group cursor-zoom-in"
+          onTouchStart={handleTouchStart}
+          onTouchEnd={handleTouchEnd}
+          onDoubleClick={() => setLightboxOpen(true)}
+        >
+          {currentItem.type === 'video' ? (
+            <video
+              src={currentItem.url}
+              className="w-full h-full object-cover"
+              muted
+              loop
+              playsInline
+              autoPlay
+              onClick={(e) => e.stopPropagation()}
+            />
+          ) : (
+            <Image
+              src={currentItem.url}
+              alt={`${name} — imagen ${current + 1}`}
+              fill
+              className="object-cover transition-opacity duration-300"
+              sizes="(max-width: 768px) 100vw, 50vw"
+              priority={current === 0}
+            />
+          )}
+
+          {/* Expand hint */}
+          <button
+            onClick={(e) => { e.stopPropagation(); setLightboxOpen(true); }}
+            className="absolute top-3 right-3 w-7 h-7 bg-white/15 backdrop-blur-sm rounded-md flex items-center justify-center opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity border border-white/30 cursor-pointer hover:bg-white/25"
+            aria-label="Ampliar"
+          >
+            <Maximize2 size={12} className="text-white" strokeWidth={1.5} />
+          </button>
+
+          {total > 1 && (
+            <>
+              <button
+                onClick={(e) => { e.stopPropagation(); prev(); }}
+                className="absolute left-3 top-1/2 -translate-y-1/2 w-9 h-9 bg-white/90 rounded-full flex items-center justify-center shadow-md opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity cursor-pointer hover:bg-white"
+                aria-label="Anterior"
+              >
+                <IoChevronBack size={18} className="text-equora-dark" />
+              </button>
+              <button
+                onClick={(e) => { e.stopPropagation(); next(); }}
+                className="absolute right-3 top-1/2 -translate-y-1/2 w-9 h-9 bg-white/90 rounded-full flex items-center justify-center shadow-md opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity cursor-pointer hover:bg-white"
+                aria-label="Siguiente"
+              >
+                <IoChevronForward size={18} className="text-equora-dark" />
+              </button>
+              <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-1.5">
+                {mediaItems.map((_, i) => (
+                  <button
+                    key={i}
+                    onClick={(e) => { e.stopPropagation(); setCurrent(i); }}
+                    className={`h-2 rounded-full transition-all cursor-pointer ${i === current ? 'bg-white w-5' : 'bg-white/50 w-2'}`}
+                    aria-label={`Ir a ${i + 1}`}
+                  />
+                ))}
+              </div>
+            </>
+          )}
+        </div>
+
+        {/* Thumbnails */}
+        {total > 1 && (
+          <div className="flex gap-2 overflow-x-auto pb-1">
+            {mediaItems.map((item, i) => (
+              <button
+                key={i}
+                onClick={() => setCurrent(i)}
+                className={`relative w-16 h-16 shrink-0 rounded-xl overflow-hidden border-2 transition-all cursor-pointer ${
+                  i === current ? 'border-equora-amber' : 'border-transparent opacity-60 hover:opacity-100'
+                }`}
+                aria-label={`Ver ${item.type === 'video' ? 'video' : `imagen ${i + 1}`}`}
+              >
+                {item.type === 'video' ? (
+                  <div className="w-full h-full bg-equora-dark flex items-center justify-center">
+                    <IoPlayCircle size={24} className="text-equora-amber" />
+                  </div>
+                ) : (
+                  <Image src={item.url} alt={`Miniatura ${i + 1}`} fill className="object-cover" />
+                )}
+              </button>
+            ))}
+          </div>
         )}
       </div>
-
-      {images.length > 1 && (
-        <div className="flex gap-2 overflow-x-auto pb-1">
-          {images.map((url, i) => (
-            <button
-              key={i}
-              onClick={() => setCurrent(i)}
-              className={`relative w-16 h-16 shrink-0 rounded-xl overflow-hidden border-2 transition-all cursor-pointer ${
-                i === current ? 'border-equora-amber' : 'border-transparent opacity-60 hover:opacity-100'
-              }`}
-              aria-label={`Ver imagen ${i + 1}`}
-            >
-              <Image src={url} alt={`Miniatura ${i + 1}`} fill className="object-cover" />
-            </button>
-          ))}
-        </div>
-      )}
-    </div>
+    </>
   );
 }
 
@@ -222,7 +363,7 @@ export default function ProductDetail({ initialProduct }: { initialProduct: IPro
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-start mb-14">
 
             {/* Carousel */}
-            <ImageCarousel images={images} name={product.name} />
+            <ImageCarousel images={images} video={product.video} name={product.name} />
 
             {/* Info panel */}
             <div className="space-y-8">
@@ -259,7 +400,7 @@ export default function ProductDetail({ initialProduct }: { initialProduct: IPro
 
               {/* Description */}
               {product.description && (
-                <p className="font-editorial italic text-lg text-equora-dark/70 leading-relaxed">
+                <p className="font-body text-base text-equora-dark/75 leading-relaxed">
                   {product.description}
                 </p>
               )}
@@ -271,7 +412,7 @@ export default function ProductDetail({ initialProduct }: { initialProduct: IPro
                     href={whatsappLink}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex-1 flex items-center justify-center gap-2.5 py-4 bg-equora-dark text-[#E7D6C2] rounded-full font-body font-medium tracking-wide hover:bg-[#0d1e30] transition-colors duration-300 cursor-pointer"
+                    className="flex-1 flex items-center justify-center gap-2.5 py-4 bg-equora-navy text-white rounded-full font-body font-medium tracking-wide transition-all duration-300 cursor-pointer hover:scale-105 hover:shadow-lg"
                     aria-label={`Comprar ${product.name} por WhatsApp`}
                   >
                     <IoLogoWhatsapp size={21} aria-hidden="true" />
@@ -288,7 +429,7 @@ export default function ProductDetail({ initialProduct }: { initialProduct: IPro
                 )}
                 <Link
                   href="/productos"
-                  className="flex-1 flex items-center justify-center py-4 rounded-full border-2 border-equora-amber/60 text-equora-amber font-body font-medium hover:border-equora-amber hover:bg-equora-amber hover:text-white transition-all duration-300"
+                  className="flex-1 flex items-center justify-center py-4 rounded-full bg-equora-navy text-white font-body font-medium transition-all duration-300 hover:scale-105 hover:shadow-lg"
                 >
                   Ver más productos
                 </Link>

@@ -4,7 +4,7 @@ import { useState } from 'react';
 import Image from 'next/image';
 import { ScrollReveal } from '@/components/ui/ScrollReveal';
 
-const STORY_IMAGE = 'https://res.cloudinary.com/dybweubbo/image/upload/v1774327612/IMG_0738_kk0kmv.jpg';
+const STORY_IMAGE = 'https://res.cloudinary.com/dybweubbo/image/upload/v1776994971/IMG_0738_t2ekez.jpg';
 
 export default function BrandStory() {
   const [imgHovered, setImgHovered] = useState(false);
@@ -27,7 +27,7 @@ export default function BrandStory() {
               {/* Offset amber border, animates on hover */}
               <div className={`
                 absolute -bottom-3 -right-3 w-full h-full rounded-3xl border transition-all duration-500
-                ${imgHovered ? 'border-equora-amber/50 -bottom-5 -right-5' : 'border-equora-amber/15'}
+                ${imgHovered ? 'border-white/60 -bottom-5 -right-5' : 'border-white/20'}
               `} />
 
               <div className="rounded-3xl overflow-hidden shadow-2xl relative z-10">
@@ -77,7 +77,7 @@ export default function BrandStory() {
             <ScrollReveal direction="right" delay={150}>
               <p className="font-body text-white/75 text-[15px] leading-relaxed">
                 Mi amor por los caballos ha existido toda la vida. Crecí en una
-                finca rodeada de campo, ganadería y caballos — un privilegio que
+                finca rodeada de campo, ganadería y caballos, un privilegio que
                 marcó cada parte de quien soy. Pero si hay alguien de quien heredé
                 profundamente esta pasión, fue de mi abuelo. De él aprendí a
                 admirar su nobleza y esa conexión única entre una persona y su caballo.

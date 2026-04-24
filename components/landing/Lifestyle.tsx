@@ -4,8 +4,8 @@ import Image from 'next/image';
 import { ScrollReveal } from '@/components/ui/ScrollReveal';
 
 const MAIN_IMAGE = 'https://res.cloudinary.com/dybweubbo/image/upload/v1775885641/IMG_1132_hsfj9g.jpg';
-const TRAINING_IMAGE = 'https://res.cloudinary.com/dybweubbo/image/upload/v1775885641/IMG_1131_nvoean.jpg';
-const COMPETITION_IMAGE = 'https://res.cloudinary.com/dybweubbo/image/upload/v1775885641/IMG_1130_d8mc9j.jpg';
+const TRAINING_IMAGE = 'https://res.cloudinary.com/dybweubbo/image/upload/v1776994424/Imagen2_piix77.jpg';
+const COMPETITION_IMAGE = 'https://res.cloudinary.com/dybweubbo/image/upload/v1776994424/Imagen1_lmdghc.jpg';
 
 export default function Lifestyle() {
   return (
@@ -17,7 +17,7 @@ export default function Lifestyle() {
               Un estilo de vida
             </p>
             <h2 className="font-display text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-equora-dark tracking-wider">
-              TODOS LOS DÍAS.<br className="sm:hidden" />{' '}EN CUALQUIER CIRCUNSTANCIA.<br className="sm:hidden" />{' '}EL MISMO NIVEL.
+              UN AMOR QUE SE HEREDA.<br />UNA PASIÓN CON LA QUE SE NACE.
             </h2>
           </div>
         </ScrollReveal>
@@ -36,7 +36,7 @@ export default function Lifestyle() {
               <div className="absolute inset-0 bg-linear-to-t from-equora-dark/60 to-transparent" />
               <div className="absolute bottom-8 left-8">
                 <p className="font-display text-white tracking-wider text-sm md:text-lg">
-                  TRABAJO
+                  DISTINCIÓN
                 </p>
               </div>
             </div>
@@ -50,13 +50,13 @@ export default function Lifestyle() {
                   src={TRAINING_IMAGE}
                   alt="Entrenamiento ecuestre"
                   fill
-                  className="object-cover transition-transform duration-700 group-hover:scale-105"
+                  className="object-cover object-bottom transition-transform duration-700 group-hover:scale-105"
                   sizes="(max-width: 768px) 100vw, 42vw"
                 />
                 <div className="absolute inset-0 bg-linear-to-t from-equora-dark/60 to-transparent" />
                 <div className="absolute bottom-6 left-6">
                   <p className="font-display text-white tracking-wider text-sm md:text-lg">
-                    ENTRENAMIENTO
+                    CARÁCTER
                   </p>
                 </div>
               </div>
@@ -68,13 +68,13 @@ export default function Lifestyle() {
                   src={COMPETITION_IMAGE}
                   alt="Competencia ecuestre"
                   fill
-                  className="object-cover transition-transform duration-700 group-hover:scale-105"
+                  className="object-cover object-[center_30%] transition-transform duration-700 group-hover:scale-105"
                   sizes="(max-width: 768px) 100vw, 42vw"
                 />
                 <div className="absolute inset-0 bg-linear-to-t from-equora-dark/60 to-transparent" />
                 <div className="absolute bottom-6 left-6">
                   <p className="font-display text-white tracking-wider text-sm md:text-lg">
-                    COMPETENCIA
+                    NOBLEZA
                   </p>
                 </div>
               </div>

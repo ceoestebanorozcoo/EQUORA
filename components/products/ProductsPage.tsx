@@ -12,11 +12,25 @@ export default function ProductsPage({ initialProducts = [], initialCategories =
   const searchParams = useSearchParams();
   const [products] = useState<IProduct[]>(initialProducts);
   const [categories] = useState<ICategory[]>(initialCategories);
-  const [search, setSearch] = useState('');
+  const [search, setSearch] = useState(() => searchParams.get('search') || '');
   const [selectedCategory, setSelectedCategory] = useState(() => searchParams.get('categoria') || '');
   const [loading] = useState(false);
   const [catOpen, setCatOpen] = useState(false);
+  const [filterHighlight, setFilterHighlight] = useState(false);
   const catRef = useRef<HTMLDivElement>(null);
+  const filterBarRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const q = searchParams.get('search') || '';
+    setSearch(q);
+    if (q) {
+      setTimeout(() => {
+        filterBarRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        setFilterHighlight(true);
+        setTimeout(() => setFilterHighlight(false), 2500);
+      }, 400);
+    }
+  }, [searchParams]);
 
   // Close dropdown when clicking outside
   useEffect(() => {
@@ -67,7 +81,7 @@ export default function ProductsPage({ initialProducts = [], initialCategories =
       </div>
 
       {/* Sticky filter bar */}
-      <div className="bg-white border-b border-equora-dark/10">
+      <div ref={filterBarRef} className={`border-b transition-all duration-500 ${filterHighlight ? 'bg-equora-amber/8 border-equora-amber' : 'bg-white border-equora-dark/10'}`}>
         <div className="max-w-7xl mx-auto px-6 py-4">
           <div className="flex flex-wrap items-center gap-2 sm:gap-3">
 
@@ -79,7 +93,7 @@ export default function ProductsPage({ initialProducts = [], initialCategories =
                 placeholder="Buscar producto..."
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
-                className="w-full pl-9 pr-4 py-2.5 rounded-full border border-equora-dark/15 bg-white font-body text-sm text-equora-dark placeholder-equora-dark/30 focus:outline-none focus:ring-2 focus:ring-equora-amber/30 focus:border-equora-amber/50 transition-all"
+                className={`w-full pl-9 pr-4 py-2.5 rounded-full border font-body text-sm text-equora-dark placeholder-equora-dark/30 focus:outline-none transition-all duration-500 ${filterHighlight ? 'border-equora-amber bg-white ring-4 ring-equora-amber/40 shadow-[0_0_20px_rgba(103,70,53,0.35)] scale-[1.02]' : 'border-equora-dark/15 bg-white focus:ring-2 focus:ring-equora-amber/30 focus:border-equora-amber/50'}`}
                 aria-label="Buscar producto"
               />
             </div>
@@ -182,9 +196,11 @@ export default function ProductsPage({ initialProducts = [], initialCategories =
             )}
           </div>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 md:gap-6">
+          <div className="flex flex-wrap justify-center gap-3 md:gap-6">
             {filtered.map((product) => (
-              <ProductCard key={product._id} product={product} />
+              <div key={product._id} className="w-[calc(50%-6px)] sm:w-[calc(33.333%-10px)] xl:w-[calc(25%-18px)]">
+                <ProductCard product={product} />
+              </div>
             ))}
           </div>
         )}

@@ -17,7 +17,7 @@ const values = [
   {
     icon: Crown,
     title: 'Nobleza',
-    description: 'Honramos la esencia del caballo — lealtad y grandeza — creando productos que reflejan respeto y conexión con estos ejemplares extraordinarios.',
+    description: 'Honramos la esencia del caballo "lealtad y grandeza" creando productos que reflejan respeto y conexión con estos ejemplares extraordinarios.',
   },
 ];
 
@@ -36,17 +36,17 @@ export default function BrandValues() {
           </div>
         </ScrollReveal>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto items-stretch">
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-8 max-w-5xl mx-auto items-stretch">
           {values.map((value, i) => (
-            <ScrollReveal key={value.title} direction="up" delay={i * 150} className="h-full">
-              <div className="group h-full text-center p-7 md:p-10 rounded-3xl border border-gray-200/50 hover:border-equora-amber/30 bg-[#E7D6C2] hover:shadow-xl transition-all duration-500 hover:-translate-y-1">
-                <div className="w-18 h-18 mx-auto mb-7 rounded-full bg-equora-amber/10 flex items-center justify-center group-hover:bg-equora-amber/20 transition-colors duration-300" style={{ width: 72, height: 72 }}>
-                  <value.icon className="w-8 h-8 text-equora-amber" strokeWidth={1.5} />
+            <ScrollReveal key={value.title} direction="up" delay={i * 150} className={`h-full${values.length % 2 !== 0 && i === values.length - 1 ? ' col-span-2 md:col-span-1 w-full' : ''}`}>
+              <div className="group h-full text-center p-4 md:p-10 rounded-2xl md:rounded-3xl border border-gray-200/50 hover:border-equora-amber/30 bg-[#E7D6C2] hover:shadow-xl transition-all duration-500 hover:-translate-y-1">
+                <div className="mx-auto mb-4 md:mb-7 rounded-full bg-equora-amber/10 flex items-center justify-center group-hover:bg-equora-amber/20 transition-colors duration-300" style={{ width: 48, height: 48 }} >
+                  <value.icon className="w-5 h-5 md:w-8 md:h-8 text-equora-amber" strokeWidth={1.5} />
                 </div>
-                <h3 className="font-display text-2xl tracking-wider text-equora-dark mb-4">
+                <h3 className="font-display text-sm md:text-2xl tracking-wider text-equora-dark mb-2 md:mb-4">
                   {value.title.toUpperCase()}
                 </h3>
-                <p className="font-body text-[#6B7280] text-sm leading-relaxed">
+                <p className="font-body text-[#6B7280] text-xs md:text-sm leading-relaxed">
                   {value.description}
                 </p>
               </div>

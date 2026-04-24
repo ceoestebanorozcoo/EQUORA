@@ -1,16 +1,15 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import api from '@/lib/axios';
 import { IProduct } from '@/types';
 import ProductTable from '@/components/dashboard/ProductTable';
-import ProductForm from '@/components/dashboard/ProductForm';
+import ProductForm, { ProductFormHandle } from '@/components/dashboard/ProductForm';
 import CategoryManager from '@/components/dashboard/CategoryManager';
 import FeaturedManager from '@/components/dashboard/FeaturedManager';
 import TestimonialManager from '@/components/dashboard/TestimonialManager';
-import ChangeEmailForm from '@/components/dashboard/ChangeEmailForm';
-import ChangePasswordForm from '@/components/dashboard/ChangePasswordForm';
+import AccountSettings from '@/components/dashboard/AccountSettings';
 import Modal from '@/components/ui/Modal';
 import Button from '@/components/ui/Button';
 import { IoAdd, IoLogOut, IoGrid, IoPricetag, IoSettings, IoStar, IoChatbubbleEllipses } from 'react-icons/io5';
@@ -24,6 +23,7 @@ export default function DashboardPage() {
   const [loading, setLoading] = useState(true);
   const [formOpen, setFormOpen] = useState(false);
   const [editProduct, setEditProduct] = useState<IProduct | null>(null);
+  const productFormRef = useRef<ProductFormHandle>(null);
   const [search, setSearch] = useState('');
 
   const fetchProducts = useCallback(() => {
@@ -173,22 +173,8 @@ export default function DashboardPage() {
 
         {/* Account Tab */}
         {tab === 'account' && (
-          <div className="space-y-6 md:space-y-8">
-            {/* Header */}
-            <div className="flex items-center justify-between gap-4 pb-5 border-b border-white">
-              <div>
-                <p className="font-display text-xs text-equora-amber tracking-widest uppercase mb-0.5">Configuración</p>
-                <h2 className="font-display text-xl sm:text-2xl tracking-wider text-equora-dark">MI CUENTA</h2>
-              </div>
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-5">
-              <div className="bg-[#FAF6F1] rounded-2xl p-5 sm:p-6 shadow-sm border border-[#E0D0BE]">
-                <ChangeEmailForm />
-              </div>
-              <div className="bg-[#FAF6F1] rounded-2xl p-5 sm:p-6 shadow-sm border border-[#E0D0BE]">
-                <ChangePasswordForm />
-              </div>
-            </div>
+          <div className="bg-[#FAF6F1] rounded-2xl p-5 sm:p-8 shadow-sm border border-[#E0D0BE]">
+            <AccountSettings />
           </div>
         )}
       </div>
@@ -196,11 +182,16 @@ export default function DashboardPage() {
       {/* Product form modal */}
       <Modal
         isOpen={formOpen}
-        onClose={() => { setFormOpen(false); setEditProduct(null); }}
+        onClose={() => {
+          if (!editProduct) productFormRef.current?.cleanup();
+          setFormOpen(false);
+          setEditProduct(null);
+        }}
         title={editProduct ? 'Editar producto' : 'Nuevo producto'}
         size="lg"
       >
         <ProductForm
+          ref={productFormRef}
           product={editProduct}
           onSuccess={handleFormSuccess}
           onCancel={() => { setFormOpen(false); setEditProduct(null); }}

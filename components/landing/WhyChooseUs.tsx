@@ -6,23 +6,23 @@ import { ScrollReveal } from '@/components/ui/ScrollReveal';
 const reasons = [
   {
     number: '01',
-    title: 'Conexión real con el mundo equino',
-    description: 'Cada producto está pensado desde la experiencia de quienes viven el día a día entre caballos, pesebreras y cabalgatas.',
+    title: 'Vivimos lo que vendemos',
+    description: 'Cada producto nació de andar entre caballos, pescebreras y cabalgatas. No lo imaginamos, lo vivimos.',
   },
   {
     number: '02',
-    title: 'Los detalles marcan la diferencia',
-    description: 'Creamos productos que combinan funcionalidad, calidad y personalidad — porque en el gremio caballista los detalles hablan.',
+    title: 'El detalle es nuestro sello',
+    description: 'En el gremio equino, quien sabe mirar, nota la diferencia. Nosotros la ponemos en cada pieza.',
   },
   {
     number: '03',
-    title: 'Piezas personalizadas',
-    description: 'Cada caballo y cada caballista pueden tener algo que refleje su propia identidad, con opciones hechas a medida.',
+    title: 'Hecho para usted, pensado con usted',
+    description: 'Sus colores, su estilo, su identidad. Cada pieza personalizada es suya desde el primer detalle.',
   },
   {
     number: '04',
-    title: 'Presencia y carácter',
-    description: 'Para quienes valoran los detalles que hacen especial cada momento alrededor de los caballos.',
+    title: 'Porque ningún momento con su caballo es ordinario',
+    description: 'Una feria, una cabalgata, un domingo en la pescebrera. Para Equora todos esos momentos son especiales y nuestros productos están hechos para estarlo también.',
   },
 ];
 
