@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { revalidatePath } from 'next/cache';
 import { connectDB } from '@/lib/mongodb';
 import Product from '@/models/Product';
 import { getAuthUser } from '@/lib/auth';
@@ -21,6 +22,8 @@ export async function POST(req: NextRequest) {
       await Product.updateMany({ _id: { $in: productIds } }, { isFeatured: true });
     }
 
+    revalidatePath('/');
+    revalidatePath('/productos');
     return NextResponse.json({ success: true });
   } catch {
     return NextResponse.json({ error: 'Error actualizando destacados' }, { status: 500 });
