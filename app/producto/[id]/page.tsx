@@ -23,7 +23,7 @@ async function getProduct(id: string): Promise<ProductResult> {
         return { status: 'found', data: JSON.parse(JSON.stringify(product)) };
       } catch (err) {
         console.error('[getProduct] DB no disponible, reintentando en 3s:', err);
-        await new Promise(r => setTimeout(r, 3000));
+        await new Promise(r => setTimeout(r, 2000));
       }
     }
   };
