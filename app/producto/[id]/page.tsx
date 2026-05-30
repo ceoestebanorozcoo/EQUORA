@@ -9,21 +9,22 @@ import ProductDetail from '@/components/products/ProductDetail';
 type ProductResult =
   | { status: 'found'; data: ReturnType<typeof JSON.parse> }
   | { status: 'not_found' }
-  | { status: 'error' }
   | { status: 'timeout' };
 
 async function getProduct(id: string): Promise<ProductResult> {
   if (!mongoose.Types.ObjectId.isValid(id)) return { status: 'not_found' };
 
   const fetchProduct = async (): Promise<ProductResult> => {
-    try {
-      await connectDB();
-      const product = await Product.findById(id).populate('category').lean();
-      if (!product) return { status: 'not_found' };
-      return { status: 'found', data: JSON.parse(JSON.stringify(product)) };
-    } catch (err) {
-      console.error('[getProduct] error:', err);
-      return { status: 'error' };
+    while (true) {
+      try {
+        await connectDB();
+        const product = await Product.findById(id).populate('category').lean();
+        if (!product) return { status: 'not_found' };
+        return { status: 'found', data: JSON.parse(JSON.stringify(product)) };
+      } catch (err) {
+        console.error('[getProduct] DB no disponible, reintentando en 3s:', err);
+        await new Promise(r => setTimeout(r, 3000));
+      }
     }
   };
 
@@ -39,7 +40,7 @@ export default async function ProductPage({ params }: { params: Promise<{ id: st
   const result = await getProduct(id);
 
   if (result.status === 'not_found') notFound();
-  if (result.status === 'error' || result.status === 'timeout') redirect('/');
+  if (result.status === 'timeout') redirect('/');
 
   return <ProductDetail initialProduct={result.data} />;
 }
