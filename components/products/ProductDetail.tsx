@@ -258,6 +258,10 @@ export default function ProductDetail({ initialProduct }: { initialProduct: IPro
   const [error, setError] = useState('');
 
   useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'instant' });
+  }, []);
+
+  useEffect(() => {
     if (initialProduct) return;
     if (!id) return;
     api.get(`/products/${id}`)
