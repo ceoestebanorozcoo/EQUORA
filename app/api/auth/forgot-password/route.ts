@@ -15,13 +15,14 @@ export async function POST(req: NextRequest) {
 
     const user = await User.findOne({ email: email.toLowerCase(), role: 'admin' });
     if (!user) {
-      return NextResponse.json({ error: 'No existe una cuenta de administrador con ese correo' }, { status: 404 });
+      // No revelar si el email existe o no (previene enumeración de usuarios)
+      return NextResponse.json({ success: true, message: 'Si el email existe, recibirás un código' });
     }
 
     const code = await createVerificationCode(email, 'password-reset');
     await sendVerificationCode(email, code, 'password-reset');
 
-    return NextResponse.json({ success: true, message: 'Código enviado al email' });
+    return NextResponse.json({ success: true, message: 'Si el email existe, recibirás un código' });
   } catch {
     return NextResponse.json({ error: 'Error enviando el código' }, { status: 500 });
   }
