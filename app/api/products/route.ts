@@ -10,7 +10,10 @@ export async function GET(req: NextRequest) {
     const featured = req.nextUrl.searchParams.get('featured');
     const search = req.nextUrl.searchParams.get('search');
     const filter: Record<string, unknown> = featured === 'true' ? { isFeatured: true } : {};
-    if (search) filter.name = { $regex: search, $options: 'i' };
+    if (search) {
+      const escaped = search.slice(0, 100).replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+      filter.name = { $regex: escaped, $options: 'i' };
+    }
     const products = await Product.find(filter).populate('category').sort({ createdAt: -1 }).lean();
     return NextResponse.json({ success: true, data: JSON.parse(JSON.stringify(products)) });
   } catch {

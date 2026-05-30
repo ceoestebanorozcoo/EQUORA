@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import mongoose from 'mongoose';
 import { connectDB } from '@/lib/mongodb';
 import Product from '@/models/Product';
 import { getAuthUser } from '@/lib/auth';
@@ -8,6 +9,9 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ id: 
   try {
     await connectDB();
     const { id } = await params;
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return NextResponse.json({ error: 'ID inválido' }, { status: 400 });
+    }
     const product = await Product.findById(id).populate('category').lean();
     if (!product) return NextResponse.json({ error: 'Producto no encontrado' }, { status: 404 });
     return NextResponse.json({ success: true, data: JSON.parse(JSON.stringify(product)) });
@@ -23,9 +27,14 @@ export async function PUT(req: NextRequest, { params }: { params: Promise<{ id: 
 
     await connectDB();
     const { id } = await params;
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return NextResponse.json({ error: 'ID inválido' }, { status: 400 });
+    }
     const body = await req.json();
+    const { name, category, price, images, video, description, stockStatus, isFeatured } = body;
+    const update = { name, category, price, images, video, description, stockStatus, isFeatured };
 
-    const product = await Product.findByIdAndUpdate(id, body, { new: true }).populate('category');
+    const product = await Product.findByIdAndUpdate(id, update, { new: true, runValidators: true }).populate('category');
     if (!product) return NextResponse.json({ error: 'Producto no encontrado' }, { status: 404 });
 
     return NextResponse.json({ success: true, data: product });
@@ -41,6 +50,9 @@ export async function DELETE(req: NextRequest, { params }: { params: Promise<{ i
 
     await connectDB();
     const { id } = await params;
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return NextResponse.json({ error: 'ID inválido' }, { status: 400 });
+    }
     const product = await Product.findById(id);
     if (product?.images?.length) {
       await Promise.allSettled(product.images.map((url: string) => deleteImage(url)));

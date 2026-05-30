@@ -26,12 +26,17 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Nombre y testimonio son requeridos' }, { status: 400 });
     }
 
+    const parsedRating = rating !== undefined ? Number(rating) : 5;
+    if (!Number.isInteger(parsedRating) || parsedRating < 1 || parsedRating > 5) {
+      return NextResponse.json({ error: 'Rating debe ser entre 1 y 5' }, { status: 400 });
+    }
+
     const count = await Testimonial.countDocuments();
     const testimonial = await Testimonial.create({
       name,
       role: role || 'Cliente',
       text,
-      rating: rating || 5,
+      rating: parsedRating,
       order: count,
     });
 

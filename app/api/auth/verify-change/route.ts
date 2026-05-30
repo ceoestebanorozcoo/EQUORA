@@ -38,7 +38,9 @@ export async function POST(req: NextRequest) {
     }
 
     if (type === 'change-password') {
-      if (!newPassword) return NextResponse.json({ error: 'Nueva contraseña requerida' }, { status: 400 });
+      if (!newPassword || newPassword.length < 8 || newPassword.length > 256) {
+        return NextResponse.json({ error: 'La contraseña debe tener entre 8 y 256 caracteres' }, { status: 400 });
+      }
 
       // Validate code against current email (identity verification)
       const valid = await validateAndDeleteCode(authUser.email, code, 'change-password');
