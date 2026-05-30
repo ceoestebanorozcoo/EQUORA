@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import mongoose from 'mongoose';
+import { revalidatePath } from 'next/cache';
 import { connectDB } from '@/lib/mongodb';
 import Product from '@/models/Product';
 import { getAuthUser } from '@/lib/auth';
@@ -37,6 +38,8 @@ export async function PUT(req: NextRequest, { params }: { params: Promise<{ id: 
     const product = await Product.findByIdAndUpdate(id, update, { new: true, runValidators: true }).populate('category');
     if (!product) return NextResponse.json({ error: 'Producto no encontrado' }, { status: 404 });
 
+    revalidatePath(`/producto/${id}`);
+    revalidatePath('/productos');
     return NextResponse.json({ success: true, data: product });
   } catch {
     return NextResponse.json({ error: 'Error actualizando producto' }, { status: 500 });
@@ -62,6 +65,7 @@ export async function DELETE(req: NextRequest, { params }: { params: Promise<{ i
     }
     await Product.findByIdAndDelete(id);
 
+    revalidatePath('/productos');
     return NextResponse.json({ success: true, message: 'Producto eliminado' });
   } catch {
     return NextResponse.json({ error: 'Error eliminando producto' }, { status: 500 });
