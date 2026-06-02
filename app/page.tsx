@@ -15,6 +15,7 @@ import Footer from '@/components/landing/Footer';
 import HashScroller from '@/components/ui/HashScroller';
 import { connectDB } from '@/lib/mongodb';
 import Product from '@/models/Product';
+import { Types } from 'mongoose';
 import '@/models/Category';
 
 async function getFeaturedProducts() {
@@ -27,7 +28,7 @@ async function getFeaturedProducts() {
         .sort({ createdAt: -1 })
         .lean();
       if (featured.length >= 20) return { featured: JSON.parse(JSON.stringify(featured.slice(0, 20))), total };
-      const featuredIds = (featured as { _id: unknown }[]).map((p) => p._id);
+      const featuredIds = (featured as { _id: Types.ObjectId }[]).map((p) => p._id) as Types.ObjectId[];
       const rest = await Product.find({ _id: { $nin: featuredIds } })
         .populate('category')
         .sort({ createdAt: -1 })
