@@ -221,7 +221,13 @@ export default function Navbar() {
                     {results.length > 0 && (
                       <button
                         type="button"
-                        onClick={() => handleSubmit({ preventDefault: () => {} } as React.FormEvent)}
+                        onClick={() => {
+                          if (!query.trim()) return;
+                          setSearchOpen(false);
+                          setResults([]);
+                          router.push(`/productos?search=${encodeURIComponent(query.trim())}`);
+                          setQuery('');
+                        }}
                         className="w-full px-5 py-3 text-center font-body text-gray-800 font-semibold text-sm transition-colors duration-150 hover:bg-white/60 hover:text-gray-900 border-t border-white/40"
                       >
                         Ver todos los resultados para &ldquo;{query}&rdquo;

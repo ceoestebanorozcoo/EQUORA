@@ -91,17 +91,11 @@ function FeaturedProductCard({ product, index }: { product: IProduct; index: num
   );
 }
 
-export default function FeaturedProducts({ products: initialProducts = [] }: { products: IProduct[] }) {
+export default function FeaturedProducts({ products: initialProducts = [], totalProducts = 0 }: { products: IProduct[]; totalProducts?: number }) {
   const [products, setProducts] = useState<IProduct[]>(initialProducts);
-  const [totalProducts, setTotalProducts] = useState(0);
   const [loading, setLoading] = useState(initialProducts.length === 0);
 
   useEffect(() => {
-    // Always fetch total count to decide whether to show "Ver más"
-    api.get('/products').then((res) => {
-      const all = res.data.data || [];
-      setTotalProducts(all.length);
-    });
     if (initialProducts.length > 0) return;
     api.get('/products?featured=true')
       .then((res) => { setProducts(res.data.data || []); setLoading(false); })

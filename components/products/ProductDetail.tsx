@@ -239,7 +239,7 @@ function ImageCarousel({ images, video, name }: { images: string[]; video?: stri
                     <IoPlayCircle size={24} className="text-equora-amber" />
                   </div>
                 ) : (
-                  <Image src={item.url} alt={`Miniatura ${i + 1}`} fill className="object-cover" />
+                  <Image src={item.url} alt={`Miniatura ${i + 1}`} fill className="object-cover" sizes="64px" />
                 )}
               </button>
             ))}

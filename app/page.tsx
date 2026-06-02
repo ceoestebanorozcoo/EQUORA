@@ -21,31 +21,32 @@ async function getFeaturedProducts() {
   for (let attempt = 1; attempt <= 3; attempt++) {
     try {
       await connectDB();
+      const total = await Product.countDocuments();
       const featured = await Product.find({ isFeatured: true })
         .populate('category')
         .sort({ createdAt: -1 })
         .lean();
-      if (featured.length >= 20) return JSON.parse(JSON.stringify(featured.slice(0, 20)));
-      const featuredIds = featured.map((p) => p._id);
+      if (featured.length >= 20) return { featured: JSON.parse(JSON.stringify(featured.slice(0, 20))), total };
+      const featuredIds = (featured as { _id: unknown }[]).map((p) => p._id);
       const rest = await Product.find({ _id: { $nin: featuredIds } })
         .populate('category')
         .sort({ createdAt: -1 })
         .limit(20 - featured.length)
         .lean();
-      return JSON.parse(JSON.stringify([...featured, ...rest]));
+      return { featured: JSON.parse(JSON.stringify([...featured, ...rest])), total };
     } catch (err) {
       if (attempt === 3) {
         console.error('[getFeaturedProducts] failed after 3 attempts:', err);
-        return [];
+        return { featured: [], total: 0 };
       }
       await new Promise((r) => setTimeout(r, 500 * attempt));
     }
   }
-  return [];
+  return { featured: [], total: 0 };
 }
 
 export default async function LandingPage() {
-  const featuredProducts = await getFeaturedProducts();
+  const { featured: featuredProducts, total: totalProducts } = await getFeaturedProducts();
 
   return (
     <>
@@ -54,7 +55,7 @@ export default async function LandingPage() {
       <HashScroller />
       <main>
         <Hero />
-        <FeaturedProducts products={featuredProducts} />
+        <FeaturedProducts products={featuredProducts} totalProducts={totalProducts} />
         <Categories />
         <TechnicalBenefits />
         <Lifestyle />
