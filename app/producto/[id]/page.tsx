@@ -1,10 +1,20 @@
-export const revalidate = 60;
+export const revalidate = 300;
 
 import { notFound, redirect } from 'next/navigation';
 import mongoose from 'mongoose';
 import { connectDB } from '@/lib/mongodb';
 import Product from '@/models/Product';
 import ProductDetail from '@/components/products/ProductDetail';
+
+export async function generateStaticParams() {
+  try {
+    await connectDB();
+    const products = await Product.find({ isFeatured: true }).select('_id').lean();
+    return products.map((p) => ({ id: (p._id as mongoose.Types.ObjectId).toString() }));
+  } catch {
+    return [];
+  }
+}
 
 type ProductResult =
   | { status: 'found'; data: ReturnType<typeof JSON.parse> }

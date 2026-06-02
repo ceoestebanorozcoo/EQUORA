@@ -7,6 +7,8 @@ export async function generateProductCode(): Promise<string> {
     { new: true, upsert: true }
   );
 
+  if (!counter) throw new Error('Counter not found');
+
   const letters = Array.from({ length: 3 }, () =>
     String.fromCharCode(65 + Math.floor(Math.random() * 26))
   ).join('');
